@@ -206,6 +206,7 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("localStorage.setItem", helper)
         self.assertIn("exportKey('raw'", helper)
         self.assertIn("sessionStorage.setItem", helper)
+        self.assertIn("deviceAuthReady = 'true'", helper)
         self.assertIn("el('trust-device').checked = true", manage)
         self.assertIn("el('trust-device').checked=true", history)
 
@@ -218,6 +219,7 @@ class TrackerTests(unittest.TestCase):
             for page in (manage, history):
                 self.assertNotIn("__DEVICE_AUTH_JS__", page)
                 self.assertIn("window.DeviceAuth = { load, save, remove, saveSession, loadSession, removeSession }", page)
+                self.assertIn("deviceAuthReady = 'true'", page)
 
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")

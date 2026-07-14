@@ -101,4 +101,5 @@
   }
 
   window.DeviceAuth = { load, save, remove, saveSession, loadSession, removeSession };
+  document.documentElement.dataset.deviceAuthReady = 'true';
 }());
