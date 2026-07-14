@@ -91,7 +91,7 @@
     <p id="empty" class="empty">Nothing rated here yet. Use the stars on the release page to start your history.</p>
   </main>
   <div class="savebar"><p id="changes">No unsaved ratings.</p><button id="save" class="button" disabled>Save ratings</button></div>
-  <script src="device-auth.js?v=4"></script>
+  <script>__DEVICE_AUTH_JS__</script>
   <script>
     const embedded={repository:__REPOSITORY_JSON__,ratings:__RATINGS_JSON__,catalog:__CATALOG_JSON__};
     const el=id=>document.getElementById(id),catalog=new Map(Object.entries(embedded.catalog||{})),pending=new Map();

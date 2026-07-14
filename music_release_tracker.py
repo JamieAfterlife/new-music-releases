@@ -1124,10 +1124,22 @@ def make_history_html(settings: Settings, releases: list[dict[str, Any]], genera
         template_path.read_text(encoding="utf-8")
         .replace("__TITLE__", html.escape(settings.feed_title))
         .replace("__UPDATED__", html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")))
+        .replace("__DEVICE_AUTH_JS__", device_auth_source(settings))
         .replace("__REPOSITORY_JSON__", script_json(os.environ.get("GITHUB_REPOSITORY", "")))
         .replace("__RATINGS_JSON__", script_json(ratings))
         .replace("__CATALOG_JSON__", script_json(catalog))
     )
+
+
+def device_auth_source(settings: Settings) -> str:
+    """Embed the login helper so navigation never depends on a second web request."""
+    source = settings.root / "device_auth.js"
+    if not source.exists():
+        source = Path(__file__).with_name("device_auth.js")
+    content = source.read_text(encoding="utf-8")
+    if "</script" in content.casefold():
+        raise ValueError("device_auth.js must not contain a closing script tag")
+    return content
 
 
 def copy_device_auth(settings: Settings) -> None:
@@ -1190,6 +1202,7 @@ def make_manage_html(settings: Settings) -> str:
     return (
         template_path.read_text(encoding="utf-8")
         .replace("__TITLE__", html.escape(settings.feed_title))
+        .replace("__DEVICE_AUTH_JS__", device_auth_source(settings))
         .replace("__REPOSITORY_JSON__", script_json(os.environ.get("GITHUB_REPOSITORY", "")))
         .replace("__WATCHLIST_JSON__", script_json(watchlist))
         .replace("__BLACKLIST_JSON__", script_json(blacklist))

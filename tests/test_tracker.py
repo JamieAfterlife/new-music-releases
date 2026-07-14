@@ -197,7 +197,7 @@ class TrackerTests(unittest.TestCase):
         helper = Path("device_auth.js").read_text(encoding="utf-8")
         for page in (manage, history):
             self.assertIn('id="trust-device"', page)
-            self.assertIn('src="device-auth.js?v=4"', page)
+            self.assertIn('<script>__DEVICE_AUTH_JS__</script>', page)
             self.assertIn("autoConnectTrusted()", page)
             self.assertIn("DeviceAuth.loadSession(connectionKey)", page)
             self.assertIn("DeviceAuth.saveSession(connectionKey", page)
@@ -208,6 +208,16 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("sessionStorage.setItem", helper)
         self.assertIn("el('trust-device').checked = true", manage)
         self.assertIn("el('trust-device').checked=true", history)
+
+    def test_login_helper_is_embedded_in_generated_pages(self):
+        with tempfile.TemporaryDirectory() as directory:
+            settings = Settings(root=Path(directory))
+            Path(directory, "device_auth.js").write_text(Path("device_auth.js").read_text(encoding="utf-8"), encoding="utf-8")
+            manage = make_manage_html(settings)
+            history = make_history_html(settings, [], dt.datetime(2026, 7, 15, tzinfo=dt.timezone.utc))
+            for page in (manage, history):
+                self.assertNotIn("__DEVICE_AUTH_JS__", page)
+                self.assertIn("window.DeviceAuth = { load, save, remove, saveSession, loadSession, removeSession }", page)
 
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")

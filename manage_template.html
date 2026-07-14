@@ -180,7 +180,7 @@
 
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
-  <script src="device-auth.js?v=4"></script>
+  <script>__DEVICE_AUTH_JS__</script>
   <script>
     const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__, videoSources:__VIDEO_SOURCES_JSON__, videoReview:__VIDEO_REVIEW_JSON__, channelReview:__VIDEO_CHANNEL_REVIEW_JSON__, videoDecisions:__VIDEO_DECISIONS_JSON__, publishedVideos:__PUBLISHED_VIDEOS_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
