@@ -196,7 +196,11 @@ class TrackerTests(unittest.TestCase):
             self.assertIn('src="device-auth.js"', page)
             self.assertIn("autoConnectTrusted()", page)
         self.assertIn("indexedDB.open", helper)
-        self.assertIn("}, false, ['encrypt', 'decrypt'])", helper)
+        self.assertIn("trusted-v2", helper)
+        self.assertIn("localStorage.setItem", helper)
+        self.assertIn("exportKey('raw'", helper)
+        self.assertIn("el('trust-device').checked = true", manage)
+        self.assertIn("el('trust-device').checked=true", history)
 
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")
