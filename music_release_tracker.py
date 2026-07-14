@@ -1077,6 +1077,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     changed = sub.add_parser("changed-artists", help="List watchlist IDs added since an earlier artists.json")
     changed.add_argument("previous", type=Path)
+    sub.add_parser("state-count", help="Print the number of releases in saved state")
     sub.add_parser("rebuild", help="Rebuild RSS/HTML from saved releases without an API scan")
     enrich = sub.add_parser("enrich", help="Backfill RSS tracklists and artwork metadata")
     enrich.add_argument("--refresh", action="store_true", help="Refresh metadata even when already checked")
@@ -1154,6 +1155,9 @@ def main(argv: list[str] | None = None) -> int:
             if artist.get("mbid") and artist["mbid"] not in old_ids
         )
         print(",".join(new_ids))
+    elif args.command == "state-count":
+        state = load_json(settings.state_file, {"releases": {}})
+        print(len(state.get("releases", {})))
     elif args.command == "check":
         selected_mbids = None
         if args.artist_mbids is not None:

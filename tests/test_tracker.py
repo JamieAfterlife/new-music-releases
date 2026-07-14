@@ -427,6 +427,22 @@ class TrackerTests(unittest.TestCase):
             self.assertEqual(result, 0)
             self.assertEqual(output.getvalue().strip(), "new-mbid")
 
+    def test_state_count_reports_missing_and_saved_releases(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = io.StringIO()
+            with patch("sys.stdout", output):
+                main(["--config", str(root / "config.toml"), "state-count"])
+            self.assertEqual(output.getvalue().strip(), "0")
+            (root / "data").mkdir()
+            (root / "data" / "state.json").write_text(
+                json.dumps({"releases": {"one": {}, "two": {}}}), encoding="utf-8"
+            )
+            output = io.StringIO()
+            with patch("sys.stdout", output):
+                main(["--config", str(root / "config.toml"), "state-count"])
+            self.assertEqual(output.getvalue().strip(), "2")
+
     def test_rss_contains_release_identity(self):
         release = normalize_release(group(), ARTIST)
         release.update({

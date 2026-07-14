@@ -31,9 +31,14 @@ jobs:
         id: pages
       - uses: actions/cache@v4
         with:
-          path: data/
+          path: data/state.json
           key: music-state-${{ github.run_id }}
           restore-keys: music-state-
+      - uses: actions/cache@v4
+        with:
+          path: data/lastfm_recent_artists.json
+          key: music-recent-${{ github.run_id }}
+          restore-keys: music-recent-
       - name: Prepare incremental update
         if: ${{ github.event_name == 'push' }}
         id: changes
@@ -85,12 +90,25 @@ jobs:
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
-        run: python music_release_tracker.py check --artist-mbids "${{ steps.artists.outputs.mbids }}" --notification-file new-releases.md
-      - name: Quickly rebuild saved releases
+        run: |
+          if [ "$(python music_release_tracker.py state-count)" -gt 0 ]; then
+            python music_release_tracker.py check --artist-mbids "${{ steps.artists.outputs.mbids }}" --notification-file new-releases.md
+          else
+            echo "Saved release state is missing; running a safe recovery scan."
+            python music_release_tracker.py check
+          fi
+      - name: Quickly rebuild saved releases, or recover safely
         if: ${{ github.event_name == 'push' && steps.artists.outputs.mbids == '' }}
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
-        run: python music_release_tracker.py rebuild
+          MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          if [ "$(python music_release_tracker.py state-count)" -gt 0 ]; then
+            python music_release_tracker.py rebuild
+          else
+            echo "Saved release state is missing; running a safe recovery scan."
+            python music_release_tracker.py check
+          fi
       - name: Notify through GitHub
         if: ${{ hashFiles('new-releases.md') != '' }}
         env:
