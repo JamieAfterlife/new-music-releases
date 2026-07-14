@@ -690,6 +690,118 @@ def make_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.d
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(rss, encoding="unicode") + "\n"
 
 
+def digest_category(release: dict[str, Any]) -> str:
+    """Group appearances separately while keeping release types predictable."""
+    if release.get("appearance"):
+        return "Feature"
+    release_type = display_release_type(release)
+    return release_type if release_type in {"Album", "EP", "Single"} else "Other"
+
+
+def digest_section(title: str, releases: Iterable[dict[str, Any]]) -> str:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for release in releases:
+        grouped.setdefault(digest_category(release), []).append(release)
+    if not grouped:
+        return f"<h2>{html.escape(title)}</h2><p>None.</p>"
+
+    rows = [f"<h2>{html.escape(title)}</h2>"]
+    for category in ("Album", "EP", "Single", "Feature", "Other"):
+        items = grouped.get(category, [])
+        if not items:
+            continue
+        label = {"EP": "EPs", "Other": "Other releases"}.get(category, category + "s")
+        rows.append(f"<h3>{html.escape(label)}</h3><ul>")
+        for release in sorted(
+            items,
+            key=lambda item: (item.get("artist", "").casefold(), item.get("title", "").casefold()),
+        ):
+            links = {**fallback_links(release), **release.get("links", {})}
+            spotify = links.get("spotify") or links["spotify_search"]
+            youtube_music = links.get("youtube_music") or links["youtube_music_search"]
+            youtube = links.get("youtube") or links["youtube_search"]
+            details = []
+            if release.get("live"):
+                details.append("Live")
+            match_text = appearance_match_text(release)
+            if match_text:
+                details.append(match_text)
+            suffix = (
+                f" <small>({' · '.join(html.escape(value) for value in details)})</small>"
+                if details else ""
+            )
+            rows.append(
+                f'<li><strong>{html.escape(release.get("artist", "Unknown artist"))}</strong> — '
+                f'<a href="{html.escape(spotify, quote=True)}">{html.escape(release.get("title", "Untitled"))}</a>'
+                f'{suffix}<br><small><a href="{html.escape(youtube_music, quote=True)}">YouTube Music</a> · '
+                f'<a href="{html.escape(youtube, quote=True)}">YouTube</a></small></li>'
+            )
+        rows.append("</ul>")
+    return "".join(rows)
+
+
+def make_digest_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.datetime) -> str:
+    """Create one grouped digest item per local day, published from 6am onward."""
+    ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
+    rss = ET.Element("rss", {"version": "2.0"})
+    channel = ET.SubElement(rss, "channel")
+    ET.SubElement(channel, "title").text = f"{settings.feed_title} — daily digest"
+    ET.SubElement(channel, "link").text = settings.site_url or "https://musicbrainz.org"
+    ET.SubElement(channel, "description").text = (
+        "A 6am digest of today's expected music and yesterday's releases"
+    )
+    ET.SubElement(channel, "lastBuildDate").text = format_datetime(generated)
+    if settings.site_url:
+        ET.SubElement(
+            channel,
+            "{http://www.w3.org/2005/Atom}link",
+            {
+                "href": settings.site_url.rstrip("/") + "/digest.xml",
+                "rel": "self",
+                "type": "application/rss+xml",
+            },
+        )
+
+    local_generated = display_time(generated, settings.timezone)
+    digest_day = local_generated.date()
+    if local_generated.hour < 6:
+        digest_day -= dt.timedelta(days=1)
+    exact_dates: dict[str, list[dict[str, Any]]] = {}
+    for release in releases:
+        release_date = str(release.get("date", ""))
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", release_date):
+            exact_dates.setdefault(release_date, []).append(release)
+
+    for offset in range(min(settings.lookback_days, 30)):
+        day = digest_day - dt.timedelta(days=offset)
+        expected = exact_dates.get(day.isoformat(), [])
+        yesterday = exact_dates.get((day - dt.timedelta(days=1)).isoformat(), [])
+        if not expected and not yesterday:
+            continue
+        item = ET.SubElement(channel, "item")
+        friendly = day.strftime("%A, %d %B %Y").replace(" 0", " ")
+        ET.SubElement(item, "title").text = f"Daily new music — {friendly}"
+        ET.SubElement(item, "link").text = settings.site_url or "https://musicbrainz.org"
+        ET.SubElement(item, "guid", {"isPermaLink": "false"}).text = (
+            f"new-music-digest:{day.isoformat()}"
+        )
+        zone = local_generated.tzinfo or dt.timezone.utc
+        published = dt.datetime.combine(day, dt.time(6), tzinfo=zone)
+        ET.SubElement(item, "pubDate").text = format_datetime(published)
+        ET.SubElement(item, "description").text = (
+            digest_section("Expected today", expected)
+            + digest_section("Made available yesterday", yesterday)
+        )
+    ET.indent(rss, space="  ")
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(rss, encoding="unicode") + "\n"
+
+
+def digest_due(settings: Settings, now: dt.datetime | None = None) -> bool:
+    """Return true during the user's local 6am hour."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    return display_time(now, settings.timezone).hour == 6
+
+
 def parse_date(value: str) -> dt.datetime:
     parts = [int(x) for x in value.split("-")]
     while len(parts) < 3:
@@ -952,6 +1064,7 @@ def run_check(
     settings.output_dir.mkdir(parents=True, exist_ok=True)
     released_visible = [release for release in visible if not release.get("upcoming")]
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
+    (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
@@ -979,6 +1092,7 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     settings.output_dir.mkdir(parents=True, exist_ok=True)
     released_visible = [release for release in visible if not release.get("upcoming")]
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
+    (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     return len(visible)
@@ -1138,6 +1252,7 @@ def build_parser() -> argparse.ArgumentParser:
     changed = sub.add_parser("changed-artists", help="List watchlist IDs added since an earlier artists.json")
     changed.add_argument("previous", type=Path)
     sub.add_parser("state-count", help="Print the number of releases in saved state")
+    sub.add_parser("digest-due", help="Print true during the configured timezone's 6am hour")
     sub.add_parser("rebuild", help="Rebuild RSS/HTML from saved releases without an API scan")
     enrich = sub.add_parser("enrich", help="Backfill RSS tracklists and artwork metadata")
     enrich.add_argument("--refresh", action="store_true", help="Refresh metadata even when already checked")
@@ -1218,6 +1333,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "state-count":
         state = load_json(settings.state_file, {"releases": {}})
         print(len(state.get("releases", {})))
+    elif args.command == "digest-due":
+        print("true" if digest_due(settings) else "false")
     elif args.command == "check":
         selected_mbids = None
         if args.artist_mbids is not None:

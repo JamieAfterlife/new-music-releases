@@ -10,12 +10,14 @@ A free, automation-first tracker for music released by artists you care about. I
 - Includes credited appearances, while excluding releases credited to Various Artists by default.
 - Links to exact Spotify, YouTube, or YouTube Music pages when MusicBrainz contains those relationships.
 - Falls back to a service-specific search link when an exact relationship is unavailable.
-- Generates `public/feed.xml`, `public/index.html`, and an artist-management page.
+- Generates a release-by-release RSS feed, a grouped 6am daily digest feed, the webpage, and an artist-management page.
 - Includes album artwork and tracklists (with available durations) in RSS.
 - Prefers the most complete official digital edition on the original release date, so a same-day deluxe or expanded edition wins when it really contains extra tracks.
 - Has no Python package dependencies and no API keys.
 
 MusicBrainz data is community maintained, so a release can appear later than it does on streaming services. The tracker checks the previous 45 days each time to catch late additions.
+
+The daily digest is published during the listener's local 6am hour. It lists releases expected that day first, followed by releases made available the previous day, grouped as albums, EPs, singles, features, and other releases. Changing the timezone on the management page automatically changes which hourly workflow run publishes the digest.
 
 ## Setup
 

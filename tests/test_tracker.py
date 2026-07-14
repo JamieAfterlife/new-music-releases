@@ -24,8 +24,10 @@ from music_release_tracker import (
     import_csv,
     import_lastfm,
     comparable_date,
+    digest_due,
     display_time,
     display_release_type,
+    make_digest_rss,
     normalize_release,
     notification_markdown,
     release_description,
@@ -515,6 +517,30 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("media:thumbnail", xml)
         self.assertIn("First Track", xml)
         self.assertIn("3:05", xml)
+
+    def test_daily_digest_starts_with_today_then_yesterday(self):
+        settings = Settings(root=Path("."), timezone="UTC", site_url="https://example.test")
+        today = normalize_release(group("today"), ARTIST)
+        today.update({"date": "2026-07-14", "type": "Album", "links": {}})
+        yesterday = normalize_release(group("yesterday"), ARTIST)
+        yesterday.update({"date": "2026-07-13", "type": "EP", "links": {}})
+        generated = dt.datetime(2026, 7, 14, 6, 30, tzinfo=dt.timezone.utc)
+        xml = make_digest_rss(settings, [today, yesterday], generated)
+        self.assertIn("new-music-digest:2026-07-14", xml)
+        self.assertLess(xml.index("Expected today"), xml.index("Made available yesterday"))
+        self.assertLess(xml.index("Albums"), xml.index("EPs"))
+        self.assertIn("digest.xml", xml)
+
+    def test_daily_digest_waits_until_six_in_the_selected_timezone(self):
+        settings = Settings(root=Path("."), timezone="Pacific/Auckland")
+        release = normalize_release(group("today"), ARTIST)
+        release.update({"date": "2026-07-14", "type": "Album", "links": {}})
+        before_six = dt.datetime(2026, 7, 13, 17, 30, tzinfo=dt.timezone.utc)
+        at_six = dt.datetime(2026, 7, 13, 18, 30, tzinfo=dt.timezone.utc)
+        self.assertNotIn("new-music-digest:2026-07-14", make_digest_rss(settings, [release], before_six))
+        self.assertIn("new-music-digest:2026-07-14", make_digest_rss(settings, [release], at_six))
+        self.assertFalse(digest_due(settings, before_six))
+        self.assertTrue(digest_due(settings, at_six))
 
     def test_csv_import_preserves_comma_name_and_splits_proven_collaboration(self):
         with tempfile.TemporaryDirectory() as directory:

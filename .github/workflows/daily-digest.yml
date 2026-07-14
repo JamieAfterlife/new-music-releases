@@ -1,0 +1,63 @@
+name: Publish daily digest
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        id: pages
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/state.json
+          key: music-state-digest-${{ github.run_id }}
+          restore-keys: music-state-
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/lastfm_recent_artists.json
+          key: music-recent-digest-${{ github.run_id }}
+          restore-keys: music-recent-
+      - name: Check the listener's local time
+        id: due
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=$(python music_release_tracker.py digest-due)" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build the 6am digest
+        id: build
+        if: ${{ steps.due.outputs.publish == 'true' }}
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          if [ "$(python music_release_tracker.py state-count)" -gt 0 ]; then
+            python music_release_tracker.py rebuild
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Saved release state is unavailable; the next regular scan will restore it."
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        if: ${{ steps.build.outputs.publish == 'true' }}
+        with:
+          path: public
+      - uses: actions/deploy-pages@v4
+        if: ${{ steps.build.outputs.publish == 'true' }}
+        id: deployment
