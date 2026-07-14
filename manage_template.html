@@ -154,12 +154,12 @@
     </details>
 
     <details class="card">
-      <summary class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></summary>
+      <summary class="summary"><div><h2>Hidden releases</h2><p>Hidden releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></summary>
       <div id="muted-releases" class="results"></div>
     </details>
 
     <details class="card">
-      <summary class="summary"><div><h2>Backup and restore</h2><p>Download your artists, muted releases and site settings, or restore them on another copy of the tracker. GitHub tokens are never included.</p></div></summary>
+      <summary class="summary"><div><h2>Backup and restore</h2><p>Download your artists, hidden releases and site settings, or restore them on another copy of the tracker. GitHub tokens are never included.</p></div></summary>
       <div class="onboarding__actions"><button id="export-backup" class="button button--quiet">Export backup</button><button id="import-backup" class="button button--quiet">Import backup</button><input id="backup-file" type="file" accept="application/json,.json" hidden></div>
       <div id="backup-status" class="notice" role="status"></div>
     </details>
@@ -252,15 +252,15 @@
     function renderMuted() {
       const ids = blacklist.release_ids || [];
       const lookup = new Map(embedded.releases.map(release => [release.id,release]));
-      el('muted-count').textContent = `${ids.length} muted`;
+      el('muted-count').textContent = `${ids.length} hidden`;
       el('muted-releases').replaceChildren();
-      if (!ids.length) { const empty=document.createElement('div'); empty.className='empty'; empty.textContent='No muted releases.'; el('muted-releases').append(empty); return; }
+      if (!ids.length) { const empty=document.createElement('div'); empty.className='empty'; empty.textContent='No hidden releases.'; el('muted-releases').append(empty); return; }
       for (const id of ids) {
         const release=lookup.get(id)||{title:'Unknown release',artist:'',date:''};
         const row=document.createElement('div'); row.className='result';
         const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=release.title;
         const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[release.artist,release.date].filter(Boolean).join(' · '); copy.append(name,meta);
-        const button=document.createElement('button'); button.className='button button--quiet button--small'; button.textContent='Unmute';
+        const button=document.createElement('button'); button.className='button button--quiet button--small'; button.textContent='Show again';
         button.addEventListener('click',()=>{blacklist.release_ids=(blacklist.release_ids||[]).filter(value=>value!==id);markDirty();});
         row.append(copy,button); el('muted-releases').append(row);
       }
@@ -433,10 +433,10 @@
     }
     el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site},{path:'aliases.json',value:aliases,original:embedded.aliases},{path:'video_sources.json',value:videoSources,original:embedded.videoSources},{path:'video_decisions.json',value:videoDecisions,original:embedded.videoDecisions}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
     rebuildArtists();
-    const pageParams=new URLSearchParams(location.search),muteId=pageParams.get('mute'),hideVideoId=pageParams.get('hide_video');
+    const pageParams=new URLSearchParams(location.search),muteId=pageParams.get('hide_release')||pageParams.get('mute'),hideVideoId=pageParams.get('hide_video');
     if(muteId&&embedded.releases.some(release=>release.id===muteId)){
       blacklist.release_ids=blacklist.release_ids||[];
-      if(!blacklist.release_ids.includes(muteId)){blacklist.release_ids.push(muteId);dirty=true;el('changes').textContent='This release is ready to mute; connect to GitHub and save.';}
+      if(!blacklist.release_ids.includes(muteId)){blacklist.release_ids.push(muteId);dirty=true;el('changes').textContent='This release is ready to hide; connect to GitHub and save.';}
       history.replaceState({},'',location.pathname);
     }
     if(hideVideoId&&embedded.publishedVideos.some(video=>video.id===hideVideoId)){

@@ -1025,7 +1025,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 f'<a class="service" href="{html.escape(youtube_music, quote=True)}" target="_blank" rel="noopener">YouTube Music</a>'
                 f'<a class="service" href="{html.escape(youtube, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
                 f'<a class="service service--muted" href="{html.escape(release["musicbrainz"], quote=True)}" target="_blank" rel="noopener">MusicBrainz</a>'
-                f'<a class="service service--mute" href="manage.html?mute={urllib.parse.quote(release["id"], safe="")}">Mute</a>'
+                f'<a class="service service--mute" href="manage.html?hide_release={urllib.parse.quote(release["id"], safe="")}">Hide</a>'
                 f'</div>{"" if release.get("upcoming") else rating_controls("release:" + release["id"])}</div></article>'
             )
         for video in videos_by_date.get(release_date, []):

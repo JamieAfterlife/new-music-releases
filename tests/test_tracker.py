@@ -146,7 +146,8 @@ class TrackerTests(unittest.TestCase):
                 encoding="utf-8",
             )
             page = make_manage_html(settings)
-            self.assertIn("Muted releases", page)
+            self.assertIn("Hidden releases", page)
+            self.assertIn("Show again", page)
             self.assertIn("A Release", page)
             self.assertIn("Export backup", page)
             self.assertIn("GitHub tokens are never included", page)
