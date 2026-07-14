@@ -343,6 +343,582 @@
         "Combichrist"
       ],
       "enabled": true
+    },
+    {
+      "channel_id": "UCmGUkKJW-f3nqYjUOB2bvTQ",
+      "kind": "artist",
+      "artist_names": [
+        "A Night in Texas"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCkr-dCaRVOl5UJDnQA_Pwsg",
+      "kind": "artist",
+      "artist_names": [
+        "Abigail Williams"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCS1eAN58NsXXxSN52GNsOrA",
+      "kind": "artist",
+      "artist_names": [
+        "Acrania"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCaeg1Huz4-oBADJmn7pPdIw",
+      "kind": "artist",
+      "artist_names": [
+        "AFI"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCT9amsV69EwvjpTDLVqyewg",
+      "kind": "artist",
+      "artist_names": [
+        "Alestorm"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0NV5iRVirkMhR9XJbZoePQ",
+      "kind": "artist",
+      "artist_names": [
+        "Alien Weaponry"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSLQKylf_bibeVwMnBO1MRg",
+      "kind": "artist",
+      "artist_names": [
+        "All Time Low"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCv3vm0fougi7YVgcxLPlwsQ",
+      "kind": "artist",
+      "artist_names": [
+        "Alpha Wolf"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjxTk01QOc8Jwm-us7aQjjw",
+      "kind": "artist",
+      "artist_names": [
+        "Alt."
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCv42RmpB6iwadGz6n818l6w",
+      "kind": "artist",
+      "artist_names": [
+        "Alter Bridge"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQm8omJThW4FThLYt-lRLkg",
+      "kind": "artist",
+      "artist_names": [
+        "Animals as Leaders"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCr2N8VFSLeIhnCwJ1AfbErA",
+      "kind": "artist",
+      "artist_names": [
+        "Anthrax"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIPN3XIDtyAVP6GWYsE7pQQ",
+      "kind": "artist",
+      "artist_names": [
+        "Arch Enemy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC701towbIG_hdraTKMf-nZw",
+      "kind": "artist",
+      "artist_names": [
+        "Archspire"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCXN3jg1BrFxoyJHtoq3--xA",
+      "kind": "artist",
+      "artist_names": [
+        "Atreyu"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCDHYvX59tn7G78BoTTlOx8A",
+      "kind": "artist",
+      "artist_names": [
+        "Banks Arcade"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8NEn-Vp3r-Lk3cAu_9bXvQ",
+      "kind": "artist",
+      "artist_names": [
+        "Beartooth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCKkFmzVdLNXH8qLZ8acz-qQ",
+      "kind": "artist",
+      "artist_names": [
+        "BeMax"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQTjshmFYD-Jr2VTBMNOGnA",
+      "kind": "artist",
+      "artist_names": [
+        "Berried Alive"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCEIu67OPrgTYdZupvxhai3A",
+      "kind": "artist",
+      "artist_names": [
+        "Better Lovers"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCL_PBMdppxRGcYQYhamXf4Q",
+      "kind": "artist",
+      "artist_names": [
+        "Body Count"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2ajR3XiKqKLPcvyNEuWTPw",
+      "kind": "artist",
+      "artist_names": [
+        "Bodysnatcher"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCwFzrocTd73vNT7xNvg-WSw",
+      "kind": "artist",
+      "artist_names": [
+        "Boris the Blade"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8bxibX31bwO4axeCGfwmbg",
+      "kind": "artist",
+      "artist_names": [
+        "Brain Drill"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJhe07czqzg4UzpjvQWkmMQ",
+      "kind": "artist",
+      "artist_names": [
+        "Breaking Benjamin"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCAayZDDj3uom0QpSJiwLoUw",
+      "kind": "artist",
+      "artist_names": [
+        "Bring Me the Horizon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCrCuzixzvSFyegcm2FWjw4g",
+      "kind": "artist",
+      "artist_names": [
+        "Bulb"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCnlf4amtRK4wih3PGwwJm_Q",
+      "kind": "artist",
+      "artist_names": [
+        "Caliban"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCF8VbRa9JOptM10QPvasPVA",
+      "kind": "artist",
+      "artist_names": [
+        "Callejon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2le-BGvWZhcULkkfNfdEGQ",
+      "kind": "artist",
+      "artist_names": [
+        "Cannibal Corpse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCzRmYEdiKtjpp57v0SUWsPw",
+      "kind": "artist",
+      "artist_names": [
+        "Confession"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQH3-LheW109oRm0f4JatDg",
+      "kind": "artist",
+      "artist_names": [
+        "Converge"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCuZPtWDsczOuztPMUr0mmpw",
+      "kind": "artist",
+      "artist_names": [
+        "Corpse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCdUSOZx9KLAceRQfHpKX2kg",
+      "kind": "artist",
+      "artist_names": [
+        "Counterparts"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCyAMV63OY0DRbKk6gGv6wJg",
+      "kind": "artist",
+      "artist_names": [
+        "Cradle of Filth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFTTpgE9rQlt1Ig25SiunDw",
+      "kind": "artist",
+      "artist_names": [
+        "Crooked Royals"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCxmBX4iNhkr4dX4Zsx_AXrA",
+      "kind": "artist",
+      "artist_names": [
+        "Crown Magnetar"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCvLbcH8pPmzUTsq1QS1RCXQ",
+      "kind": "artist",
+      "artist_names": [
+        "Currents"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCoO96UN3gv5WohJA8QuMgXQ",
+      "kind": "artist",
+      "artist_names": [
+        "Cypress Hill"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCkmEoZbpH7jPCe1_Ym4XJdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Dance Gavin Dance"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBDN_Hl60OdiKfsouY7dtwg",
+      "kind": "artist",
+      "artist_names": [
+        "Dark Funeral"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC583dfG3YZDjBwdks2MFzaQ",
+      "kind": "artist",
+      "artist_names": [
+        "Dayseeker"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQUMw_eVc2eQ-Yzx_Lc_FRg",
+      "kind": "artist",
+      "artist_names": [
+        "Dayshell"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYEK6xds6eo-3tr4xRdflmQ",
+      "kind": "artist",
+      "artist_names": [
+        "deadmau5"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_31qQmsH52JxSbYCH91Rqw",
+      "kind": "artist",
+      "artist_names": [
+        "Dealer"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCW34YNObtG1y17eVXWKcVOw",
+      "kind": "artist",
+      "artist_names": [
+        "Deathstars"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCS7Nfg5w3NjYemXfcELZ0pg",
+      "kind": "artist",
+      "artist_names": [
+        "Decapitated"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCUbmjicJwBi12ogbOeeozTA",
+      "kind": "artist",
+      "artist_names": [
+        "Defiler"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQDsiRE--IQe5ycCLeetIxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Deftones"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8hr5hOnq7pcfdUPsGeIk-A",
+      "kind": "artist",
+      "artist_names": [
+        "Depths"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4NBXLFNA_12JMAYzUmt5zg",
+      "kind": "artist",
+      "artist_names": [
+        "Despised Icon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCfwTMXh1q1QTSl5G3p4k6QQ",
+      "kind": "artist",
+      "artist_names": [
+        "DevilDriver"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCNDpkCi4yQgwDUSG3yEitTA",
+      "kind": "artist",
+      "artist_names": [
+        "Devilment"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCySTR6-mDdf3gRcD9nZnrbg",
+      "kind": "artist",
+      "artist_names": [
+        "Devilskin"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCgg-TIB8uG0tlGnJvVe0y6g",
+      "kind": "artist",
+      "artist_names": [
+        "Dimmu Borgir"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIUA7-MNA9NyrpimQo7Dw8g",
+      "kind": "artist",
+      "artist_names": [
+        "DragonForce"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBHhdnYxvu94yefpeZABY9g",
+      "kind": "artist",
+      "artist_names": [
+        "Dream Theater"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCcIRZxNH7xcEt1fu4pfqFRg",
+      "kind": "artist",
+      "artist_names": [
+        "Dropkick Murphys"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCRFHKKNGdaIs9NaULSUuKGw",
+      "kind": "artist",
+      "artist_names": [
+        "Drowning Pool"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCXw8fQUFxL1zoortqppHmkA",
+      "kind": "artist",
+      "artist_names": [
+        "DVSR"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCj2No4ymXXAWhTh_svaY9bw",
+      "kind": "artist",
+      "artist_names": [
+        "Dying Wish"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCuDXT3dmEM2ZjIq02QcZKWA",
+      "kind": "artist",
+      "artist_names": [
+        "Earth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCLlHM4OBaGkV4yQ72y_Tp_A",
+      "kind": "artist",
+      "artist_names": [
+        "Earth Caller"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCAR30oDTNbJE-Zd2NDg1mTQ",
+      "kind": "artist",
+      "artist_names": [
+        "Electric Callboy"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
