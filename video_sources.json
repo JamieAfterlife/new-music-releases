@@ -912,13 +912,28 @@
       "discovered": true
     },
     {
-      "channel_id": "UCAR30oDTNbJE-Zd2NDg1mTQ",
+      "handle": "UCAR30oDTNbJE-Zd2NDg1mTQ",
       "kind": "artist",
       "artist_names": [
         "Electric Callboy"
       ],
-      "enabled": true,
-      "discovered": true
+      "enabled": true
+    },
+    {
+      "handle": "@gojira",
+      "kind": "artist",
+      "artist_names": [
+        "Gojira"
+      ],
+      "enabled": true
+    },
+    {
+      "handle": "@Filthnc",
+      "kind": "artist",
+      "artist_names": [
+        "Slam Band"
+      ],
+      "enabled": true
     }
   ]
 }
