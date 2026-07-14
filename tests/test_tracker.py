@@ -180,6 +180,24 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("ignored_sources", template)
         self.assertIn('details.card[open] > summary::after', template)
 
+    def test_artist_name_fix_search_stays_in_its_own_section(self):
+        template = Path("manage_template.html").read_text(encoding="utf-8")
+        self.assertIn('id="alias-query"', template)
+        self.assertIn('id="alias-results"', template)
+        self.assertIn("async function searchAlias()", template)
+        self.assertNotIn("el('query').scrollIntoView", template)
+
+    def test_personal_devices_can_reconnect_without_a_password(self):
+        manage = Path("manage_template.html").read_text(encoding="utf-8")
+        history = Path("history_template.html").read_text(encoding="utf-8")
+        helper = Path("device_auth.js").read_text(encoding="utf-8")
+        for page in (manage, history):
+            self.assertIn('id="trust-device"', page)
+            self.assertIn('src="device-auth.js"', page)
+            self.assertIn("autoConnectTrusted()", page)
+        self.assertIn("indexedDB.open", helper)
+        self.assertIn("}, false, ['encrypt', 'decrypt'])", helper)
+
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")
         manage = Path("manage_template.html").read_text(encoding="utf-8")

@@ -10,6 +10,7 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
 import time
 import tomllib
@@ -1129,6 +1130,14 @@ def make_history_html(settings: Settings, releases: list[dict[str, Any]], genera
     )
 
 
+def copy_device_auth(settings: Settings) -> None:
+    """Copy the shared trusted-device helper beside the generated pages."""
+    source = settings.root / "device_auth.js"
+    if not source.exists():
+        source = Path(__file__).with_name("device_auth.js")
+    shutil.copyfile(source, settings.output_dir / "device-auth.js")
+
+
 def make_manage_html(settings: Settings) -> str:
     """Build the static owner editor for the tracked and blocked artist lists."""
     template_path = settings.root / "manage_template.html"
@@ -1287,6 +1296,7 @@ def run_check(
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
+    copy_device_auth(settings)
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
     return visible_new, len(visible_releases(settings, discovered.values(), now))
@@ -1317,6 +1327,7 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
+    copy_device_auth(settings)
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     return len(visible)
 

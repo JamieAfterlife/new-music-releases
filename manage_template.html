@@ -26,6 +26,7 @@
     details.card[open] > summary::after { content:"−"; }
     .toolbar { display:grid; grid-template-columns:1fr auto; gap:9px; margin-top:15px; }
     .toolbar--manage { grid-template-columns:1fr auto auto; }
+    .toolbar--alias { grid-template-columns:1fr 1fr auto; }
     .site-fields { display:grid; grid-template-columns:1.2fr 1fr; gap:12px; margin-top:15px; }
     .field span { display:block; margin-bottom:5px; color:var(--muted); font-size:.78rem; font-weight:700; }
     .field--wide { grid-column:1/-1; }
@@ -76,7 +77,7 @@
     .notice { margin-top:12px; color:var(--muted); }.notice[data-kind="success"] { color:var(--brand); }.notice[data-kind="error"] { color:#f17b61; }
     .savebar { position:sticky; bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:14px 17px; background:rgba(25,25,25,.96); border:1px solid #484848; border-radius:8px; box-shadow:0 14px 35px #000; backdrop-filter:blur(12px); }
     .savebar p { margin:0; }
-    @media(max-width:700px) { .artist-list { grid-template-columns:1fr; } .connect,.site-fields { grid-template-columns:1fr; } .toolbar--manage { grid-template-columns:1fr 1fr; }.toolbar--manage input { grid-column:1/-1; } }
+    @media(max-width:700px) { .artist-list { grid-template-columns:1fr; } .connect,.site-fields,.toolbar--alias { grid-template-columns:1fr; } .toolbar--manage { grid-template-columns:1fr 1fr; }.toolbar--manage input { grid-column:1/-1; } }
     @media(max-width:520px) { .shell { padding:26px 13px 70px; }.top { display:block; }.top nav { margin-top:13px; }.card { padding:15px; }.savebar { align-items:stretch; flex-direction:column; } }
   </style>
 </head>
@@ -130,8 +131,10 @@
 
     <details class="card">
       <summary class="summary"><div><h2>Artist name fixes</h2><p>Match an unclear Last.fm name, or ignore a release credit that is not a standalone artist.</p></div><span id="alias-count" class="count"></span></summary>
-      <div class="toolbar"><input id="alias-source" type="text" placeholder="Last.fm artist name" aria-label="Last.fm artist name"><button id="find-alias" class="button button--quiet">Find match</button></div>
+      <div class="toolbar toolbar--alias"><input id="alias-source" type="text" placeholder="Last.fm name to fix" aria-label="Last.fm artist name to fix"><input id="alias-query" type="search" placeholder="Search as, e.g. FEVER 333" aria-label="MusicBrainz search term"><button id="find-alias" class="button button--quiet">Search here</button></div>
+      <p id="alias-status" class="notice" role="status"></p>
       <div id="alias-review" class="results"></div>
+      <div id="alias-results" class="results" aria-live="polite"></div>
       <div id="aliases" class="results"></div>
     </details>
 
@@ -162,14 +165,16 @@
 
     <details id="connection">
       <summary>GitHub connection for saving</summary>
-      <p>Use a fine-grained token limited to this repository with Contents read/write access. Add an unlock password to remember it securely on this device, or leave the password blank to use it only in this tab.</p>
-      <div class="connect"><input id="repository" autocomplete="off" spellcheck="false" placeholder="owner/repository" aria-label="GitHub repository"><input id="token" type="password" autocomplete="off" placeholder="Fine-grained GitHub token" aria-label="GitHub token"><input id="unlock-password" type="password" autocomplete="current-password" placeholder="Unlock password" aria-label="Local unlock password"><button id="connect" class="button">Connect</button></div>
+      <p>Use a fine-grained token limited to this repository with Contents read/write access. Trust a personal phone or computer to reconnect automatically, or use an unlock password on a shared device.</p>
+      <div class="connect"><input id="repository" autocomplete="off" spellcheck="false" placeholder="owner/repository" aria-label="GitHub repository"><input id="token" type="password" autocomplete="off" placeholder="Fine-grained GitHub token" aria-label="GitHub token"><input id="unlock-password" type="password" autocomplete="current-password" placeholder="Unlock password (shared device)" aria-label="Local unlock password"><button id="connect" class="button">Connect</button></div>
+      <label class="toggle"><input id="trust-device" type="checkbox"><span class="toggle__track" aria-hidden="true"></span><span class="toggle__copy">Trust this personal device — no password next time</span></label>
       <div id="status" class="notice" role="status">Connect once before saving.</div>
       <div class="onboarding__actions"><button id="forget-token" class="button button--quiet button--small" hidden>Forget saved token</button></div>
     </details>
 
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
+  <script src="device-auth.js"></script>
   <script>
     const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__, videoSources:__VIDEO_SOURCES_JSON__, videoReview:__VIDEO_REVIEW_JSON__, channelReview:__VIDEO_CHANNEL_REVIEW_JSON__, videoDecisions:__VIDEO_DECISIONS_JSON__, publishedVideos:__PUBLISHED_VIDEOS_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
@@ -260,8 +265,9 @@
     }
     function beginAlias(source) {
       activeAliasSource=source.trim();if(!activeAliasSource)return;
-      el('alias-source').value=activeAliasSource;el('query').value=activeAliasSource;el('results').textContent=`Choose the correct MusicBrainz match for “${activeAliasSource}”.`;
-      search();el('query').scrollIntoView({behavior:'smooth',block:'center'});
+      el('alias-source').value=activeAliasSource;el('alias-query').value=activeAliasSource;
+      el('alias-status').textContent=`Searching for a match for “${activeAliasSource}”. Change the second box if MusicBrainz uses a different name.`;
+      searchAlias();el('alias-query').focus();
     }
     function renderAliases() {
       aliases.artist_aliases=aliases.artist_aliases||[];aliases.ignored_sources=aliases.ignored_sources||[];
@@ -342,8 +348,15 @@
         if(!(data.artists||[]).length) el('results').textContent='No artists found.';
       } catch(error) { el('results').textContent=`Search failed: ${error.message}`; } finally { el('search').disabled=false; }
     }
+    async function searchAlias() {
+      activeAliasSource=el('alias-source').value.trim();const query=el('alias-query').value.trim()||activeAliasSource;if(!activeAliasSource){el('alias-source').focus();el('alias-status').textContent='Enter the Last.fm name that needs fixing.';return;}if(!query){el('alias-query').focus();return;}
+      el('find-alias').disabled=true;el('alias-status').textContent=`Searching MusicBrainz for “${query}”…`;el('alias-results').replaceChildren();
+      try{const params=new URLSearchParams({query,fmt:'json',limit:'10'}),response=await fetch(`https://musicbrainz.org/ws/2/artist?${params}`,{headers:{Accept:'application/json'}});if(!response.ok)throw new Error(`MusicBrainz returned ${response.status}`);const data=await response.json(),matches=data.artists||[];el('alias-status').textContent=matches.length?`Choose the artist that “${activeAliasSource}” should mean.`:'No artists found. Try a different spelling in the second box.';
+        for(const item of matches){const row=document.createElement('div');row.className='result';const copy=document.createElement('div'),name=document.createElement('div'),meta=document.createElement('div');name.className='result__name';name.textContent=item.name;meta.className='result__meta';meta.textContent=[item.type,item.country,item.disambiguation,item.score?`${item.score}% match`:null].filter(Boolean).join(' · ');copy.append(name,meta);const button=document.createElement('button');button.className='button button--small';button.textContent='Use this match';button.addEventListener('click',()=>{const source=activeAliasSource;const current=artists.get(item.id);if(current){current.tracked=true;current.record.manual_tracking=true;}else artists.set(item.id,{name:item.name,mbid:item.id,tracked:true,record:{name:item.name,mbid:item.id,manual_tracking:true}});aliases.artist_aliases=(aliases.artist_aliases||[]).filter(record=>record.source_name.toLocaleLowerCase()!==source.toLocaleLowerCase());aliases.ignored_sources=(aliases.ignored_sources||[]).filter(value=>value.toLocaleLowerCase()!==source.toLocaleLowerCase());aliases.artist_aliases.push({source_name:source,name:item.name,mbid:item.id});activeAliasSource='';el('alias-source').value='';el('alias-query').value='';el('alias-results').replaceChildren();el('alias-status').textContent=`Name fix added: ${source} → ${item.name}. Save changes to apply it.`;markDirty();});row.append(copy,button);el('alias-results').append(row);}
+      }catch(error){el('alias-status').textContent=`Search failed: ${error.message}`;}finally{el('find-alias').disabled=false;}
+    }
     el('search').addEventListener('click',search); el('query').addEventListener('keydown',event=>{if(event.key==='Enter')search();});
-    el('find-alias').addEventListener('click',()=>beginAlias(el('alias-source').value));el('alias-source').addEventListener('keydown',event=>{if(event.key==='Enter')beginAlias(el('alias-source').value);});
+    el('find-alias').addEventListener('click',searchAlias);for(const id of ['alias-source','alias-query'])el(id).addEventListener('keydown',event=>{if(event.key==='Enter')searchAlias();});
     el('add-video-source').addEventListener('click',()=>{let handle=el('video-handle').value.trim();const kind=el('video-kind').value,artistNames=el('video-artists').value.split(',').map(value=>value.trim()).filter(Boolean);if(!handle){el('video-handle').focus();return;}if(!handle.startsWith('@')&&!handle.startsWith('UC'))handle=`@${handle}`;if(kind==='artist'&&!artistNames.length){el('video-artists').focus();return;}videoSources.channels=(videoSources.channels||[]).filter(source=>(source.handle||source.channel_id)!==handle);videoSources.channels.push({handle,kind,artist_names:artistNames,enabled:true});el('video-handle').value='';el('video-artists').value='';markDirty();});
     async function connectGithub() {
       const repository=el('repository').value.trim(),enteredToken=el('token').value.trim(),password=el('unlock-password').value;
@@ -353,7 +366,7 @@
         if(!password){setStatus('Enter your unlock password.','error');return;}
         try{token=await decryptConnection(savedConnection,password);}catch{setStatus('That unlock password is incorrect.','error');return;}
       }else if(!token){setStatus('Enter the GitHub token first.','error');return;}
-      if(enteredToken&&password){
+      if(enteredToken&&password&&!el('trust-device').checked){
         if(password.length<8){setStatus('Use at least 8 characters for the unlock password.','error');return;}
         encrypted=await encryptConnection(token,password,repository);
       }
@@ -362,13 +375,19 @@
         const repo=await github(''); branch=repo.default_branch||'main'; connected=true; el('save').disabled=!dirty;
         let stored=!!savedConnection?.ciphertext;
         if(encrypted){try{localStorage.setItem(connectionKey,JSON.stringify(encrypted));savedConnection=encrypted;stored=true;}catch{stored=false;}}
+        if(el('trust-device').checked&&window.DeviceAuth){await DeviceAuth.save(connectionKey,token,repository);stored=true;}
         el('token').value='';el('unlock-password').value='';el('forget-token').hidden=!stored;
-        setStatus(stored?`Connected to ${repository}. The encrypted token is saved for this tracker URL.`:`Connected to ${repository} for this tab.`,'success');
+        setStatus(el('trust-device').checked?`Connected to ${repository}. This personal device will reconnect automatically.`:stored?`Connected to ${repository}. The encrypted token is saved for this tracker URL.`:`Connected to ${repository} for this tab.`,'success');
       } catch(error){connected=false;activeToken='';setStatus(`Could not connect: ${error.message}`,'error');}
       finally{el('connect').disabled=false;}
     }
+    async function autoConnectTrusted(){
+      if(!window.DeviceAuth)return;
+      try{const trusted=await DeviceAuth.load(connectionKey);if(!trusted)return;el('repository').value=trusted.repository||embedded.repository;activeToken=trusted.token;setStatus('Reconnecting from this trusted device…');const repo=await github('');branch=repo.default_branch||'main';connected=true;el('trust-device').checked=true;el('forget-token').hidden=false;el('save').disabled=!dirty;setStatus(`Connected automatically to ${el('repository').value}.`,'success');}
+      catch(error){connected=false;activeToken='';setStatus(`Trusted-device reconnect failed: ${error.message}`,'error');}
+    }
     el('connect').addEventListener('click',connectGithub);
-    el('forget-token').addEventListener('click',()=>{try{localStorage.removeItem(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('token').value='';el('unlock-password').value='';el('forget-token').hidden=true;el('save').disabled=true;setStatus('Encrypted token removed from this device.','success');});
+    el('forget-token').addEventListener('click',async()=>{try{localStorage.removeItem(connectionKey);}catch{}try{await window.DeviceAuth?.remove(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('token').value='';el('unlock-password').value='';el('trust-device').checked=false;el('forget-token').hidden=true;el('save').disabled=true;setStatus('Saved connection removed from this device.','success');});
     function makeFiles() {
       const tracked=[...artists.values()].filter(x=>x.tracked&&x.mbid).map(x=>x.record).sort((a,b)=>a.name.localeCompare(b.name));
       const blocked=[...artists.values()].filter(x=>!x.tracked&&x.mbid).sort((a,b)=>a.name.localeCompare(b.name));
@@ -423,7 +442,7 @@
       if(!videoDecisions.rejected.includes(hideVideoId)){videoDecisions.rejected.push(hideVideoId);dirty=true;el('changes').textContent='This video is ready to hide; connect to GitHub and save.';}
       history.replaceState({},'',location.pathname);
     }
-    render(); renderMuted(); renderAliases(); renderVideoSettings(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
+    render(); renderMuted(); renderAliases(); renderVideoSettings(); prepareRecentReview(); el('save').disabled=!connected||!dirty;autoConnectTrusted();
   </script>
 </body>
 </html>
