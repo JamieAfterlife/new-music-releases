@@ -7,6 +7,38 @@
         "Slaughter to Prevail"
       ],
       "enabled": true
+    },
+    {
+      "channel_id": "UCU5AbNuMPGB491GcqXuzwKw",
+      "kind": "artist",
+      "artist_names": [
+        "$uicideboy$"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCwa_1qZHqIGupwT1JrdJr7w",
+      "kind": "artist",
+      "artist_names": [
+        "3 Inches of Blood"
+      ],
+      "enabled": true
+    },
+    {
+      "handle": "UCjj9ewTJYkVjuXBVrSlpMug",
+      "kind": "artist",
+      "artist_names": [
+        "A Day To Remember"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCDs5eijH8yZfD8A0uoiFX9Q",
+      "kind": "artist",
+      "artist_names": [
+        "A Skylit Drive"
+      ],
+      "enabled": true
     }
   ]
 }
