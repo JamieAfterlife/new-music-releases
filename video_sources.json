@@ -934,6 +934,627 @@
         "Slam Band"
       ],
       "enabled": true
+    },
+    {
+      "channel_id": "UCL-Blgyz2XiIxwYYNMmFfIg",
+      "kind": "artist",
+      "artist_names": [
+        "Ennaria"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCOi91U744e2YRmq24kyuLJg",
+      "kind": "artist",
+      "artist_names": [
+        "Enter Shikari"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCx2op0Cvq3d6NQUf9B0wBQg",
+      "kind": "artist",
+      "artist_names": [
+        "Escape The Fate"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC-YWvtG0eKGhkDfs_7DFxKA",
+      "kind": "artist",
+      "artist_names": [
+        "Faith No More"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2qWxZHgnlwDvcmLqP23jrA",
+      "kind": "artist",
+      "artist_names": [
+        "Fall Out Boy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCy27yRGCANDSrvQWzh5VuNA",
+      "kind": "artist",
+      "artist_names": [
+        "Falling in Reverse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClOEFUcpvtIpsby9g9hIU7Q",
+      "kind": "artist",
+      "artist_names": [
+        "Fallujah"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCK33kufuprDPsfRPkMfgoRA",
+      "kind": "artist",
+      "artist_names": [
+        "FEVER 333"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCcpkOpbC00zTcoM_cZ-Ns8w",
+      "kind": "artist",
+      "artist_names": [
+        "Fit for an Autopsy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UComadqUUzzzN9k-XN5Bcnog",
+      "kind": "artist",
+      "artist_names": [
+        "FKA Rayne"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2_Jxda_gHYEOv6C1AMTrQg",
+      "kind": "artist",
+      "artist_names": [
+        "Fleshgod Apocalypse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCi2KNss4Yx73NG0JARSFe0A",
+      "kind": "artist",
+      "artist_names": [
+        "Foo Fighters"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCE8fqIwEVqDeMEVqsgs0nrg",
+      "kind": "artist",
+      "artist_names": [
+        "For Today"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCMqxtxW33P-bc8b9_WHAk0g",
+      "kind": "artist",
+      "artist_names": [
+        "Four Year Strong"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIKT9lPoSdK2zgHZ0WsdOww",
+      "kind": "artist",
+      "artist_names": [
+        "From Ashes to New"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCsyBVa0eTR-lL0sRnKpIe8w",
+      "kind": "artist",
+      "artist_names": [
+        "Ghostemane"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCe9rl8k6yymUeVzzXfFGWwA",
+      "kind": "artist",
+      "artist_names": [
+        "Godsmack"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4rIW3ss5PXBofhx6AY8ZYQ",
+      "kind": "artist",
+      "artist_names": [
+        "Gorgoroth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCfIXdjDQH9Fau7y99_Orpjw",
+      "kind": "artist",
+      "artist_names": [
+        "Gorillaz"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCqC_GY2ZiENFz2pwL0cSfAw",
+      "kind": "artist",
+      "artist_names": [
+        "Green Day"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1pfkM-Y_pLRMc8Qvk8e1iA",
+      "kind": "artist",
+      "artist_names": [
+        "Guilt Trip"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIak6JLVOjqhStxrL1Lcytw",
+      "kind": "artist",
+      "artist_names": [
+        "Guns N' Roses"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCaBjJTnJAgIufPaUHN2fPrA",
+      "kind": "artist",
+      "artist_names": [
+        "Gutrectomy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJF9MkMFCglAnMTts8dy3_Q",
+      "kind": "artist",
+      "artist_names": [
+        "GWAR"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0J6Pp9KM7WnOhLHVoPhR-A",
+      "kind": "artist",
+      "artist_names": [
+        "Hacktivist"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC9_TDkQ4r9NDbv3ptxkMuVQ",
+      "kind": "artist",
+      "artist_names": [
+        "Half Me"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCW5BDdlDyw57FWhGVcI-KoQ",
+      "kind": "artist",
+      "artist_names": [
+        "Hands Like Houses"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClDyYcusLYkCkOxbYV9PIxg",
+      "kind": "artist",
+      "artist_names": [
+        "Harper"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCZx8VJlQWPv4HGs0fRWpSJQ",
+      "kind": "artist",
+      "artist_names": [
+        "Hatebreed"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCF11Yrx9bAy2Q6j6lgo0JwQ",
+      "kind": "artist",
+      "artist_names": [
+        "HEALTH"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC53V2K1yPMC0s31KTWdWwuw",
+      "kind": "artist",
+      "artist_names": [
+        "Heaven Shall Burn"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCM10srINLaSQFrcDVmHV0gA",
+      "kind": "artist",
+      "artist_names": [
+        "HIM"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCAdjQL8tTLHLPOwfJLD7mGg",
+      "kind": "artist",
+      "artist_names": [
+        "Hollow Front"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCZcK3UXhnI5Crw7bQpsuNZA",
+      "kind": "artist",
+      "artist_names": [
+        "Ice Cube"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCraPpF98TgLnoL9QwT8vQBg",
+      "kind": "artist",
+      "artist_names": [
+        "Ice Nine Kills"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC9bZsjdi847v6uTvwRhAqpQ",
+      "kind": "artist",
+      "artist_names": [
+        "Imminence"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC62VWPzAk3lxP_TXVagylHg",
+      "kind": "artist",
+      "artist_names": [
+        "Immoralist"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCff1-q2RtyLb31sEvjbPNug",
+      "kind": "artist",
+      "artist_names": [
+        "Immortal Disfigurement"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCC4or-5rpOOin4FTlY6Pksw",
+      "kind": "artist",
+      "artist_names": [
+        "In Dread Response"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCtyijsY3dTinDF1kOF4P5jA",
+      "kind": "artist",
+      "artist_names": [
+        "In Dying Arms"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC9qjDzIQoyW3USlw__qdmnQ",
+      "kind": "artist",
+      "artist_names": [
+        "In Flames"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCuunZEbo3XJFR5q1neQNXnw",
+      "kind": "artist",
+      "artist_names": [
+        "Infant Annihilator"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCzuqMK-C-K4S1Zg7fh3LzXA",
+      "kind": "artist",
+      "artist_names": [
+        "INFECTIOUS JELQING"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSm-bWIiSrMbkL7vSMpgVbA",
+      "kind": "artist",
+      "artist_names": [
+        "Ingested"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClVfpdXyp0bXhDjqodenukw",
+      "kind": "artist",
+      "artist_names": [
+        "Invent Animate"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCaisXKBdNOYqGr2qOXCLchQ",
+      "kind": "artist",
+      "artist_names": [
+        "Iron Maiden"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYFvlwgT7H_1K2qAPLXef7g",
+      "kind": "artist",
+      "artist_names": [
+        "Issues"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCoFl689sYMJfI1pZxWqlQgg",
+      "kind": "artist",
+      "artist_names": [
+        "Jauz"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFeCvEjX56ReS-O3QHdyjbA",
+      "kind": "artist",
+      "artist_names": [
+        "Jimmy Eat World"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCCcn1f6IDJyXVNYoiYIGZFw",
+      "kind": "artist",
+      "artist_names": [
+        "Journey"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC48vpdaG8NDvEGLj11XPPZQ",
+      "kind": "artist",
+      "artist_names": [
+        "Judas Priest"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC9UrqyY1mljZF6rfyDT-ENA",
+      "kind": "artist",
+      "artist_names": [
+        "jxdn"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCaba70IJSZpa9r4xY7npIOA",
+      "kind": "artist",
+      "artist_names": [
+        "JynX"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3SOnRBFUDLmycqhm4e_dTw",
+      "kind": "artist",
+      "artist_names": [
+        "Kailee Morgue"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCUTXXLnuAeObbtTNF3nlqPg",
+      "kind": "artist",
+      "artist_names": [
+        "Kanonenfieber"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCVzLNCORXoeFk310EHCg3QA",
+      "kind": "artist",
+      "artist_names": [
+        "Kellin Quinn"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCqQnPRwn_rP6a4073Wz5TZQ",
+      "kind": "artist",
+      "artist_names": [
+        "Kerry King"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJIo0FIYe5M-P1BYwAXRBig",
+      "kind": "artist",
+      "artist_names": [
+        "Killer Be Killed"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCpXZF22M_q08ECWAzgG-s4w",
+      "kind": "artist",
+      "artist_names": [
+        "Killstreak"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC54RgORww0lUMVq4NwdwANQ",
+      "kind": "artist",
+      "artist_names": [
+        "Killswitch Engage"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCj2Qv4GnJd8mNVd1mOpo2oA",
+      "kind": "artist",
+      "artist_names": [
+        "King 810"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBYOsaUKFms3mJ0pNc9-e8A",
+      "kind": "artist",
+      "artist_names": [
+        "Kittie"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCwOk5Xv5V7LN_Yz5NMDe9GA",
+      "kind": "artist",
+      "artist_names": [
+        "Korn"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCKTIpsCAjdIHCKQxXldqlSg",
+      "kind": "artist",
+      "artist_names": [
+        "Korpiklaani"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCevn3WJiZEdse2quTWPEvvQ",
+      "kind": "artist",
+      "artist_names": [
+        "Kvelertak"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4_yA-FDGB3Zwmk96E7yujA",
+      "kind": "artist",
+      "artist_names": [
+        "Lamb of God"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPqprh7ZjofSvmAYJ-UlkZg",
+      "kind": "artist",
+      "artist_names": [
+        "LANDMVRKS"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1eB_mQ2BsN5IRQflqoFepQ",
+      "kind": "artist",
+      "artist_names": [
+        "Left to Suffer"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC60zs-e4wWQrY0arpy9Hm1g",
+      "kind": "artist",
+      "artist_names": [
+        "Light the Torch"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
