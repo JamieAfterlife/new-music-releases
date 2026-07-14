@@ -925,6 +925,19 @@ def release_description(release: dict[str, Any]) -> str:
 
 def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.datetime) -> str:
     selected = releases[: settings.max_feed_items]
+    ratings = load_json(settings.root / "ratings.json", {"ratings": {}}).get("ratings", {})
+
+    def rating_controls(item_id: str) -> str:
+        current = int(ratings.get(item_id, {}).get("rating", 0) or 0)
+        stars = "".join(
+            f'<a class="rating__star{" rating__star--selected" if number <= current else ""}" '
+            f'href="history.html?rate={urllib.parse.quote(item_id, safe="")}&amp;stars={number}" '
+            f'aria-label="Rate {number} out of 5" title="Rate {number} out of 5">★</a>'
+            for number in range(1, 6)
+        )
+        sentiment = "Liked" if current >= 4 else "Disliked" if current else "Rate"
+        return f'<div class="rating" data-rating="{current}"><span>{sentiment}</span>{stars}</div>'
+
     by_date: dict[str, list[dict[str, Any]]] = {}
     for release in selected:
         by_date.setdefault(release["date"], []).append(release)
@@ -994,7 +1007,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 f'<a class="service" href="{html.escape(youtube, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
                 f'<a class="service service--muted" href="{html.escape(release["musicbrainz"], quote=True)}" target="_blank" rel="noopener">MusicBrainz</a>'
                 f'<a class="service service--mute" href="manage.html?mute={urllib.parse.quote(release["id"], safe="")}">Mute</a>'
-                '</div></div></article>'
+                f'</div>{"" if release.get("upcoming") else rating_controls("release:" + release["id"])}</div></article>'
             )
         for video in videos_by_date.get(release_date, []):
             artist = ", ".join(video.get("matched_artists", [])) or video.get("channel", "Unknown channel")
@@ -1015,7 +1028,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 '<div class="services">'
                 f'<a class="service" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
                 f'<a class="service service--mute" href="manage.html?hide_video={urllib.parse.quote(video.get("id", ""), safe="")}">Hide</a>'
-                '</div></div></article>'
+                f'</div>{rating_controls("video:" + video.get("id", ""))}</div></article>'
             )
         groups.append(
             f'<section class="release-day" data-date="{html.escape(comparable_date(release_date), quote=True)}">'
@@ -1036,6 +1049,55 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
         )
         .replace("__COUNT__", str(len(selected) + len(videos)))
         .replace("__GROUPS__", "".join(groups))
+    )
+
+
+def make_history_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.datetime) -> str:
+    """Build the cross-device listening history and rating editor."""
+    ratings = load_json(settings.root / "ratings.json", {"ratings": {}})
+    catalog: dict[str, dict[str, Any]] = {}
+    for release in releases:
+        if release.get("upcoming"):
+            continue
+        links = {**fallback_links(release), **release.get("links", {})}
+        item_id = f'release:{release["id"]}'
+        item_type = "Feature" if release.get("appearance") else display_release_type(release)
+        catalog[item_id] = {
+            "id": item_id,
+            "title": release.get("title", "Untitled release"),
+            "artist": release.get("artist", "Unknown artist"),
+            "type": item_type,
+            "release_date": release.get("date", ""),
+            "url": links.get("spotify") or links.get("spotify_search") or release.get("musicbrainz", ""),
+            "image": cover_art_url(release),
+        }
+    decisions = load_json(settings.root / "video_decisions.json", {"rejected": []})
+    rejected = set(decisions.get("rejected", []))
+    video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
+    for video_id, video in video_state.get("videos", {}).items():
+        if video_id in rejected or str(video.get("channel", "")).casefold().endswith(" - topic"):
+            continue
+        item_id = f"video:{video_id}"
+        catalog[item_id] = {
+            "id": item_id,
+            "title": video.get("title", "Untitled video"),
+            "artist": ", ".join(video.get("matched_artists", [])) or video.get("channel", "Unknown channel"),
+            "type": "Music Video",
+            "release_date": str(video.get("published_at", ""))[:10],
+            "url": video.get("url") or f"https://www.youtube.com/watch?v={video_id}",
+            "image": video.get("thumbnail", ""),
+        }
+    template_path = settings.root / "history_template.html"
+    if not template_path.exists():
+        template_path = Path(__file__).with_name("history_template.html")
+    script_json = lambda value: json.dumps(value, ensure_ascii=False).replace("</", "<\\/")
+    return (
+        template_path.read_text(encoding="utf-8")
+        .replace("__TITLE__", html.escape(settings.feed_title))
+        .replace("__UPDATED__", html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")))
+        .replace("__REPOSITORY_JSON__", script_json(os.environ.get("GITHUB_REPOSITORY", "")))
+        .replace("__RATINGS_JSON__", script_json(ratings))
+        .replace("__CATALOG_JSON__", script_json(catalog))
     )
 
 
@@ -1190,6 +1252,7 @@ def run_check(
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
+    (settings.output_dir / "history.html").write_text(make_history_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
@@ -1219,6 +1282,7 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
+    (settings.output_dir / "history.html").write_text(make_history_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     return len(visible)

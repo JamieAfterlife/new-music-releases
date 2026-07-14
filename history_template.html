@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listening history · __TITLE__</title>
+  <style>
+    :root { color-scheme: dark; --brand:#1ed760; --black:#050505; --panel:#171717; --panel-hover:#202020; --line:#303030; --text:#f5f5f5; --muted:#a8a8a8; --bad:#f17b61; --gold:#ffd166; }
+    :root[data-theme="youtube"] { --brand:#ff304f; --black:#050000; --panel:#160d0f; --panel-hover:#211114; --line:#402126; }
+    :root[data-theme="purple"] { --brand:#ad7aff; --black:#050307; --panel:#130f19; --panel-hover:#1c1525; --line:#38284a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--black); color:var(--text); font:15px/1.45 Inter,system-ui,sans-serif; }
+    button,input,select { font:inherit; }
+    a { color:var(--brand); }
+    .shell { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:70px 0 110px; }
+    .eyebrow { margin:0 0 8px; color:var(--brand); font-size:.75rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    h1 { margin:0; font-size:clamp(2.5rem,7vw,4.2rem); line-height:.96; letter-spacing:-.055em; }
+    .meta { margin:8px 0 0; color:var(--muted); }
+    nav { margin-top:18px; color:var(--muted); }
+    nav a { font-weight:700; text-decoration:none; }
+    .connection,.toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:28px; padding:16px; background:var(--panel); border:1px solid var(--line); border-radius:6px; }
+    .connection input { min-width:190px; flex:1; padding:11px 12px; color:var(--text); background:#242424; border:1px solid #3b3b3b; border-radius:4px; }
+    .button,.filter { padding:10px 14px; color:#07140b; background:var(--brand); border:0; border-radius:999px; cursor:pointer; font-weight:800; }
+    .button--quiet,.filter { color:var(--text); background:#252525; border:1px solid #3b3b3b; }
+    .filter[aria-pressed="true"] { color:#07140b; background:var(--brand); border-color:var(--brand); }
+    .button:disabled { cursor:not-allowed; opacity:.45; }
+    #status { flex-basis:100%; margin:0; color:var(--muted); }
+    #status[data-kind="error"] { color:var(--bad); } #status[data-kind="success"] { color:var(--brand); }
+    .toolbar { background:transparent; border:0; padding:0; }
+    .toolbar input,.toolbar select { min-height:42px; padding:9px 11px; color:var(--text); background:#242424; border:1px solid #3b3b3b; border-radius:4px; }
+    .toolbar input { flex:1; min-width:220px; }
+    .count { margin-left:auto; color:var(--muted); font-weight:700; }
+    .history { display:grid; gap:12px; margin-top:24px; }
+    .item { display:grid; grid-template-columns:82px minmax(0,1fr) auto; gap:16px; align-items:center; padding:14px; background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--accent,var(--brand)); border-radius:5px; }
+    .item:hover { background:var(--panel-hover); }
+    .cover { width:82px; height:82px; object-fit:cover; background:#222; border-radius:4px; }
+    .type { color:var(--accent,var(--brand)); font-size:.72rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+    .title { display:block; width:fit-content; margin-top:4px; color:var(--text); font-size:1.1rem; font-weight:800; text-decoration:none; }
+    .artist,.dates { color:var(--muted); } .dates { margin-top:5px; font-size:.82rem; }
+    .stars { display:flex; align-items:center; gap:2px; }
+    .star { padding:1px; color:#525252; background:transparent; border:0; cursor:pointer; font-size:1.35rem; line-height:1; }
+    .item[data-sentiment="liked"] .star--selected { color:var(--brand); }
+    .item[data-sentiment="disliked"] .star--selected { color:var(--bad); }
+    .star:hover { color:var(--gold); }
+    .remove { display:block; margin:9px auto 0; padding:0; color:var(--muted); background:none; border:0; cursor:pointer; font-size:.75rem; text-decoration:underline; }
+    .empty { margin:70px 0; color:var(--muted); text-align:center; }
+    .savebar { position:fixed; right:0; bottom:0; left:0; z-index:3; display:flex; justify-content:center; gap:18px; align-items:center; padding:12px 18px; background:#101010ed; border-top:1px solid var(--line); backdrop-filter:blur(12px); }
+    .savebar p { margin:0; color:var(--muted); }
+    @media(max-width:700px) { .shell{padding-top:38px}.item{grid-template-columns:64px minmax(0,1fr)}.cover{width:64px;height:64px}.rating-actions{grid-column:1/-1}.stars{justify-content:flex-start}.remove{display:inline;margin:0 0 0 12px}.count{width:100%;margin:0}.savebar{justify-content:space-between} }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <p class="eyebrow">Your listening log</p>
+    <h1>History</h1>
+    <p class="meta">Rate something 1–5 stars. Four and five stars are likes; one to three are dislikes. Updated __UPDATED__.</p>
+    <nav><a href="index.html">← Releases</a> · <a href="videos.html">Music videos</a> · <a href="manage.html">Manage tracked artists</a></nav>
+
+    <section class="connection" aria-label="GitHub connection">
+      <input id="repository" autocomplete="off" spellcheck="false" placeholder="owner/repository" aria-label="GitHub repository">
+      <input id="token" type="password" autocomplete="off" placeholder="Fine-grained GitHub token" aria-label="GitHub token">
+      <input id="unlock-password" type="password" autocomplete="current-password" placeholder="Unlock password" aria-label="Unlock password">
+      <button id="connect" class="button">Connect to save</button>
+      <button id="forget-token" class="button button--quiet">Forget saved token</button>
+      <p id="status">Connect once per visit to sync ratings across your devices.</p>
+    </section>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search artists or releases…" aria-label="Search listening history">
+      <button class="filter" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" data-filter="liked" aria-pressed="false">Liked</button>
+      <button class="filter" data-filter="disliked" aria-pressed="false">Disliked</button>
+      <button class="filter" data-filter="unrated" aria-pressed="false">Rate new</button>
+      <select id="type" aria-label="Filter by type"><option value="">All types</option></select>
+      <select id="order" aria-label="Sort history"><option value="release">Newest release</option><option value="rated">Recently rated</option><option value="artist">Artist name</option></select>
+      <span id="count" class="count"></span>
+    </div>
+    <div id="history" class="history"></div>
+    <p id="empty" class="empty">Nothing rated here yet. Use the stars on the release page to start your history.</p>
+  </main>
+  <div class="savebar"><p id="changes">No unsaved ratings.</p><button id="save" class="button" disabled>Save ratings</button></div>
+  <script>
+    const embedded={repository:__REPOSITORY_JSON__,ratings:__RATINGS_JSON__,catalog:__CATALOG_JSON__};
+    const el=id=>document.getElementById(id),catalog=new Map(Object.entries(embedded.catalog||{})),pending=new Map();
+    let ratings=structuredClone(embedded.ratings||{ratings:{}}),connected=false,activeToken='',branch='main',savedConnection=null,activeFilter='all';
+    ratings.ratings=ratings.ratings||{};
+    const connectionKey=`new-music-tracker:github:${location.pathname.split('/').filter(Boolean)[0]||'site'}`;
+    try{savedConnection=JSON.parse(localStorage.getItem(connectionKey)||'null');}catch{savedConnection=null;}
+    el('repository').value=savedConnection?.repository||embedded.repository;el('forget-token').hidden=!savedConnection?.ciphertext;
+    try{const theme=localStorage.getItem('release-theme')||'default';if(theme!=='default')document.documentElement.dataset.theme=theme;}catch{}
+    function setStatus(text,kind=''){el('status').textContent=text;el('status').dataset.kind=kind;}
+    function snapshot(id,record={}){return {...(catalog.get(id)||{}),...record,id};}
+    function sentiment(value){return value>=4?'liked':'disliked';}
+    function formatDate(value){if(!value)return 'Unknown date';const date=new Date(`${String(value).slice(0,10)}T00:00:00`);return Number.isNaN(date.valueOf())?value:date.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}
+    function markChanged(){el('changes').textContent=connected?'Ratings are ready to save.':'Ratings are ready; connect to GitHub to save.';el('save').disabled=!connected;render();}
+    function setRating(id,value){const source=snapshot(id,ratings.ratings[id]);if(!source.title)return;const record={...source,rating:value,rated_at:new Date().toISOString()};ratings.ratings[id]=record;pending.set(id,record);markChanged();}
+    function removeRating(id){delete ratings.ratings[id];pending.set(id,null);markChanged();}
+    function render(){
+      const query=el('search').value.trim().toLocaleLowerCase(),type=el('type').value,order=el('order').value;
+      let items=activeFilter==='unrated'?[...catalog.entries()].filter(([id])=>!ratings.ratings[id]).map(([id,record])=>snapshot(id,record)):Object.entries(ratings.ratings).map(([id,record])=>snapshot(id,record)).filter(item=>Number(item.rating)>=1&&Number(item.rating)<=5);
+      const types=[...new Set(items.map(item=>item.type).filter(Boolean))].sort();const previousType=el('type').value;
+      el('type').replaceChildren(new Option('All types',''),...types.map(value=>new Option(value,value)));const selectedType=types.includes(previousType)?previousType:'';el('type').value=selectedType;
+      items=items.filter(item=>(activeFilter==='all'||activeFilter==='unrated'||sentiment(Number(item.rating))===activeFilter)&&(!selectedType||item.type===selectedType)&&(!query||`${item.artist} ${item.title}`.toLocaleLowerCase().includes(query)));
+      items.sort((a,b)=>order==='rated'?String(b.rated_at||'').localeCompare(String(a.rated_at||'')):order==='artist'?String(a.artist||'').localeCompare(String(b.artist||''))||String(a.title||'').localeCompare(String(b.title||'')):String(b.release_date||'').localeCompare(String(a.release_date||'')));
+      el('history').replaceChildren();
+      for(const item of items){const card=document.createElement('article');card.className='item';card.dataset.sentiment=item.rating?sentiment(Number(item.rating)):'unrated';
+        const image=document.createElement('img');image.className='cover';image.src=item.image||'';image.alt='';image.loading='lazy';
+        const copy=document.createElement('div'),typeLabel=document.createElement('div');typeLabel.className='type';typeLabel.textContent=item.type||'Release';const title=document.createElement('a');title.className='title';title.href=item.url||'#';title.target='_blank';title.rel='noopener';title.textContent=item.title||'Untitled';const artist=document.createElement('div');artist.className='artist';artist.textContent=item.artist||'Unknown artist';const dates=document.createElement('div');dates.className='dates';dates.textContent=item.rating?`Released ${formatDate(item.release_date)} · Rated ${formatDate(item.rated_at)}`:`Released ${formatDate(item.release_date)}`;copy.append(typeLabel,title,artist,dates);
+        const actions=document.createElement('div');actions.className='rating-actions';const stars=document.createElement('div');stars.className='stars';stars.setAttribute('aria-label',item.rating?`${item.rating} out of 5 stars`:'Not rated');for(let number=1;number<=5;number++){const star=document.createElement('button');star.className=`star${number<=item.rating?' star--selected':''}`;star.textContent='★';star.title=`Rate ${number} out of 5`;star.setAttribute('aria-label',star.title);star.addEventListener('click',()=>setRating(item.id,number));stars.append(star);}actions.append(stars);if(item.rating){const remove=document.createElement('button');remove.className='remove';remove.textContent='Remove';remove.addEventListener('click',()=>removeRating(item.id));actions.append(remove);}card.append(image,copy,actions);el('history').append(card);}
+      el('count').textContent=`${items.length} item${items.length===1?'':'s'}`;el('empty').textContent=activeFilter==='unrated'?'No unrated recent items match those filters.':'Nothing rated here yet. Use the stars on the release page or Rate new to start your history.';el('empty').hidden=items.length>0;
+    }
+    function toBase64(bytes){let binary='';for(const value of bytes)binary+=String.fromCharCode(value);return btoa(binary);}function fromBase64(value){return Uint8Array.from(atob(value),character=>character.charCodeAt(0));}
+    async function deriveConnectionKey(password,salt){const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+    async function encryptConnection(token,password,repository){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveConnectionKey(password,salt),ciphertext=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(token));return{version:1,repository,salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(new Uint8Array(ciphertext))};}
+    async function decryptConnection(saved,password){const key=await deriveConnectionKey(password,fromBase64(saved.salt)),clear=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromBase64(saved.iv)},key,fromBase64(saved.ciphertext));return new TextDecoder().decode(clear);}
+    function authHeaders(){return{Accept:'application/vnd.github+json',Authorization:`Bearer ${activeToken}`,'X-GitHub-Api-Version':'2022-11-28'};}
+    async function github(path,options={}){const response=await fetch(`https://api.github.com/repos/${el('repository').value.trim()}${path}`,{...options,headers:{...authHeaders(),...(options.headers||{})}}),body=await response.json().catch(()=>({}));if(!response.ok)throw new Error(body.message||`GitHub returned ${response.status}`);return body;}
+    async function remoteRatings(){try{const file=await github(`/contents/ratings.json?ref=${encodeURIComponent(branch)}`),text=new TextDecoder().decode(fromBase64(file.content.replace(/\s/g,'')));return{value:JSON.parse(text),sha:file.sha};}catch(error){if(String(error.message).includes('Not Found'))return{value:{ratings:{}},sha:null};throw error;}}
+    async function connect(){const repository=el('repository').value.trim(),enteredToken=el('token').value.trim(),password=el('unlock-password').value;if(!repository){setStatus('Enter the repository first.','error');return;}let token=enteredToken,encrypted=null;if(!token&&savedConnection?.ciphertext){if(!password){setStatus('Enter your unlock password.','error');return;}try{token=await decryptConnection(savedConnection,password);}catch{setStatus('That unlock password is incorrect.','error');return;}}else if(!token){setStatus('Enter the GitHub token first.','error');return;}if(enteredToken&&password){if(password.length<8){setStatus('Use at least 8 characters for the unlock password.','error');return;}encrypted=await encryptConnection(token,password,repository);}activeToken=token;el('connect').disabled=true;setStatus('Connecting…');try{const repo=await github('');branch=repo.default_branch||'main';connected=true;let stored=!!savedConnection?.ciphertext;if(encrypted){try{localStorage.setItem(connectionKey,JSON.stringify(encrypted));savedConnection=encrypted;stored=true;}catch{stored=false;}}el('token').value='';el('unlock-password').value='';el('forget-token').hidden=!stored;el('save').disabled=pending.size===0;setStatus(stored?`Connected to ${repository}. Your encrypted token is saved on this device.`:`Connected to ${repository} for this tab.`,'success');}catch(error){connected=false;activeToken='';setStatus(`Could not connect: ${error.message}`,'error');}finally{el('connect').disabled=false;}}
+    async function save(){if(!connected||!pending.size)return;el('save').disabled=true;setStatus('Saving ratings…');try{const remote=await remoteRatings(),merged=remote.value&&typeof remote.value==='object'?remote.value:{ratings:{}};merged.ratings=merged.ratings||{};for(const[id,value]of pending){if(value)merged.ratings[id]=value;else delete merged.ratings[id];}const bytes=new TextEncoder().encode(`${JSON.stringify(merged,null,2)}\n`),body={message:'Update listening history [quick rebuild]',content:toBase64(bytes),branch};if(remote.sha)body.sha=remote.sha;await github('/contents/ratings.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});ratings=merged;pending.clear();el('changes').textContent='Ratings saved. The public history will refresh shortly.';setStatus('Listening history synced through GitHub.','success');render();}catch(error){setStatus(`Could not save: ${error.message}`,'error');el('save').disabled=false;}}
+    document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{activeFilter=button.dataset.filter;document.querySelectorAll('.filter').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));render();}));
+    el('search').addEventListener('input',render);el('type').addEventListener('change',render);el('order').addEventListener('change',render);el('connect').addEventListener('click',connect);el('save').addEventListener('click',save);el('forget-token').addEventListener('click',()=>{try{localStorage.removeItem(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('forget-token').hidden=true;el('save').disabled=true;setStatus('Encrypted token removed from this device.','success');});
+    const params=new URLSearchParams(location.search),requested=params.get('rate'),stars=Number(params.get('stars'));if(requested&&catalog.has(requested)&&stars>=1&&stars<=5){setRating(requested,stars);window.history.replaceState({},'',location.pathname);}render();
+  </script>
+</body>
+</html>

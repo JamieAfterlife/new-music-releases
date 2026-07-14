@@ -20,6 +20,7 @@ from music_release_tracker import (
     is_various_artists,
     make_rss,
     make_html,
+    make_history_html,
     make_manage_html,
     main,
     import_csv,
@@ -446,6 +447,7 @@ class TrackerTests(unittest.TestCase):
             self.assertEqual((len(second[0]), second[1]), (0, 1))
             self.assertTrue((root / "public/feed.xml").exists())
             self.assertTrue((root / "public/index.html").exists())
+            self.assertTrue((root / "public/history.html").exists())
 
     def test_primary_credit_wins_when_appearance_search_overlaps(self):
         class OverlappingMusicBrainz(FakeMusicBrainz):
@@ -614,6 +616,33 @@ class TrackerTests(unittest.TestCase):
             self.assertIn("manage.html?hide_video=video-id", page)
             self.assertIn("youtube:video:video-id", xml)
             self.assertIn("(Music Video)", xml)
+
+    def test_ratings_link_feed_items_to_synced_listening_history(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            release = normalize_release(group(), ARTIST)
+            release.update({"links": {}, "first_seen": "2026-07-14T00:00:00+00:00"})
+            rating_id = f'release:{release["id"]}'
+            (root / "ratings.json").write_text(json.dumps({"ratings": {
+                rating_id: {"rating": 5, "rated_at": "2026-07-15T01:00:00Z"}
+            }}), encoding="utf-8")
+            settings = Settings(root=root)
+            generated = dt.datetime(2026, 7, 15, 2, tzinfo=dt.timezone.utc)
+            page = make_html(settings, [release], generated)
+            history = make_history_html(settings, [release], generated)
+            self.assertIn('data-rating="5"', page)
+            self.assertIn("history.html?rate=release%3A", page)
+            self.assertIn("Listening history", page)
+            self.assertIn("Liked", history)
+            self.assertIn("Disliked", history)
+            self.assertIn("Newest release", history)
+            self.assertIn(rating_id, history)
+            self.assertIn(release["date"], history)
+            upcoming = {**release, "id": "future-release", "upcoming": True, "date": "2026-08-01"}
+            upcoming_page = make_html(settings, [upcoming], generated)
+            upcoming_history = make_history_html(settings, [upcoming], generated)
+            self.assertNotIn("release%3Afuture-release", upcoming_page)
+            self.assertNotIn('"release:future-release"', upcoming_history)
 
     def test_daily_digest_starts_with_today_then_yesterday(self):
         settings = Settings(root=Path("."), timezone="UTC", site_url="https://example.test")

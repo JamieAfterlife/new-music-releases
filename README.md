@@ -6,6 +6,7 @@ A free, automation-first tracker for music released by artists you care about. I
 
 - Checks a MusicBrainz artist watchlist for recent releases.
 - Preserves release history and never notifies twice for the same release group.
+- Adds a GitHub-synced listening history with 1–5 star ratings. Ratings of 4–5 are likes and 1–3 are dislikes.
 - Uses MusicBrainz's native Album, Single, EP, and Live classifications.
 - Includes credited appearances, while excluding releases credited to Various Artists by default.
 - Links to exact Spotify, YouTube, or YouTube Music pages when MusicBrainz contains those relationships.
@@ -137,6 +138,8 @@ Saving requires a fine-grained GitHub token limited to the tracker repository wi
 The management page saves the artist list, blacklist, and site settings together in one GitHub update. Removing artists or changing display settings performs a quick rebuild from saved release data. Newly added or re-enabled artists are scanned on their own; the full watchlist scan is reserved for the scheduled 12-hour check or a manual workflow run.
 
 The management page also edits the site title and timezone. It can mute or restore individual releases without blocking their artists, export/import a settings backup with no credentials, and choose a green, YouTube-red, or black/purple theme for the current device. If Last.fm supplies a name that cannot be matched reliably, **Artist name fixes** shows it for review and remembers the chosen MusicBrainz artist for every future import. **Start fresh** clears the inherited watchlist, artist blacklist, and saved name fixes, which makes a fork ready for a different listener without requiring Last.fm.
+
+Use the stars beneath a release or music video to add it to **Listening history**. The history page shows both the release date and the date rated, and can filter likes, dislikes, item types, and searches. Ratings are saved in `ratings.json` through the same encrypted GitHub connection used by the management page, so they remain consistent across devices after the site rebuilds.
 
 It can also enable GitHub Issue notifications. When a scheduled check finds released music, the workflow creates one issue containing the release types and Spotify, YouTube Music, and YouTube links. To receive these through email or GitHub Mobile, watch the repository and select **Custom → Issues**. RSS remains available independently.
 

@@ -10,7 +10,7 @@
     @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){.shell{padding:26px 13px 60px}.top{display:block}.top nav{margin-top:14px}.grid{grid-template-columns:1fr}}
   </style>
 </head>
-<body><main class="shell"><header class="top"><div><p class="eyebrow">Release radar</p><h1>Music videos</h1><p class="meta"><span id="count">__COUNT__</span> official video(s) from tracked channels</p></div><nav><a href="index.html">Releases</a> · <a href="manage.html">Manage</a></nav></header><div class="tools"><input id="search" type="search" placeholder="Search videos, artists or channels" aria-label="Search videos"></div><div id="videos" class="grid">__VIDEOS__</div><div id="empty" class="empty" hidden>No music videos match that search.</div></main>
+<body><main class="shell"><header class="top"><div><p class="eyebrow">Release radar</p><h1>Music videos</h1><p class="meta"><span id="count">__COUNT__</span> official video(s) from tracked channels</p></div><nav><a href="index.html">Releases</a> · <a href="history.html">History</a> · <a href="manage.html">Manage</a></nav></header><div class="tools"><input id="search" type="search" placeholder="Search videos, artists or channels" aria-label="Search videos"></div><div id="videos" class="grid">__VIDEOS__</div><div id="empty" class="empty" hidden>No music videos match that search.</div></main>
 <script>
   const search=document.querySelector('#search'),cards=[...document.querySelectorAll('.video')],empty=document.querySelector('#empty'),count=document.querySelector('#count');
   try{const theme=localStorage.getItem('release-theme');if(theme&&theme!=='default')document.documentElement.dataset.theme=theme}catch{}
