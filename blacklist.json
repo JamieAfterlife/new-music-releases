@@ -1,6 +1,30 @@
 {
-  "artists": [],
-  "artist_mbids": [],
+  "artists": [
+    "Elwood Stray",
+    "Fit For A King",
+    "Gaerea",
+    "Good Charlotte",
+    "Lionheart",
+    "LOCKED SHUT",
+    "Obscura",
+    "Playlunch",
+    "Scro",
+    "Veaux",
+    "Yellowcard"
+  ],
+  "artist_mbids": [
+    "951a944e-b471-4ab4-968a-084d575a88be",
+    "6eaab7b4-f2cb-4c80-9b36-7e7d5c2fa8c5",
+    "cc220a20-9cd4-4dc2-9164-dadd2bb85467",
+    "b267ca80-034e-4dc1-9ed4-ec45f1fed41d",
+    "2ea5d465-fc1b-4517-b4d7-c58a0bdacc7c",
+    "d5e5a50d-6229-4dee-84bc-a48320932311",
+    "f002e30d-401c-44b1-82e0-d6796870594d",
+    "b43ce7d2-1c0d-4451-879a-f6d4897a4d9a",
+    "e1d264cc-ded8-4bfe-8c9e-d9dab41df26d",
+    "1b282634-fb63-4027-9d00-79ef721190c0",
+    "3630fff3-52fc-4e97-ab01-d68fd88e4135"
+  ],
   "release_ids": [],
   "title_contains": []
 }
