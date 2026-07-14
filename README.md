@@ -179,6 +179,8 @@ Your page and RSS feed will then be available at the Pages URL. The workflow cac
 
 ## Optional official music videos
 
+Published videos appear in date order on the main page and in the standard RSS feed alongside albums, EPs, singles, and features. Auto-generated `- Topic` channels are ignored. Use **Hide** on any published video to remove teasers or other mistakes from every public view; hidden videos remain available under **Manage → Hidden videos** so they can be restored later.
+
 The **Music videos** page scans the upload playlists of confirmed YouTube channels. The tracker automatically searches for channels belonging to tracked artists in quota-safe batches of up to 40, then shows its best result under **Manage → Suggested channels** for confirmation. This gradually covers a large library without trusting a similarly named channel blindly. Artist and personal channels need one or more mapped artist names; label channels can match against the entire tracked-artist list. Strong titles such as **Official Music Video**, **Official Video**, or **Music Live Video** publish automatically when the artist match is reliable. Uncertain candidates appear in **Manage → Video review queue** for approval or permanent rejection.
 
 1. In Google Cloud, create or select a project and enable **YouTube Data API v3**.

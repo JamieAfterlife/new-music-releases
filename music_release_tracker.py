@@ -692,6 +692,7 @@ def make_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.d
             channel, "{http://www.w3.org/2005/Atom}link",
             {"href": settings.site_url.rstrip("/") + "/feed.xml", "rel": "self", "type": "application/rss+xml"},
         )
+    item_dates: dict[int, dt.datetime] = {}
     for release in releases[: settings.max_feed_items]:
         item = ET.SubElement(channel, "item")
         label = display_release_type(release) + (" · Live" if release["live"] else "") + (" · Upcoming" if release.get("upcoming") else "")
@@ -709,8 +710,39 @@ def make_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.d
             else parse_date(release["date"])
         )
         ET.SubElement(item, "pubDate").text = format_datetime(pub)
+        item_dates[id(item)] = pub
         desc = release_description(release)
         ET.SubElement(item, "description").text = desc
+    decisions = load_json(settings.root / "video_decisions.json", {"rejected": []})
+    rejected = set(decisions.get("rejected", []))
+    video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
+    for video_id, video in video_state.get("videos", {}).items():
+        if video_id in rejected or str(video.get("channel", "")).casefold().endswith(" - topic"):
+            continue
+        item = ET.SubElement(channel, "item")
+        artist = ", ".join(video.get("matched_artists", [])) or video.get("channel", "Unknown channel")
+        title = video.get("title", "Untitled video")
+        url = video.get("url") or f"https://www.youtube.com/watch?v={video_id}"
+        ET.SubElement(item, "title").text = f"{artist} â€” {title} (Music Video)"
+        ET.SubElement(item, "link").text = url
+        ET.SubElement(item, "guid", {"isPermaLink": "false"}).text = f"youtube:video:{video_id}"
+        if video.get("thumbnail"):
+            ET.SubElement(item, "{http://search.yahoo.com/mrss/}thumbnail", {"url": video["thumbnail"]})
+        try:
+            pub = dt.datetime.fromisoformat(str(video.get("published_at", "")).replace("Z", "+00:00"))
+        except ValueError:
+            pub = generated
+        ET.SubElement(item, "pubDate").text = format_datetime(pub)
+        item_dates[id(item)] = pub
+        ET.SubElement(item, "description").text = (
+            f'<p><strong>Music Video</strong> Â· {html.escape(video.get("channel", ""))}</p>'
+            f'<p><a href="{html.escape(url, quote=True)}">Watch on YouTube</a></p>'
+        )
+    items = list(channel.findall("item"))
+    for item in items:
+        channel.remove(item)
+    for item in sorted(items, key=lambda node: item_dates.get(id(node), generated), reverse=True):
+        channel.append(item)
     ET.indent(rss, space="  ")
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(rss, encoding="unicode") + "\n"
 
@@ -896,9 +928,24 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
     by_date: dict[str, list[dict[str, Any]]] = {}
     for release in selected:
         by_date.setdefault(release["date"], []).append(release)
+    video_decisions = load_json(settings.root / "video_decisions.json", {"rejected": []})
+    rejected_videos = set(video_decisions.get("rejected", []))
+    video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
+    videos = [
+        video for video_id, video in video_state.get("videos", {}).items()
+        if video_id not in rejected_videos and not str(video.get("channel", "")).casefold().endswith(" - topic")
+    ]
+    videos.sort(key=lambda video: video.get("published_at", ""), reverse=True)
+    videos_by_date: dict[str, list[dict[str, Any]]] = {}
+    for video in videos:
+        published_date = str(video.get("published_at", ""))[:10]
+        if DATE_RE.fullmatch(published_date):
+            videos_by_date.setdefault(published_date, []).append(video)
 
     groups: list[str] = []
-    for release_date, dated_releases in by_date.items():
+    dates = sorted({*by_date, *videos_by_date}, key=comparable_date, reverse=True)
+    for release_date in dates:
+        dated_releases = by_date.get(release_date, [])
         friendly = parse_date(release_date).strftime("%B %d").replace(" 0", " ")
         cards: list[str] = []
         for release in dated_releases:
@@ -949,10 +996,31 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 f'<a class="service service--mute" href="manage.html?mute={urllib.parse.quote(release["id"], safe="")}">Mute</a>'
                 '</div></div></article>'
             )
+        for video in videos_by_date.get(release_date, []):
+            artist = ", ".join(video.get("matched_artists", [])) or video.get("channel", "Unknown channel")
+            title = video.get("title", "Untitled video")
+            url = video.get("url") or f'https://www.youtube.com/watch?v={video.get("id", "")}'
+            thumbnail = video.get("thumbnail", "")
+            search_text = f"{artist} {title} {video.get('channel', '')} music video".casefold()
+            initials = "".join(word[0] for word in artist.split()[:2] if word) or "♪"
+            cards.append(
+                f'<article class="release release--video" data-type="video" data-live="false" data-feature="false" '
+                f'data-upcoming="false" data-rank="4" data-artist="{html.escape(artist.casefold(), quote=True)}" '
+                f'data-title="{html.escape(title.casefold(), quote=True)}" data-search="{html.escape(search_text, quote=True)}"><div class="cover">'
+                f'<span class="cover__fallback">{html.escape(initials[:2].upper())}</span>'
+                f'<img loading="lazy" src="{html.escape(thumbnail, quote=True)}" alt="" referrerpolicy="no-referrer"></div>'
+                '<div class="release__content"><div class="badges"><span class="badge badge--video">Music Video</span></div>'
+                f'<a class="release__title" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener">{html.escape(title)}</a>'
+                f'<div class="release__artist">{html.escape(artist)}</div><div class="release__match">{html.escape(video.get("channel", ""))}</div>'
+                '<div class="services">'
+                f'<a class="service" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
+                f'<a class="service service--mute" href="manage.html?hide_video={urllib.parse.quote(video.get("id", ""), safe="")}">Hide</a>'
+                '</div></div></article>'
+            )
         groups.append(
             f'<section class="release-day" data-date="{html.escape(comparable_date(release_date), quote=True)}">'
             f'<div class="release-day__date"><span>{html.escape(friendly)}</span>'
-            f'<small>{len(cards)} release{"s" if len(cards) != 1 else ""}</small></div>'
+            f'<small>{len(cards)} item{"s" if len(cards) != 1 else ""}</small></div>'
             f'<div class="release-grid">{"".join(cards)}</div></section>'
         )
 
@@ -966,7 +1034,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
             "__UPDATED__",
             html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")),
         )
-        .replace("__COUNT__", str(len(selected)))
+        .replace("__COUNT__", str(len(selected) + len(videos)))
         .replace("__GROUPS__", "".join(groups))
     )
 
@@ -995,6 +1063,11 @@ def make_manage_html(settings: Settings) -> str:
     video_review = load_json(settings.root / "data" / "video_review.json", {"videos": []})
     video_channel_review = load_json(settings.root / "data" / "video_channel_review.json", {"channels": []})
     video_decisions = load_json(settings.root / "video_decisions.json", {"approved": [], "rejected": []})
+    published_videos = [
+        video
+        for video in load_json(settings.root / "data" / "videos.json", {"videos": {}}).get("videos", {}).values()
+        if not str(video.get("channel", "")).casefold().endswith(" - topic")
+    ]
     state = load_json(settings.state_file, {"releases": {}})
     releases = [
         {
@@ -1025,6 +1098,7 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__VIDEO_REVIEW_JSON__", script_json(video_review))
         .replace("__VIDEO_CHANNEL_REVIEW_JSON__", script_json(video_channel_review))
         .replace("__VIDEO_DECISIONS_JSON__", script_json(video_decisions))
+        .replace("__PUBLISHED_VIDEOS_JSON__", script_json(published_videos))
     )
 
 

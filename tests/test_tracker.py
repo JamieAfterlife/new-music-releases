@@ -19,6 +19,7 @@ from music_release_tracker import (
     is_compilation_demo_appearance,
     is_various_artists,
     make_rss,
+    make_html,
     make_manage_html,
     main,
     import_csv,
@@ -592,6 +593,27 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("media:thumbnail", xml)
         self.assertIn("First Track", xml)
         self.assertIn("3:05", xml)
+
+    def test_music_video_appears_in_main_page_and_standard_rss(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "data").mkdir()
+            (root / "data" / "videos.json").write_text(json.dumps({"videos": {
+                "video-id": {
+                    "id": "video-id", "title": "Song (Official Music Video)", "channel": "Band",
+                    "published_at": "2026-07-14T08:00:00Z", "thumbnail": "https://example.test/video.jpg",
+                    "url": "https://www.youtube.com/watch?v=video-id", "matched_artists": ["Band"]
+                }
+            }}), encoding="utf-8")
+            settings = Settings(root=root, site_url="https://example.test")
+            generated = dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc)
+            page = make_html(settings, [], generated)
+            xml = make_rss(settings, [], generated)
+            self.assertIn('data-type="video"', page)
+            self.assertIn("Song (Official Music Video)", page)
+            self.assertIn("manage.html?hide_video=video-id", page)
+            self.assertIn("youtube:video:video-id", xml)
+            self.assertIn("(Music Video)", xml)
 
     def test_daily_digest_starts_with_today_then_yesterday(self):
         settings = Settings(root=Path("."), timezone="UTC", site_url="https://example.test")

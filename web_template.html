@@ -22,6 +22,7 @@
       --feature: #65c587;
       --live: #f17b61;
       --upcoming: #55c7e8;
+      --video: #ff4f64;
     }
     :root[data-theme="youtube"] { --brand: #ff304f; --black: #050000; --panel: #160d0f; --panel-hover: #211114; --line: #402126; }
     :root[data-theme="purple"] { --brand: #ad7aff; --black: #050307; --panel: #130f19; --panel-hover: #1c1525; --line: #38284a; }
@@ -59,6 +60,7 @@
     .release--ep { --accent: var(--ep); }
     .release--single { --accent: var(--single); }
     .release--feature { --accent: var(--feature); }
+    .release--video { --accent: var(--video); }
     .release:hover { background: var(--panel-hover); border-top-color: #303030; border-right-color: #303030; border-bottom-color: #303030; transform: translateY(-1px); }
     .cover { position: relative; width: 72px; height: 72px; overflow: hidden; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 35%, #111), #101010); border-radius: 3px; box-shadow: 0 5px 15px #000; }
     .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -71,6 +73,7 @@
     .badge--live { color: var(--live); }
     .badge--feature { color: var(--feature); }
     .badge--upcoming { color: var(--upcoming); }
+    .badge--video { color: var(--video); }
     .release__title { display: block; width: fit-content; max-width: 100%; overflow: hidden; color: var(--accent); font-size: 1.08rem; font-weight: 700; line-height: 1.2; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
     .release__title:hover { text-decoration: underline; }
     .release__artist { margin-top: 4px; overflow: hidden; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
@@ -120,6 +123,7 @@
         <button class="filter" data-filter="single" aria-pressed="false">Singles</button>
         <button class="filter" data-filter="live" aria-pressed="false">Live</button>
         <button class="filter" data-filter="feature" aria-pressed="false">Features</button>
+        <button class="filter" data-filter="video" aria-pressed="false">Music Videos</button>
         <button class="filter" data-filter="upcoming" aria-pressed="false">Upcoming</button>
         <label class="order" for="order">Order
           <select id="order">
@@ -194,7 +198,7 @@
         if (visible) shown += 1;
       });
       days.forEach(day => { day.hidden = ![...day.querySelectorAll('.release')].some(card => !card.hidden); });
-      count.textContent = `${shown} release${shown === 1 ? '' : 's'}`;
+      count.textContent = `${shown} item${shown === 1 ? '' : 's'}`;
       empty.style.display = shown ? 'none' : 'block';
     }
     search.addEventListener('input', applyFilters);
