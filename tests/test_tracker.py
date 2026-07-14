@@ -25,6 +25,7 @@ from music_release_tracker import (
     import_lastfm,
     comparable_date,
     display_time,
+    display_release_type,
     normalize_release,
     notification_markdown,
     release_description,
@@ -275,6 +276,8 @@ class TrackerTests(unittest.TestCase):
             def _search_all(self, entity, query, key):
                 self.assert_query = (entity, query, key)
                 return [{
+                    "id": "matched-recording",
+                    "title": "Matched Song",
                     "releases": [
                         {
                             "title": "Primary",
@@ -296,6 +299,17 @@ class TrackerTests(unittest.TestCase):
         )}
         self.assertFalse(groups["primary"]["appearance"])
         self.assertTrue(groups["appearance"]["appearance"])
+        self.assertEqual(groups["appearance"]["appearance_track_count"], 1)
+        appearance = normalize_release(groups["appearance"], ARTIST)
+        self.assertEqual(display_release_type(appearance), "Single")
+
+    def test_multi_track_appearance_keeps_album_type(self):
+        item = group()
+        item["primary-type"] = "Album"
+        item["appearance"] = True
+        item["appearance_track_count"] = 2
+        release = normalize_release(item, ARTIST)
+        self.assertEqual(display_release_type(release), "Album")
 
     def test_native_ep_and_live_classification(self):
         release = normalize_release(group(), ARTIST)

@@ -168,7 +168,20 @@ class MusicBrainz:
                     if isinstance(credit, dict)
                 }
                 release_artist_ids.discard(None)
-                item["appearance"] = not release_artist_ids or mbid not in release_artist_ids
+                is_appearance = not release_artist_ids or mbid not in release_artist_ids
+                existing = groups.get(rgid)
+                matched_recordings = set((existing or {}).get("_appearance_recording_ids", []))
+                recording_id = recording.get("id") or recording.get("title")
+                if recording_id:
+                    matched_recordings.add(str(recording_id))
+                if existing:
+                    item = {**existing, **item}
+                    # If any release-level route credits the watched artist,
+                    # the primary-discography result will win during deduping.
+                    is_appearance = bool(existing.get("appearance")) and is_appearance
+                item["appearance"] = is_appearance
+                item["_appearance_recording_ids"] = sorted(matched_recordings)
+                item["appearance_track_count"] = len(matched_recordings)
                 groups[rgid] = item
         return list(groups.values())
 
@@ -453,9 +466,21 @@ def normalize_release(group: dict[str, Any], watched: dict[str, Any]) -> dict[st
         "secondary_types": secondary,
         "live": "Live" in secondary,
         "appearance": bool(group.get("appearance")),
+        "appearance_track_count": group.get("appearance_track_count"),
         "musicbrainz": f"https://musicbrainz.org/release-group/{group['id']}",
         "links": {},
     }
+
+
+def display_release_type(release: dict[str, Any]) -> str:
+    """Describe a one-track guest appearance as the single contribution it is."""
+    try:
+        matched_tracks = int(release.get("appearance_track_count") or 0)
+    except (TypeError, ValueError):
+        matched_tracks = 0
+    if release.get("appearance") and matched_tracks == 1:
+        return "Single"
+    return str(release.get("type") or "Release")
 
 
 def is_various_artists(release: dict[str, Any]) -> bool:
@@ -576,7 +601,7 @@ def notification_markdown(releases: Iterable[dict[str, Any]]) -> str:
     rows = ["## New music releases", ""]
     for release in releases:
         links = {**fallback_links(release), **release.get("links", {})}
-        labels = [release.get("type", "Release")]
+        labels = [display_release_type(release)]
         if release.get("live"):
             labels.append("Live")
         if release.get("appearance"):
@@ -644,7 +669,7 @@ def make_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.d
         )
     for release in releases[: settings.max_feed_items]:
         item = ET.SubElement(channel, "item")
-        label = release["type"] + (" · Live" if release["live"] else "") + (" · Upcoming" if release.get("upcoming") else "")
+        label = display_release_type(release) + (" · Live" if release["live"] else "") + (" · Upcoming" if release.get("upcoming") else "")
         ET.SubElement(item, "title").text = f"{release['artist']} — {release['title']} ({label})"
         ET.SubElement(item, "link").text = release["links"].get("spotify", release["musicbrainz"])
         ET.SubElement(item, "guid", {"isPermaLink": "false"}).text = f"musicbrainz:release-group:{release['id']}"
@@ -693,7 +718,7 @@ def release_description(release: dict[str, Any]) -> str:
     rows = [
         f'<p><img src="{html.escape(cover_art_url(release), quote=True)}" width="250" height="250" '
         f'alt="Cover art for {html.escape(release["title"], quote=True)}"></p>',
-        f"<p><strong>{html.escape(release['type'])}</strong> · {html.escape(release['date'])}"
+        f"<p><strong>{html.escape(display_release_type(release))}</strong> · {html.escape(release['date'])}"
         + (" · Live" if release["live"] else "")
         + (" · Appearance" if release["appearance"] else "")
         + (" · Upcoming" if release.get("upcoming") else "") + "</p>",
@@ -744,7 +769,8 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
             spotify = links.get("spotify") or links["spotify_search"]
             youtube = links.get("youtube") or links["youtube_search"]
             youtube_music = links.get("youtube_music") or links["youtube_music_search"]
-            flags = [release["type"]]
+            shown_type = display_release_type(release)
+            flags = [shown_type]
             if release["live"]:
                 flags.append("Live")
             if release["appearance"]:
@@ -759,14 +785,14 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
             search_text = f'{release["artist"]} {release["title"]} {match_text} {" ".join(flags)}'.casefold()
             initials = "".join(word[0] for word in release["artist"].split()[:2] if word) or "♪"
             cover = f'https://coverartarchive.org/release-group/{release["id"]}/front-250'
-            type_class = "feature" if release["appearance"] else release["type"].casefold()
+            type_class = "feature" if release["appearance"] else shown_type.casefold()
             sort_rank = 3 if release["appearance"] else {
                 "album": 0,
                 "ep": 1,
                 "single": 2,
-            }.get(release["type"].casefold(), 4)
+            }.get(shown_type.casefold(), 4)
             cards.append(
-                f'<article class="release release--{html.escape(type_class)}" data-type="{html.escape(release["type"].casefold())}" '
+                f'<article class="release release--{html.escape(type_class)}" data-type="{html.escape(shown_type.casefold())}" '
                 f'data-live="{str(release["live"]).lower()}" data-feature="{str(release["appearance"]).lower()}" '
                 f'data-upcoming="{str(bool(release.get("upcoming"))).lower()}" '
                 f'data-rank="{sort_rank}" data-artist="{html.escape(release["artist"].casefold(), quote=True)}" '
@@ -1202,7 +1228,7 @@ def main(argv: list[str] | None = None) -> int:
         if new_releases:
             print(f"Found {len(new_releases)} new release(s):")
             for release in new_releases:
-                labels = [release["type"], *release["secondary_types"]]
+                labels = [display_release_type(release), *release["secondary_types"]]
                 links = {**fallback_links(release), **release["links"]}
                 print(f"- {release['artist']} — {release['title']} ({' · '.join(dict.fromkeys(labels))}) — {release['date']}")
                 print(f"  Spotify: {links.get('spotify') or links['spotify_search']}")
