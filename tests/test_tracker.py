@@ -181,6 +181,8 @@ class TrackerTests(unittest.TestCase):
         self.assertIn("ignored_sources", template)
         self.assertIn('details.card[open] > summary::after', template)
         self.assertIn('<summary class="summary"><div><h2>Video review queue</h2>', template)
+        self.assertIn('id="reject-all-videos"', template)
+        self.assertIn("Reject all ${pending.length} remaining video", template)
 
     def test_artist_name_fix_search_stays_in_its_own_section(self):
         template = Path("manage_template.html").read_text(encoding="utf-8")
