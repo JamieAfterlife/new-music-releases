@@ -20,6 +20,10 @@
     p { margin:8px 0 0; color:var(--muted); }
     a { color:var(--brand); font-weight:750; text-decoration:none; } a:hover { text-decoration:underline; }
     .card { margin-top:22px; padding:19px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
+    details.card > summary { list-style:none; cursor:pointer; }
+    details.card > summary::-webkit-details-marker { display:none; }
+    details.card > summary::after { margin-left:auto; color:var(--brand); font-size:1.4rem; font-weight:500; content:"+"; }
+    details.card[open] > summary::after { content:"−"; }
     .toolbar { display:grid; grid-template-columns:1fr auto; gap:9px; margin-top:15px; }
     .toolbar--manage { grid-template-columns:1fr auto auto; }
     .site-fields { display:grid; grid-template-columns:1.2fr 1fr; gap:12px; margin-top:15px; }
@@ -63,6 +67,7 @@
     .artist--blocked .artist__name { color:#aaa; }
     .results { display:grid; gap:7px; margin-top:13px; }
     .result { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; background:var(--raised); border:1px solid #292929; border-radius:6px; }
+    .result > .onboarding__actions { flex:none; margin-top:0; }
     .result__name { font-weight:720; }.result__meta { color:var(--muted); font-size:.76rem; }
     .empty { padding:30px; color:var(--muted); text-align:center; border:1px dashed #444; border-radius:6px; }
     details { margin-top:22px; padding:17px 19px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
@@ -82,8 +87,8 @@
       <nav><a href="index.html">← Releases</a> · <a href="history.html">Listening history</a> · <a href="videos.html">Music videos</a></nav>
     </header>
 
-    <section class="card">
-      <h2>Site details</h2><p>These settings keep the displayed time consistent wherever the tracker runs.</p>
+    <details class="card">
+      <summary class="summary"><div><h2>Site details</h2><p>These settings keep the displayed time consistent wherever the tracker runs.</p></div></summary>
       <div class="site-fields">
         <label class="field"><span>Feed title</span><input id="feed-title" maxlength="80" aria-label="Feed title"></label>
         <label class="field"><span>Timezone</span><input id="timezone" list="timezones" placeholder="Pacific/Auckland" aria-label="Timezone"></label>
@@ -94,7 +99,7 @@
       </div>
       <datalist id="timezones"><option value="Pacific/Auckland"><option value="Australia/Sydney"><option value="Asia/Tokyo"><option value="Europe/London"><option value="Europe/Berlin"><option value="America/New_York"><option value="America/Chicago"><option value="America/Denver"><option value="America/Los_Angeles"><option value="UTC"></datalist>
       <p>Automatic Last.fm imports also require a private GitHub Actions secret named <strong>LASTFM_API_KEY</strong>. Without it, manual artist management still works normally.</p>
-    </section>
+    </details>
 
     <section id="recent-onboarding" class="card onboarding" hidden>
       <p class="eyebrow">First-time setup</p>
@@ -111,27 +116,27 @@
       </div>
     </section>
 
-    <section class="card">
-      <div class="summary"><div><h2>Your artists</h2><p>Deselected artists are blocked from future imports too.</p></div><span id="count" class="count"></span></div>
+    <details class="card">
+      <summary class="summary"><div><h2>Your artists</h2><p>Deselected artists are blocked from future imports too.</p></div><span id="count" class="count"></span></summary>
       <div class="toolbar toolbar--manage"><input id="filter" type="search" placeholder="Find an artist in this list" aria-label="Filter artists"><button id="select-all" class="button button--quiet">Select all</button><button id="start-fresh" class="button button--danger">Start fresh</button></div>
       <div id="artists" class="artist-list"></div>
-    </section>
+    </details>
 
-    <section class="card">
-      <h2>Add an artist</h2><p>Search MusicBrainz and choose the correct person or band.</p>
+    <details class="card">
+      <summary class="summary"><div><h2>Add an artist</h2><p>Search MusicBrainz and choose the correct person or band.</p></div></summary>
       <div class="toolbar"><input id="query" type="search" placeholder="Artist name" aria-label="Artist name"><button id="search" class="button button--quiet">Search</button></div>
       <div id="results" class="results" aria-live="polite"></div>
-    </section>
+    </details>
 
-    <section class="card">
-      <div class="summary"><div><h2>Artist name fixes</h2><p>Match an unclear Last.fm name to the correct MusicBrainz artist once, then reuse that choice automatically.</p></div><span id="alias-count" class="count"></span></div>
+    <details class="card">
+      <summary class="summary"><div><h2>Artist name fixes</h2><p>Match an unclear Last.fm name, or ignore a release credit that is not a standalone artist.</p></div><span id="alias-count" class="count"></span></summary>
       <div class="toolbar"><input id="alias-source" type="text" placeholder="Last.fm artist name" aria-label="Last.fm artist name"><button id="find-alias" class="button button--quiet">Find match</button></div>
       <div id="alias-review" class="results"></div>
       <div id="aliases" class="results"></div>
-    </section>
+    </details>
 
-    <section class="card">
-      <div class="summary"><div><h2>Music video channels</h2><p>Track an artist, personal, or label channel by its YouTube handle. Mapped names limit a channel to videos that name those artists; separate multiple names with commas.</p></div><span id="video-source-count" class="count"></span></div>
+    <details class="card">
+      <summary class="summary"><div><h2>Music video channels</h2><p>Track an artist, personal, or label channel by its YouTube handle. Mapped names limit a channel to videos that name those artists; separate multiple names with commas.</p></div><span id="video-source-count" class="count"></span></summary>
       <div class="site-fields">
         <label class="field"><span>YouTube handle or channel ID</span><input id="video-handle" placeholder="@AlexTerrible" aria-label="YouTube handle or channel ID"></label>
         <label class="field"><span>Channel type</span><select id="video-kind"><option value="artist">Artist or personal channel</option><option value="label">Record-label channel</option></select></label>
@@ -142,18 +147,18 @@
       <div class="onboarding__review"><div class="summary"><div><h2>Suggested channels</h2><p>Automatic discovery checks your tracked artists in safe batches. Confirm the right channel before it is scanned.</p></div><span id="channel-review-count" class="count"></span></div><div id="channel-review" class="results"></div></div>
       <div class="onboarding__review"><div class="summary"><div><h2>Video review queue</h2><p>Approve uncertain matches or reject them permanently.</p></div><span id="video-review-count" class="count"></span></div><div id="video-review" class="results"></div></div>
       <div class="onboarding__review"><div class="summary"><div><h2>Hidden videos</h2><p>Restore a video that you previously hid from the website and RSS feed.</p></div><span id="hidden-video-count" class="count"></span></div><div id="hidden-videos" class="results"></div></div>
-    </section>
+    </details>
 
-    <section class="card">
-      <div class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></div>
+    <details class="card">
+      <summary class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></summary>
       <div id="muted-releases" class="results"></div>
-    </section>
+    </details>
 
-    <section class="card">
-      <h2>Backup and restore</h2><p>Download your artists, muted releases and site settings, or restore them on another copy of the tracker. GitHub tokens are never included.</p>
+    <details class="card">
+      <summary class="summary"><div><h2>Backup and restore</h2><p>Download your artists, muted releases and site settings, or restore them on another copy of the tracker. GitHub tokens are never included.</p></div></summary>
       <div class="onboarding__actions"><button id="export-backup" class="button button--quiet">Export backup</button><button id="import-backup" class="button button--quiet">Import backup</button><input id="backup-file" type="file" accept="application/json,.json" hidden></div>
       <div id="backup-status" class="notice" role="status"></div>
-    </section>
+    </details>
 
     <details id="connection">
       <summary>GitHub connection for saving</summary>
@@ -259,15 +264,17 @@
       search();el('query').scrollIntoView({behavior:'smooth',block:'center'});
     }
     function renderAliases() {
-      aliases.artist_aliases=aliases.artist_aliases||[];
+      aliases.artist_aliases=aliases.artist_aliases||[];aliases.ignored_sources=aliases.ignored_sources||[];
       const mapped=new Set(aliases.artist_aliases.map(record=>record.source_name.toLocaleLowerCase()));
-      const unresolved=(embedded.unresolved.artists||[]).filter(record=>!mapped.has(record.source_name.toLocaleLowerCase()));
-      el('alias-count').textContent=`${aliases.artist_aliases.length} saved`;
+      const ignored=new Set(aliases.ignored_sources.map(source=>source.toLocaleLowerCase()));
+      const unresolved=(embedded.unresolved.artists||[]).filter(record=>!mapped.has(record.source_name.toLocaleLowerCase())&&!ignored.has(record.source_name.toLocaleLowerCase()));
+      el('alias-count').textContent=`${aliases.artist_aliases.length} fixed · ${aliases.ignored_sources.length} ignored`;
       el('alias-review').replaceChildren();
-      for(const record of unresolved){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=record.source_name;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Needs a MusicBrainz match';copy.append(name,meta);const button=document.createElement('button');button.className='button button--small';button.textContent='Review';button.addEventListener('click',()=>beginAlias(record.source_name));row.append(copy,button);el('alias-review').append(row);}
+      for(const record of unresolved){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=record.source_name;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Needs a MusicBrainz match, or ignore it if this is a release credit';copy.append(name,meta);const actions=document.createElement('div');actions.className='onboarding__actions';const review=document.createElement('button');review.className='button button--small';review.textContent='Review';review.addEventListener('click',()=>beginAlias(record.source_name));const ignore=document.createElement('button');ignore.className='button button--quiet button--small';ignore.textContent='Ignore credit';ignore.addEventListener('click',()=>{if(!aliases.ignored_sources.some(source=>source.toLocaleLowerCase()===record.source_name.toLocaleLowerCase()))aliases.ignored_sources.push(record.source_name);markDirty();});actions.append(review,ignore);row.append(copy,actions);el('alias-review').append(row);}
       el('aliases').replaceChildren();
       for(const record of aliases.artist_aliases){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=`${record.source_name} → ${record.name}`;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Saved name fix';copy.append(name,meta);const button=document.createElement('button');button.className='button button--quiet button--small';button.textContent='Remove';button.addEventListener('click',()=>{aliases.artist_aliases=aliases.artist_aliases.filter(item=>item.source_name!==record.source_name);markDirty();});row.append(copy,button);el('aliases').append(row);}
-      if(!unresolved.length&&!aliases.artist_aliases.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No unresolved names or saved fixes.';el('aliases').append(empty);}
+      for(const source of aliases.ignored_sources){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=source;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Ignored Last.fm release credit';copy.append(name,meta);const button=document.createElement('button');button.className='button button--quiet button--small';button.textContent='Restore';button.addEventListener('click',()=>{aliases.ignored_sources=aliases.ignored_sources.filter(item=>item!==source);markDirty();});row.append(copy,button);el('aliases').append(row);}
+      if(!unresolved.length&&!aliases.artist_aliases.length&&!aliases.ignored_sources.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No unresolved names, saved fixes, or ignored credits.';el('aliases').append(empty);}
     }
     function renderVideoSettings() {
       videoSources.channels=videoSources.channels||[];videoDecisions.approved=videoDecisions.approved||[];videoDecisions.rejected=videoDecisions.rejected||[];videoDecisions.rejected_channels=videoDecisions.rejected_channels||[];
@@ -320,7 +327,7 @@
     el('select-all').addEventListener('click',() => { for(const artist of artists.values()) if(artist.mbid){artist.tracked=true;artist.record.manual_tracking=true;} markDirty(); });
     el('start-fresh').addEventListener('click',() => {
       if (!confirm('Start with an empty artist list? This removes every tracked and blocked artist when you save.')) return;
-      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases.artist_aliases=[];videoSources.channels=[];videoDecisions={approved:[],rejected:[]};
+      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases={artist_aliases:[],ignored_sources:[]};videoSources.channels=[];videoDecisions={approved:[],rejected:[]};
       el('feed-title').value='My new music';
       el('timezone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
       el('lastfm-username').value=''; el('lastfm-threshold').value='50';
@@ -331,7 +338,7 @@
     async function search() {
       const query=el('query').value.trim(); if(!query) return; el('search').disabled=true; el('results').textContent='Searching MusicBrainz…';
       try { const escaped=query.replace(/([\\"])/g,'\\$1'); const params=new URLSearchParams({query:`artist:"${escaped}"`,fmt:'json',limit:'8'}); const response=await fetch(`https://musicbrainz.org/ws/2/artist?${params}`,{headers:{Accept:'application/json'}}); if(!response.ok) throw new Error(`MusicBrainz returned ${response.status}`); const data=await response.json(); el('results').replaceChildren();
-        for(const item of data.artists||[]) { const row=document.createElement('div'); row.className='result'; const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=item.name; const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[item.type,item.country,item.disambiguation,item.score?`${item.score}% match`:null].filter(Boolean).join(' · '); copy.append(name,meta); const button=document.createElement('button'); button.className='button button--small'; const existing=artists.get(item.id); button.textContent=activeAliasSource?'Use match':existing?.tracked?'Added':'Add'; button.disabled=!activeAliasSource&&!!existing?.tracked; button.addEventListener('click',()=>{ const current=artists.get(item.id); if(current){current.tracked=true;current.record.manual_tracking=true;}else artists.set(item.id,{name:item.name,mbid:item.id,tracked:true,record:{name:item.name,mbid:item.id,manual_tracking:true}}); if(activeAliasSource){aliases.artist_aliases=(aliases.artist_aliases||[]).filter(record=>record.source_name.toLocaleLowerCase()!==activeAliasSource.toLocaleLowerCase());aliases.artist_aliases.push({source_name:activeAliasSource,name:item.name,mbid:item.id});activeAliasSource='';el('alias-source').value='';el('results').textContent='Name fix added. Save changes to use it during future Last.fm imports.';}else{button.textContent='Added';button.disabled=true;} markDirty(); }); row.append(copy,button); el('results').append(row); }
+        for(const item of data.artists||[]) { const row=document.createElement('div'); row.className='result'; const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=item.name; const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[item.type,item.country,item.disambiguation,item.score?`${item.score}% match`:null].filter(Boolean).join(' · '); copy.append(name,meta); const button=document.createElement('button'); button.className='button button--small'; const existing=artists.get(item.id); button.textContent=activeAliasSource?'Use match':existing?.tracked?'Added':'Add'; button.disabled=!activeAliasSource&&!!existing?.tracked; button.addEventListener('click',()=>{ const current=artists.get(item.id); if(current){current.tracked=true;current.record.manual_tracking=true;}else artists.set(item.id,{name:item.name,mbid:item.id,tracked:true,record:{name:item.name,mbid:item.id,manual_tracking:true}}); if(activeAliasSource){aliases.artist_aliases=(aliases.artist_aliases||[]).filter(record=>record.source_name.toLocaleLowerCase()!==activeAliasSource.toLocaleLowerCase());aliases.ignored_sources=(aliases.ignored_sources||[]).filter(source=>source.toLocaleLowerCase()!==activeAliasSource.toLocaleLowerCase());aliases.artist_aliases.push({source_name:activeAliasSource,name:item.name,mbid:item.id});activeAliasSource='';el('alias-source').value='';el('results').textContent='Name fix added. Save changes to use it during future Last.fm imports.';}else{button.textContent='Added';button.disabled=true;} markDirty(); }); row.append(copy,button); el('results').append(row); }
         if(!(data.artists||[]).length) el('results').textContent='No artists found.';
       } catch(error) { el('results').textContent=`Search failed: ${error.message}`; } finally { el('search').disabled=false; }
     }
@@ -381,7 +388,7 @@
       try {
         const backup=JSON.parse(await file.text());
         if(backup.version!==1||!Array.isArray(backup.watchlist?.artists)||typeof backup.blacklist!=='object'||typeof backup.site!=='object')throw new Error('This is not a valid tracker backup');
-        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[]});videoSources=structuredClone(backup.video_sources||{channels:[]});videoDecisions=structuredClone(backup.video_decisions||{approved:[],rejected:[]});
+        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[],ignored_sources:[]});videoSources=structuredClone(backup.video_sources||{channels:[]});videoDecisions=structuredClone(backup.video_decisions||{approved:[],rejected:[]});
         blacklist.release_ids=Array.isArray(blacklist.release_ids)?blacklist.release_ids:[];
         el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
         if(['default','youtube','purple'].includes(backup.theme)){el('theme').value=backup.theme;try{localStorage.setItem('release-theme',backup.theme);}catch{}applyTheme();}

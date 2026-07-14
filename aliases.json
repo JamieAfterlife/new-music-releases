@@ -1,3 +1,6 @@
 {
-  "artist_aliases": []
+  "artist_aliases": [],
+  "ignored_sources": [
+    "Poppy, Amy Lee & Courtney LaPlante"
+  ]
 }

@@ -328,9 +328,10 @@ def build_recent_lastfm_candidates(
     unresolved: list[str] = []
 
     aliases = lastfm_artist_aliases(settings)
+    ignored_sources = lastfm_ignored_sources(settings)
     for item in eligible:
         name = item.get("name", "").strip()
-        if not name or name in LASTFM_IGNORED_ARTISTS:
+        if not name or name in LASTFM_IGNORED_ARTISTS or name.casefold() in ignored_sources:
             continue
         mbid = item.get("mbid", "").strip()
         if name.casefold() in aliases:
@@ -381,9 +382,10 @@ def import_lastfm(
     blacklist = load_json(settings.blacklist_file, {})
 
     aliases = lastfm_artist_aliases(settings)
+    ignored_sources = lastfm_ignored_sources(settings)
     for item in eligible:
         name = item.get("name", "").strip()
-        if name in LASTFM_IGNORED_ARTISTS:
+        if name in LASTFM_IGNORED_ARTISTS or name.casefold() in ignored_sources:
             continue
         mbid = item.get("mbid", "").strip()
         if name.casefold() in aliases:
@@ -447,6 +449,16 @@ def lastfm_artist_aliases(settings: Settings) -> dict[str, tuple[str, str]]:
         if source and name and mbid:
             aliases[source.casefold()] = (name, mbid)
     return aliases
+
+
+def lastfm_ignored_sources(settings: Settings) -> set[str]:
+    """Return Last.fm credit strings the listener chose not to treat as artists."""
+    custom = load_json(settings.root / "aliases.json", {"ignored_sources": []})
+    return {
+        str(source).strip().casefold()
+        for source in custom.get("ignored_sources", [])
+        if str(source).strip()
+    }
 
 
 def save_lastfm_unresolved(settings: Settings, names: Iterable[str]) -> None:
@@ -1061,9 +1073,15 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
 def make_history_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.datetime) -> str:
     """Build the cross-device listening history and rating editor."""
     ratings = load_json(settings.root / "ratings.json", {"ratings": {}})
+    blacklist = load_json(settings.blacklist_file, {})
+    today = display_time(generated, settings.timezone).date().isoformat()
     catalog: dict[str, dict[str, Any]] = {}
     for release in releases:
-        if release.get("upcoming"):
+        if (
+            comparable_date(release.get("date", "")) > today
+            or is_compilation_demo_appearance(release)
+            or blacklist_reason(release, blacklist)
+        ):
             continue
         links = {**fallback_links(release), **release.get("links", {})}
         item_id = f'release:{release["id"]}'
@@ -1267,7 +1285,7 @@ def run_check(
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
-    (settings.output_dir / "history.html").write_text(make_history_html(settings, visible, now), encoding="utf-8")
+    (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
@@ -1297,7 +1315,7 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     (settings.output_dir / "feed.xml").write_text(make_rss(settings, released_visible, now), encoding="utf-8")
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
-    (settings.output_dir / "history.html").write_text(make_history_html(settings, visible, now), encoding="utf-8")
+    (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     return len(visible)

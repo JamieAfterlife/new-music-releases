@@ -81,7 +81,7 @@
     .services { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 9px; }
     .rating { display: flex; align-items: center; gap: 3px; margin-top: 9px; color: var(--muted); font-size: .72rem; font-weight: 700; text-transform: uppercase; }
     .rating__star { color: #535353; font-size: 1.1rem; line-height: 1; text-decoration: none; transition: color .15s, transform .15s; }
-    .rating__star:hover { color: #ffd166; transform: translateY(-1px); }
+    .rating__star:hover, .rating__star:has(~ .rating__star:hover) { color: #ffd166; transform: translateY(-1px); }
     .rating[data-rating="1"] .rating__star--selected, .rating[data-rating="2"] .rating__star--selected, .rating[data-rating="3"] .rating__star--selected { color: #f17b61; }
     .rating[data-rating="4"] .rating__star--selected, .rating[data-rating="5"] .rating__star--selected { color: var(--brand); }
     .service { color: #cfcfcf; font-size: .69rem; text-decoration: none; }
