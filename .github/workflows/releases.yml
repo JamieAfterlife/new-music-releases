@@ -51,14 +51,20 @@ jobs:
           fi
           changed_files="$(git diff --name-only "${{ github.event.before }}" HEAD)"
           sync_required=false
+          full_scan_required=false
           while IFS= read -r changed_file; do
             case "$changed_file" in
+              music_release_tracker.py|.github/workflows/releases.yml)
+                sync_required=true
+                full_scan_required=true
+                ;;
               artists.json|blacklist.json) ;;
               "") ;;
               *) sync_required=true ;;
             esac
           done <<< "$changed_files"
           echo "sync_required=$sync_required" >> "$GITHUB_OUTPUT"
+          echo "full_scan_required=$full_scan_required" >> "$GITHUB_OUTPUT"
       - name: Sync optional Last.fm library
         if: ${{ github.event_name != 'push' || steps.changes.outputs.sync_required == 'true' }}
         env:
@@ -79,14 +85,14 @@ jobs:
         run: |
           artist_mbids="$(python music_release_tracker.py changed-artists "$RUNNER_TEMP/music-tracker/previous-artists.json")"
           echo "mbids=$artist_mbids" >> "$GITHUB_OUTPUT"
-      - name: Run scheduled full scan
-        if: ${{ github.event_name != 'push' }}
+      - name: Run scheduled or required full scan
+        if: ${{ github.event_name != 'push' || steps.changes.outputs.full_scan_required == 'true' }}
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
         run: python music_release_tracker.py check --notification-file new-releases.md
       - name: Scan newly tracked artists
-        if: ${{ github.event_name == 'push' && steps.artists.outputs.mbids != '' }}
+        if: ${{ github.event_name == 'push' && steps.changes.outputs.full_scan_required != 'true' && steps.artists.outputs.mbids != '' }}
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
@@ -98,7 +104,7 @@ jobs:
             python music_release_tracker.py check
           fi
       - name: Quickly rebuild saved releases, or recover safely
-        if: ${{ github.event_name == 'push' && steps.artists.outputs.mbids == '' }}
+        if: ${{ github.event_name == 'push' && steps.changes.outputs.full_scan_required != 'true' && steps.artists.outputs.mbids == '' }}
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
