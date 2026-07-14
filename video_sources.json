@@ -63,6 +63,286 @@
         "Abörted Hitler Cöck"
       ],
       "enabled": true
+    },
+    {
+      "channel_id": "UCK9X9JACEsonjbqaewUtICA",
+      "kind": "artist",
+      "artist_names": [
+        "Alice in Chains"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC99gXrm2NHOlKVLuKIk6IGA",
+      "kind": "artist",
+      "artist_names": [
+        "Airbourne"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UClv9Un4KGvyDNrmi_Q7nKmw",
+      "kind": "artist",
+      "artist_names": [
+        "Alissa White‐Gluz"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCB6R4ceqzkFiNX6FjDNzuKw",
+      "kind": "artist",
+      "artist_names": [
+        "Alison Wonderland"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCZzZJcadWlszIvI7CmntVbA",
+      "kind": "artist",
+      "artist_names": [
+        "All That Remains"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCS8-ccff2oGbG0Mx7UOuKYw",
+      "kind": "artist",
+      "artist_names": [
+        "Amon Amarth"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCGMADPb_JkYgeMZJjgVAN6g",
+      "kind": "artist",
+      "artist_names": [
+        "Andrew W.K."
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCo3zX5T6uPPd6m1hcs3o1fg",
+      "kind": "artist",
+      "artist_names": [
+        "Angelmaker"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCdp-kaIi7YO2WmNQ-LafmpA",
+      "kind": "artist",
+      "artist_names": [
+        "Architects"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC-KTRBl9_6AX10-Y7IKwKdw",
+      "kind": "artist",
+      "artist_names": [
+        "Arctic Monkeys"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC05WaqA-0OLM5Y7NmmHq1hw",
+      "kind": "artist",
+      "artist_names": [
+        "As I Lay Dying"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC-MrZpsls4lqmSEgl3jKxxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Aversions Crown"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCUyZKV9kqbckP1CtcNJsz6A",
+      "kind": "artist",
+      "artist_names": [
+        "Aviana"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC33_tIj4m1_XaqfFcomShvw",
+      "kind": "artist",
+      "artist_names": [
+        "BABYMETAL"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCh1EDMjGjl91-R9L1Y6ydKQ",
+      "kind": "artist",
+      "artist_names": [
+        "Betraying the Martyrs"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCitCLzbYaHek0M0SM9ZyCew",
+      "kind": "artist",
+      "artist_names": [
+        "Bilmuri"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCrx-X329UKv0Y06VhfpFVvw",
+      "kind": "artist",
+      "artist_names": [
+        "Black Sabbath"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC6AmUA_ci-otvnkaEqGhASA",
+      "kind": "artist",
+      "artist_names": [
+        "Black Tongue"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCDdKEz8e7m5g-hXg42-HBQg",
+      "kind": "artist",
+      "artist_names": [
+        "Black Veil Brides"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCDSx-duwqAqiYvtD3cjnpSA",
+      "kind": "artist",
+      "artist_names": [
+        "Blanke"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC4xP2jDF7p_-VglbWXLqFAg",
+      "kind": "artist",
+      "artist_names": [
+        "Bleed from Within"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCdvlHk5SZWwr9HjUcwtu8ng",
+      "kind": "artist",
+      "artist_names": [
+        "blink‐182"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCrHiP_tOJ0aGeG9HGbOKHdw",
+      "kind": "artist",
+      "artist_names": [
+        "Borgore"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCWx2G9MJzAaIvQp2CPwq2-g",
+      "kind": "artist",
+      "artist_names": [
+        "Born of Osiris"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCWhD0VgQnYhb9ZcuLzE9RNw",
+      "kind": "artist",
+      "artist_names": [
+        "Bowling for Soup"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCUdInBsFb3TDQ27VKxXDtDg",
+      "kind": "artist",
+      "artist_names": [
+        "Brand of Sacrifice"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCnKEzZoCBtqwuJmM65VdCzQ",
+      "kind": "artist",
+      "artist_names": [
+        "BROJOB"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCNCYBBI44YViXw7vBrqCZcg",
+      "kind": "artist",
+      "artist_names": [
+        "Bullet for My Valentine"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCex8j-hd7QwiSIf7h3JMVjA",
+      "kind": "artist",
+      "artist_names": [
+        "Cattle Decapitation"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCS0TDNQROGNJbM_tcK9CR_w",
+      "kind": "artist",
+      "artist_names": [
+        "Carnifex"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCluKxTPWFCb1gs5lFq34Utw",
+      "kind": "artist",
+      "artist_names": [
+        "Cane Hill"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCRDAAwRszJt90FmM_A4-naQ",
+      "kind": "artist",
+      "artist_names": [
+        "Code Orange"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCddHnokkt592bK-gFjwoIyw",
+      "kind": "artist",
+      "artist_names": [
+        "Chelsea Grin"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC0L1UZsfCTUu15xPUoMkyfA",
+      "kind": "artist",
+      "artist_names": [
+        "coldrain"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UChkRHfQavQPQo2x5JkATA0w",
+      "kind": "artist",
+      "artist_names": [
+        "Combichrist"
+      ],
+      "enabled": true
     }
   ]
 }
