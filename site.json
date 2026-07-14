@@ -3,5 +3,6 @@
   "timezone": "Pacific/Auckland",
   "lastfm_username": "DeathbatAttack",
   "min_lastfm_scrobbles": 50,
-  "github_issue_notifications": false
+  "github_issue_notifications": false,
+  "lastfm_recent_reviewed": true
 }
