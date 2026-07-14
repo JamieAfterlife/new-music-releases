@@ -1,0 +1,62 @@
+name: Check new music
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        id: pages
+      - uses: actions/cache@v4
+        with:
+          path: data/state.json
+          key: music-state-${{ github.run_id }}
+          restore-keys: music-state-
+      - name: Sync optional Last.fm library
+        env:
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+        run: python music_release_tracker.py sync-lastfm
+      - name: Save imported artists
+        run: |
+          if ! git diff --quiet -- artists.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add artists.json
+            git commit -m "Sync artists from Last.fm"
+            git push
+          fi
+      - name: Generate feed
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+          MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
+        run: python music_release_tracker.py check --notification-file new-releases.md
+      - name: Notify through GitHub
+        if: ${{ hashFiles('new-releases.md') != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "New music releases" --body-file new-releases.md
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - uses: actions/deploy-pages@v4
+        id: deployment

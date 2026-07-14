@@ -1,0 +1,18 @@
+[tracker]
+feed_title = "My new music"
+timezone = "UTC"
+site_url = ""
+lookback_days = 45
+future_days = 90
+max_feed_items = 250
+exclude_various_artists = true
+include_appearances = true
+min_lastfm_scrobbles = 50
+watchlist = "artists.json"
+blacklist_file = "blacklist.json"
+state_file = "data/state.json"
+output_dir = "public"
+
+[musicbrainz]
+# MusicBrainz requires a meaningful User-Agent. Add an email or website here.
+contact = "your-email@example.com"

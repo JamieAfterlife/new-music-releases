@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>__TITLE__</title>
+  <link rel="alternate" type="application/rss+xml" href="feed.xml">
+  <style>
+    :root {
+      color-scheme: dark;
+      --green: #1db954;
+      --black: #000;
+      --panel: #121212;
+      --panel-hover: #191919;
+      --line: #292929;
+      --text: #f5f5f5;
+      --muted: #a7a7a7;
+      --album: #e0b766;
+      --ep: #62a8ea;
+      --single: #bc8edd;
+      --feature: #65c587;
+      --live: #f17b61;
+      --upcoming: #55c7e8;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--black); }
+    body { margin: 0; background: var(--black); color: var(--text); font: 15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    [hidden] { display: none !important; }
+    .shell { max-width: 1440px; margin: auto; padding: 0 28px 80px; }
+    .topbar { padding: 28px 0 20px; background: var(--black); border-bottom: 1px solid var(--line); }
+    .heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+    .eyebrow { margin: 0 0 6px; color: var(--green); font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2rem,5vw,3.6rem); line-height: .95; letter-spacing: -.045em; }
+    .meta { margin: 8px 0 0; color: var(--muted); }
+    .rss { color: var(--green); font-weight: 750; text-decoration: none; }
+    .rss:hover { text-decoration: underline; }
+    .toolbar { display: flex; align-items: center; gap: 9px; margin-top: 22px; padding-bottom: 2px; overflow-x: auto; }
+    .search { min-width: 230px; max-width: 380px; flex: 1; padding: 10px 14px; color: var(--text); background: #242424; border: 1px solid #3a3a3a; border-radius: 5px; outline: none; }
+    .search:focus { border-color: var(--text); }
+    .filter { padding: 9px 13px; color: #ddd; white-space: nowrap; cursor: pointer; background: #202020; border: 1px solid #3b3b3b; border-radius: 999px; }
+    .filter:hover { border-color: #777; }
+    .filter[aria-pressed="true"] { color: #000; font-weight: 750; background: var(--text); border-color: var(--text); }
+    .order { display: flex; align-items: center; gap: 7px; margin-left: 4px; color: var(--muted); white-space: nowrap; }
+    .order select { padding: 9px 28px 9px 11px; color: #ddd; cursor: pointer; background: #202020; border: 1px solid #3b3b3b; border-radius: 5px; outline: none; }
+    .order select:hover, .order select:focus { border-color: #777; }
+    .result-count { margin-left: auto; color: var(--muted); white-space: nowrap; }
+    .release-day { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 26px; padding-top: 30px; }
+    .release-day__date { position: sticky; top: 12px; height: max-content; padding-top: 8px; color: var(--muted); text-align: right; }
+    .release-day__date span { display: block; color: #ddd; font-size: 1.35rem; }
+    .release-day__date small { font-size: .72rem; }
+    .release-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 18px; }
+    .release { --accent: var(--single); display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 14px; align-items: center; min-width: 0; padding: 12px 12px 12px 10px; overflow: hidden; background: var(--panel); border: 1px solid transparent; border-left: 3px solid var(--accent); border-radius: 6px; transition: background .15s, border-color .15s, transform .15s; }
+    .release--album { --accent: var(--album); }
+    .release--ep { --accent: var(--ep); }
+    .release--single { --accent: var(--single); }
+    .release--feature { --accent: var(--feature); }
+    .release:hover { background: var(--panel-hover); border-top-color: #303030; border-right-color: #303030; border-bottom-color: #303030; transform: translateY(-1px); }
+    .cover { position: relative; width: 72px; height: 72px; overflow: hidden; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 35%, #111), #101010); border-radius: 3px; box-shadow: 0 5px 15px #000; }
+    .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cover img.is-missing { display: none; }
+    .cover__fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--accent); font-size: 1.15rem; font-weight: 850; letter-spacing: .03em; }
+    .release__content { min-width: 0; }
+    .badges { display: flex; gap: 5px; align-items: center; min-height: 10px; margin-bottom: 5px; }
+    .badge { color: var(--accent); font-size: .61rem; font-weight: 850; line-height: 1; letter-spacing: .09em; text-transform: uppercase; }
+    .badge + .badge::before { margin-right: 5px; color: #666; content: "·"; }
+    .badge--live { color: var(--live); }
+    .badge--feature { color: var(--feature); }
+    .badge--upcoming { color: var(--upcoming); }
+    .release__title { display: block; width: fit-content; max-width: 100%; overflow: hidden; color: var(--accent); font-size: 1.08rem; font-weight: 700; line-height: 1.2; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+    .release__title:hover { text-decoration: underline; }
+    .release__artist { margin-top: 4px; overflow: hidden; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+    .services { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 9px; }
+    .service { color: #cfcfcf; font-size: .69rem; text-decoration: none; }
+    .service:hover { color: #fff; text-decoration: underline; }
+    .service--spotify { color: var(--green); font-weight: 750; }
+    .service--muted { color: #777; }
+    .empty { display: none; padding: 80px 20px; color: var(--muted); text-align: center; }
+    @media (max-width: 900px) {
+      .release-grid { grid-template-columns: 1fr; }
+      .release-day { grid-template-columns: 110px minmax(0,1fr); }
+    }
+    @media (max-width: 620px) {
+      .shell { padding: 0 14px 60px; }
+      .topbar { padding-top: 20px; }
+      .heading { display: block; }
+      .heading__right { margin-top: 12px; }
+      .toolbar { flex-wrap: wrap; }
+      .search { min-width: 100%; max-width: none; }
+      .result-count { margin-left: 0; }
+      .order { margin-left: 0; }
+      .release-day { display: block; padding-top: 26px; }
+      .release-day__date { top: 0; z-index: 10; display: flex; gap: 8px; align-items: baseline; padding: 6px 0; text-align: left; background: rgba(0,0,0,.94); }
+      .release-day__date span { font-size: 1.05rem; }
+      .release { grid-template-columns: 58px minmax(0,1fr); padding: 10px 10px 10px 8px; }
+      .cover { width: 58px; height: 58px; }
+      .services { gap: 8px; }
+      .service--muted { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="heading">
+        <div><p class="eyebrow">Release radar</p><h1>__TITLE__</h1><p class="meta">Updated __UPDATED__</p></div>
+        <div class="heading__right"><a class="rss" href="manage.html">Manage tracked artists</a> · <a class="rss" href="feed.xml">RSS feed ↗</a></div>
+      </div>
+      <div class="toolbar">
+        <input id="search" class="search" type="search" placeholder="Search artists or releases…" aria-label="Search releases">
+        <button class="filter" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" data-filter="album" aria-pressed="false">Albums</button>
+        <button class="filter" data-filter="ep" aria-pressed="false">EPs</button>
+        <button class="filter" data-filter="single" aria-pressed="false">Singles</button>
+        <button class="filter" data-filter="live" aria-pressed="false">Live</button>
+        <button class="filter" data-filter="feature" aria-pressed="false">Features</button>
+        <button class="filter" data-filter="upcoming" aria-pressed="false">Upcoming</button>
+        <label class="order" for="order">Order
+          <select id="order">
+            <option value="type">Release type</option>
+            <option value="artist">Artist name</option>
+          </select>
+        </label>
+        <span id="count" class="result-count">__COUNT__ releases</span>
+      </div>
+    </header>
+    <div id="releases">__GROUPS__</div>
+    <p id="empty" class="empty">No releases match those filters.</p>
+  </main>
+  <script>
+    const search = document.querySelector('#search');
+    const buttons = [...document.querySelectorAll('.filter')];
+    const cards = [...document.querySelectorAll('.release')];
+    const days = [...document.querySelectorAll('.release-day')];
+    const count = document.querySelector('#count');
+    const empty = document.querySelector('#empty');
+    const order = document.querySelector('#order');
+    const releasesContainer = document.querySelector('#releases');
+    let active = 'all';
+    try { order.value = localStorage.getItem('release-order') || 'type'; } catch (_) {}
+    function applyOrder() {
+      days.forEach(day => {
+        const grid = day.querySelector('.release-grid');
+        const sorted = [...grid.querySelectorAll('.release')].sort((a, b) => {
+          if (order.value === 'artist') {
+            return a.dataset.artist.localeCompare(b.dataset.artist) || a.dataset.title.localeCompare(b.dataset.title);
+          }
+          return Number(a.dataset.rank) - Number(b.dataset.rank) ||
+            a.dataset.artist.localeCompare(b.dataset.artist) || a.dataset.title.localeCompare(b.dataset.title);
+        });
+        sorted.forEach(card => grid.appendChild(card));
+      });
+    }
+    function applyDateOrder() {
+      const orderedDays = [...days].sort((a, b) => active === 'upcoming' ?
+        a.dataset.date.localeCompare(b.dataset.date) :
+        b.dataset.date.localeCompare(a.dataset.date));
+      orderedDays.forEach(day => releasesContainer.appendChild(day));
+    }
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      let shown = 0;
+      cards.forEach(card => {
+        const isUpcoming = card.dataset.upcoming === 'true';
+        const typeMatch = active === 'upcoming' ? isUpcoming : !isUpcoming && (
+          active === 'all' || card.dataset.type === active ||
+          (active === 'live' && card.dataset.live === 'true') ||
+          (active === 'feature' && card.dataset.feature === 'true')
+        );
+        const visible = typeMatch && (!query || card.dataset.search.includes(query));
+        card.hidden = !visible;
+        if (visible) shown += 1;
+      });
+      days.forEach(day => { day.hidden = ![...day.querySelectorAll('.release')].some(card => !card.hidden); });
+      count.textContent = `${shown} release${shown === 1 ? '' : 's'}`;
+      empty.style.display = shown ? 'none' : 'block';
+    }
+    search.addEventListener('input', applyFilters);
+    order.addEventListener('change', () => {
+      try { localStorage.setItem('release-order', order.value); } catch (_) {}
+      applyOrder();
+    });
+    buttons.forEach(button => button.addEventListener('click', () => {
+      active = button.dataset.filter;
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      applyDateOrder();
+      applyFilters();
+    }));
+    document.querySelectorAll('.cover img').forEach(image => image.addEventListener('error', () => image.classList.add('is-missing')));
+    applyOrder();
+    applyDateOrder();
+    applyFilters();
+  </script>
+</body>
+</html>

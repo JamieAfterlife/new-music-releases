@@ -1,0 +1,377 @@
+import datetime as dt
+import csv
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from music_release_tracker import (
+    MusicBrainz,
+    Settings,
+    VARIOUS_ARTISTS_MBID,
+    add_artist,
+    artist_blacklist_reason,
+    blacklist_reason,
+    fallback_links,
+    is_various_artists,
+    make_rss,
+    make_manage_html,
+    import_csv,
+    import_lastfm,
+    comparable_date,
+    display_time,
+    normalize_release,
+    notification_markdown,
+    run_check,
+)
+
+
+ARTIST = {"name": "Test Artist", "mbid": "11111111-1111-1111-1111-111111111111"}
+
+
+def group(rgid="22222222-2222-2222-2222-222222222222", artist_id=None, secondary=None):
+    return {
+        "id": rgid,
+        "title": "A Night Outside",
+        "first-release-date": "2026-07-12",
+        "primary-type": "EP",
+        "secondary-types": secondary or ["Live"],
+        "artist-credit": [{"artist": {"id": artist_id or ARTIST["mbid"], "name": "Test Artist"}}],
+    }
+
+
+class FakeMusicBrainz:
+    def __init__(self, groups):
+        self.groups = groups
+
+    def release_groups(self, mbid, start, end):
+        return list(self.groups)
+
+    def appearance_groups(self, mbid, start, end):
+        return []
+
+    def release_group_links(self, mbid):
+        return [
+            {"url": {"resource": "https://open.spotify.com/album/exact"}},
+            {"url": {"resource": "https://music.youtube.com/playlist?list=exact"}},
+        ]
+
+    def release_group_metadata(self, mbid, release_date=""):
+        return {
+            "relations": self.release_group_links(mbid),
+            "edition_id": "edition-exact",
+            "tracklist": [
+                {"disc": 1, "disc_title": "", "position": "1", "title": "First Track", "length_ms": 185000}
+            ],
+        }
+
+    def search_artists(self, name, limit=5):
+        return [{"id": f"mbid-{name}", "name": name, "score": 100}]
+
+
+class TrackerTests(unittest.TestCase):
+    def test_github_notification_contains_playable_links(self):
+        release = normalize_release(group(), ARTIST)
+        release["links"] = {"spotify": "https://open.spotify.com/album/exact"}
+        message = notification_markdown([release])
+        self.assertIn("Test Artist — A Night Outside", message)
+        self.assertIn("[Spotify](https://open.spotify.com/album/exact)", message)
+        self.assertIn("[YouTube Music]", message)
+
+    def test_explicit_timezone_is_stable_on_github(self):
+        instant = dt.datetime(2026, 7, 14, 0, 0, tzinfo=dt.timezone.utc)
+        self.assertEqual(display_time(instant, "Pacific/Auckland").strftime("%H:%M %Z"), "12:00 NZST")
+        self.assertEqual(display_time(instant, "Not/AZone").tzinfo, dt.timezone.utc)
+
+    def test_artist_blacklist_prevents_reimport(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.blacklist_file = root / "blacklist.json"
+            settings.blacklist_file.write_text(
+                json.dumps({"artists": [ARTIST["name"]], "artist_mbids": [ARTIST["mbid"]]}),
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                artist_blacklist_reason(ARTIST["name"], ARTIST["mbid"], json.loads(settings.blacklist_file.read_text())),
+                "artist name",
+            )
+            with self.assertRaisesRegex(ValueError, "blocked"):
+                add_artist(settings, FakeMusicBrainz([]), ARTIST["name"], ARTIST["mbid"])
+
+    def test_manage_page_embeds_artist_toggle_list(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.blacklist_file = root / "blacklist.json"
+            settings.watchlist.write_text(json.dumps({"artists": [ARTIST]}), encoding="utf-8")
+            settings.blacklist_file.write_text(
+                json.dumps({"artists": [], "artist_mbids": [], "release_ids": [], "title_contains": []}),
+                encoding="utf-8",
+            )
+            page = make_manage_html(settings)
+            self.assertIn("Manage tracked artists", page)
+            self.assertIn(ARTIST["name"], page)
+            self.assertIn("artist--tracked", page)
+
+    def test_metadata_prefers_complete_same_day_digital_edition(self):
+        class EditionMusicBrainz(MusicBrainz):
+            def __init__(self):
+                pass
+
+            def get(self, entity, params, retries=4):
+                def edition(edition_id, track_count, date="2026-07-12"):
+                    return {
+                        "id": edition_id,
+                        "status": "Official",
+                        "country": "XW",
+                        "date": date,
+                        "media": [{
+                            "position": 1,
+                            "format": "Digital Media",
+                            "tracks": [
+                                {"position": index, "title": f"Track {index}"}
+                                for index in range(1, track_count + 1)
+                            ],
+                        }],
+                        "relations": [],
+                    }
+
+                return {"releases": [edition("standard", 10), edition("deluxe", 14)]}
+
+        metadata = EditionMusicBrainz().release_group_metadata("release-group", "2026-07-12")
+        self.assertEqual(metadata["edition_id"], "deluxe")
+        self.assertEqual(len(metadata["tracklist"]), 14)
+
+    def test_upcoming_release_is_shown_then_notified_on_release_day(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "artists.json").write_text(json.dumps({"artists": [ARTIST]}), encoding="utf-8")
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            settings.include_appearances = False
+            future = group()
+            future["first-release-date"] = "2026-07-12"
+
+            announced, current = run_check(
+                settings,
+                FakeMusicBrainz([future]),
+                dt.datetime(2026, 7, 1, tzinfo=dt.timezone.utc),
+            )
+            page = (root / "public/index.html").read_text(encoding="utf-8")
+            feed = (root / "public/feed.xml").read_text(encoding="utf-8")
+            self.assertEqual((announced, current), ([], 1))
+            self.assertIn('data-upcoming="true"', page)
+            self.assertIn("Upcoming", page)
+            self.assertNotIn(future["title"], feed)
+
+            released, current = run_check(
+                settings,
+                FakeMusicBrainz([future]),
+                dt.datetime(2026, 7, 12, tzinfo=dt.timezone.utc),
+            )
+            self.assertEqual((len(released), current), (1, 1))
+            state = json.loads(settings.state_file.read_text(encoding="utf-8"))
+            self.assertTrue(state["releases"][future["id"]]["notified_released"])
+
+    def test_blacklist_matches_artist_release_and_title(self):
+        release = normalize_release(group(), ARTIST)
+        release["watched_artist_id"] = ARTIST["mbid"]
+        self.assertEqual(blacklist_reason(release, {"artists": ["Test Artist"]}), "artist name")
+        self.assertEqual(blacklist_reason(release, {"release_ids": [release["id"]]}), "release ID")
+        self.assertEqual(blacklist_reason(release, {"title_contains": ["night out"]}), 'title contains "night out"')
+        self.assertIsNone(blacklist_reason(release, {"artists": ["Someone Else"]}))
+
+    def test_lastfm_rows_for_same_artist_are_combined(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            rows = [
+                {"name": "Old Name", "mbid": "same-mbid", "playcount": "75"},
+                {"name": "New Name", "mbid": "same-mbid", "playcount": "125"},
+            ]
+            with patch("music_release_tracker.fetch_lastfm_artists", return_value=rows):
+                added, unresolved, total = import_lastfm(
+                    settings, FakeMusicBrainz([]), "listener", "key", 50
+                )
+            artists = json.loads(settings.watchlist.read_text(encoding="utf-8"))["artists"]
+            self.assertEqual((added, unresolved, total), (2, [], 2))
+            self.assertEqual(artists[0]["lastfm_scrobbles"], 200)
+
+    def test_recording_search_distinguishes_primary_release_from_appearance(self):
+        class RecordingSearch(MusicBrainz):
+            def __init__(self):
+                pass
+
+            def _search_all(self, entity, query, key):
+                self.assert_query = (entity, query, key)
+                return [{
+                    "releases": [
+                        {
+                            "title": "Primary",
+                            "date": "2026-07-12",
+                            "artist-credit": [{"artist": {"id": ARTIST["mbid"], "name": "Test Artist"}}],
+                            "release-group": {"id": "primary", "primary-type": "Single"},
+                        },
+                        {
+                            "title": "Guest Spot",
+                            "date": "2026-07-12",
+                            "artist-credit": [{"artist": {"id": "another-artist", "name": "Another Artist"}}],
+                            "release-group": {"id": "appearance", "primary-type": "Album"},
+                        },
+                    ]
+                }]
+
+        groups = {item["id"]: item for item in RecordingSearch().appearance_groups(
+            ARTIST["mbid"], "2026-06-01", "2026-07-21"
+        )}
+        self.assertFalse(groups["primary"]["appearance"])
+        self.assertTrue(groups["appearance"]["appearance"])
+
+    def test_native_ep_and_live_classification(self):
+        release = normalize_release(group(), ARTIST)
+        self.assertEqual(release["type"], "EP")
+        self.assertTrue(release["live"])
+
+    def test_various_artists_filter(self):
+        release = normalize_release(group(artist_id=VARIOUS_ARTISTS_MBID), ARTIST)
+        release["artist"] = "Various Artists"
+        self.assertTrue(is_various_artists(release))
+
+    def test_search_fallbacks_are_present(self):
+        release = normalize_release(group(), ARTIST)
+        links = fallback_links(release)
+        self.assertIn("open.spotify.com/search/", links["spotify_search"])
+        self.assertIn("music.youtube.com/search", links["youtube_music_search"])
+
+    def test_partial_dates_are_normalized_for_bounds(self):
+        self.assertEqual(comparable_date("2026"), "2026-01-01")
+        self.assertEqual(comparable_date("2026-07"), "2026-07-01")
+        self.assertEqual(comparable_date("2026-07-14"), "2026-07-14")
+
+    def test_check_persists_and_deduplicates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "artists.json").write_text(json.dumps({"artists": [ARTIST]}), encoding="utf-8")
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            settings.include_appearances = False
+            now = dt.datetime(2026, 7, 14, 0, tzinfo=dt.timezone.utc)
+            first = run_check(settings, FakeMusicBrainz([group()]), now)
+            second = run_check(settings, FakeMusicBrainz([group()]), now + dt.timedelta(hours=12))
+            self.assertEqual((len(first[0]), first[1]), (1, 1))
+            self.assertEqual((len(second[0]), second[1]), (0, 1))
+            self.assertTrue((root / "public/feed.xml").exists())
+            self.assertTrue((root / "public/index.html").exists())
+
+    def test_primary_credit_wins_when_appearance_search_overlaps(self):
+        class OverlappingMusicBrainz(FakeMusicBrainz):
+            def appearance_groups(self, mbid, start, end):
+                duplicate = group()
+                duplicate["appearance"] = True
+                return [duplicate]
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "artists.json").write_text(json.dumps({"artists": [ARTIST]}), encoding="utf-8")
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            new_releases, _ = run_check(
+                settings,
+                OverlappingMusicBrainz([group()]),
+                dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc),
+            )
+            self.assertFalse(new_releases[0]["appearance"])
+
+    def test_lastfm_threshold_does_not_disable_spotify_artist(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            artists = [
+                {**ARTIST, "lastfm_scrobbles": 10},
+                {
+                    "name": "Also Spotify",
+                    "mbid": "33333333-3333-3333-3333-333333333333",
+                    "lastfm_scrobbles": 10,
+                    "spotify_id": "spotify",
+                },
+            ]
+            (root / "artists.json").write_text(json.dumps({"artists": artists}), encoding="utf-8")
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            settings.include_appearances = False
+            settings.min_lastfm_scrobbles = 50
+            run_check(
+                settings,
+                FakeMusicBrainz([group()]),
+                dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc),
+            )
+            state = json.loads(settings.state_file.read_text(encoding="utf-8"))
+            self.assertEqual(len(state["releases"]), 1)
+
+    def test_rss_contains_release_identity(self):
+        release = normalize_release(group(), ARTIST)
+        release.update({
+            "links": {},
+            "first_seen": "2026-07-14T00:00:00+00:00",
+            "tracklist": [
+                {"disc": 1, "disc_title": "", "position": "1", "title": "First Track", "length_ms": 185000}
+            ],
+        })
+        settings = Settings(root=Path("."))
+        xml = make_rss(settings, [release], dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc))
+        self.assertIn("musicbrainz:release-group:", xml)
+        self.assertIn("YouTube Music", xml)
+        self.assertIn("media:thumbnail", xml)
+        self.assertIn("First Track", xml)
+        self.assertIn("3:05", xml)
+
+    def test_csv_import_preserves_comma_name_and_splits_proven_collaboration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "releases.csv"
+            with source.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.writer(handle)
+                writer.writerow(["Artists", "Artist IDs"])
+                writer.writerow(["nothing,nowhere.", "spotify-one"])
+                writer.writerow(["BABYMETAL,Poppy", "spotify-two,spotify-three"])
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            added, unresolved = import_csv(settings, FakeMusicBrainz([]), source)
+            artists = json.loads(settings.watchlist.read_text(encoding="utf-8"))["artists"]
+            self.assertEqual(added, 3)
+            self.assertEqual(unresolved, [])
+            self.assertEqual({x["name"] for x in artists}, {"nothing,nowhere.", "BABYMETAL", "Poppy"})
+
+    def test_csv_import_honors_play_threshold(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "lastfm.csv"
+            with source.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.writer(handle)
+                writer.writerow(["Artists", "Scrobbles"])
+                writer.writerow(["Frequent Artist", "1,234 scrobbles"])
+                writer.writerow(["Accidental Artist", "2 scrobbles"])
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            added, unresolved = import_csv(settings, FakeMusicBrainz([]), source, min_plays=20)
+            artists = json.loads(settings.watchlist.read_text(encoding="utf-8"))["artists"]
+            self.assertEqual(added, 1)
+            self.assertEqual(unresolved, [])
+            self.assertEqual([x["name"] for x in artists], ["Frequent Artist"])
+
+
+if __name__ == "__main__":
+    unittest.main()
+    blacklist_reason,

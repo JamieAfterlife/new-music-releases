@@ -1,0 +1,8 @@
+config.toml
+data/
+public/
+__pycache__/
+*.pyc
+shareable-template/
+TEMPLATE_README.md
+.agents/
