@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from youtube_video_tracker import classify_video, discover_channels, is_topic_channel, render_video_page, scan_videos
+from youtube_video_tracker import classify_video, discover_channels, is_excluded_video_title, is_topic_channel, render_video_page, scan_videos
 
 
 class FakeYouTube:
@@ -60,6 +60,20 @@ class YouTubeVideoTests(unittest.TestCase):
         self.assertEqual(live_video[0], "auto")
         self.assertEqual(unclear_video[0], "review")
 
+    def test_audio_visualizer_lyric_and_backstage_formats_are_hard_exclusions(self):
+        source = {"kind": "artist", "artist_names": ["Spiritbox"]}
+        titles = [
+            "Spiritbox - Song (Official Audio)",
+            "Spiritbox - Song (Official Visualizer)",
+            "Spiritbox - Song (Lyric Video)",
+            "Spiritbox Studio Vlog",
+            "Spiritbox - Behind-the-Scenes",
+        ]
+        for title in titles:
+            with self.subTest(title=title):
+                self.assertTrue(is_excluded_video_title(title))
+                self.assertEqual(classify_video(title, source, [])[0], "ignore")
+
     def test_label_channel_requires_a_tracked_artist_in_the_title(self):
         tracked = [{"name": "Spiritbox"}]
         matched = classify_video(
@@ -93,7 +107,7 @@ class YouTubeVideoTests(unittest.TestCase):
             (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Spiritbox"}]}), encoding="utf-8")
             fake = FakeYouTube([
                 upload("auto-id", "Spiritbox - Song (Official Music Video)"),
-                upload("review-id", "Spiritbox - Song Visualizer", "2026-05-21T16:00:18Z"),
+                upload("review-id", "Spiritbox - Song Premiere", "2026-05-21T16:00:18Z"),
             ])
             found, review = scan_videos(
                 root, "key", dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc), fake
@@ -103,6 +117,20 @@ class YouTubeVideoTests(unittest.TestCase):
             queue = json.loads((root / "data" / "video_review.json").read_text())
             self.assertIn("auto-id", videos["videos"])
             self.assertEqual(queue["videos"][0]["id"], "review-id")
+
+    def test_old_approval_cannot_publish_an_excluded_audio_upload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "video_sources.json").write_text(json.dumps({"channels": [
+                {"handle": "@Test", "kind": "artist", "artist_names": ["Spiritbox"]}
+            ]}), encoding="utf-8")
+            (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Spiritbox"}]}), encoding="utf-8")
+            (root / "video_decisions.json").write_text(json.dumps({"approved": ["audio-id"], "rejected": []}), encoding="utf-8")
+            found, review = scan_videos(
+                root, "key", dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc),
+                FakeYouTube([upload("audio-id", "Spiritbox - Song (Official Audio)")]),
+            )
+            self.assertEqual((found, review), (0, 0))
 
     def test_channel_discovery_batches_unmapped_artists_for_review(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -23,7 +23,7 @@ from typing import Any, Iterable
 from xml.etree import ElementTree as ET
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from youtube_video_tracker import render_video_page
+from youtube_video_tracker import is_excluded_video_title, render_video_page
 
 VERSION = "0.1.0"
 MB_ROOT = "https://musicbrainz.org/ws/2"
@@ -717,7 +717,11 @@ def make_rss(settings: Settings, releases: list[dict[str, Any]], generated: dt.d
     rejected = set(decisions.get("rejected", []))
     video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
     for video_id, video in video_state.get("videos", {}).items():
-        if video_id in rejected or str(video.get("channel", "")).casefold().endswith(" - topic"):
+        if (
+            video_id in rejected
+            or str(video.get("channel", "")).casefold().endswith(" - topic")
+            or is_excluded_video_title(str(video.get("title", "")))
+        ):
             continue
         item = ET.SubElement(channel, "item")
         artist = ", ".join(video.get("matched_artists", [])) or video.get("channel", "Unknown channel")
@@ -946,7 +950,9 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
     video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
     videos = [
         video for video_id, video in video_state.get("videos", {}).items()
-        if video_id not in rejected_videos and not str(video.get("channel", "")).casefold().endswith(" - topic")
+        if video_id not in rejected_videos
+        and not str(video.get("channel", "")).casefold().endswith(" - topic")
+        and not is_excluded_video_title(str(video.get("title", "")))
     ]
     videos.sort(key=lambda video: video.get("published_at", ""), reverse=True)
     videos_by_date: dict[str, list[dict[str, Any]]] = {}
@@ -1075,7 +1081,11 @@ def make_history_html(settings: Settings, releases: list[dict[str, Any]], genera
     rejected = set(decisions.get("rejected", []))
     video_state = load_json(settings.root / "data" / "videos.json", {"videos": {}})
     for video_id, video in video_state.get("videos", {}).items():
-        if video_id in rejected or str(video.get("channel", "")).casefold().endswith(" - topic"):
+        if (
+            video_id in rejected
+            or str(video.get("channel", "")).casefold().endswith(" - topic")
+            or is_excluded_video_title(str(video.get("title", "")))
+        ):
             continue
         item_id = f"video:{video_id}"
         catalog[item_id] = {
@@ -1123,12 +1133,17 @@ def make_manage_html(settings: Settings) -> str:
     unresolved = load_json(settings.root / "data" / "lastfm_unresolved.json", {"artists": []})
     video_sources = load_json(settings.root / "video_sources.json", {"channels": []})
     video_review = load_json(settings.root / "data" / "video_review.json", {"videos": []})
+    video_review["videos"] = [
+        video for video in video_review.get("videos", [])
+        if not is_excluded_video_title(str(video.get("title", "")))
+    ]
     video_channel_review = load_json(settings.root / "data" / "video_channel_review.json", {"channels": []})
     video_decisions = load_json(settings.root / "video_decisions.json", {"approved": [], "rejected": []})
     published_videos = [
         video
         for video in load_json(settings.root / "data" / "videos.json", {"videos": {}}).get("videos", {}).values()
         if not str(video.get("channel", "")).casefold().endswith(" - topic")
+        and not is_excluded_video_title(str(video.get("title", "")))
     ]
     state = load_json(settings.state_file, {"releases": {}})
     releases = [

@@ -186,6 +186,8 @@ Published videos appear in date order on the main page and in the standard RSS f
 
 The **Music videos** page scans the upload playlists of confirmed YouTube channels. The tracker automatically searches for channels belonging to tracked artists in quota-safe batches of up to 40, then shows its best result under **Manage → Suggested channels** for confirmation. This gradually covers a large library without trusting a similarly named channel blindly. Artist and personal channels need one or more mapped artist names. Label channels also require a tracked artist's name in the video title; adding mapped artist names limits that label channel to those artists. Strong titles such as **Official Music Video**, **Official Video**, or **Music Live Video** publish automatically when the artist match is reliable. Uncertain candidates appear in **Manage → Video review queue** for approval or permanent rejection.
 
+Static-audio and backstage formats are always excluded, including **Official Audio**, **Visualizer**, **Lyric Video**, **Vlog**, and **Behind the Scenes**. This rule also removes older cached matches and overrides any approval that was previously given to one of those formats.
+
 1. In Google Cloud, create or select a project and enable **YouTube Data API v3**.
 2. Open **APIs & Services → Credentials**, create an API key, and restrict it to **YouTube Data API v3**. GitHub-hosted runners do not have a stable IP, so an API-only restriction is the practical choice.
 3. In this GitHub repository, open **Settings → Secrets and variables → Actions** and create `YOUTUBE_API_KEY` containing the key.

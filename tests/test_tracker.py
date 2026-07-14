@@ -605,17 +605,26 @@ class TrackerTests(unittest.TestCase):
                     "id": "video-id", "title": "Song (Official Music Video)", "channel": "Band",
                     "published_at": "2026-07-14T08:00:00Z", "thumbnail": "https://example.test/video.jpg",
                     "url": "https://www.youtube.com/watch?v=video-id", "matched_artists": ["Band"]
+                },
+                "audio-id": {
+                    "id": "audio-id", "title": "Song (Official Audio)", "channel": "Band",
+                    "published_at": "2026-07-14T07:00:00Z", "thumbnail": "https://example.test/audio.jpg",
+                    "url": "https://www.youtube.com/watch?v=audio-id", "matched_artists": ["Band"]
                 }
             }}), encoding="utf-8")
             settings = Settings(root=root, site_url="https://example.test")
             generated = dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc)
             page = make_html(settings, [], generated)
             xml = make_rss(settings, [], generated)
+            history = make_history_html(settings, [], generated)
             self.assertIn('data-type="video"', page)
             self.assertIn("Song (Official Music Video)", page)
             self.assertIn("manage.html?hide_video=video-id", page)
             self.assertIn("youtube:video:video-id", xml)
             self.assertIn("(Music Video)", xml)
+            self.assertNotIn("Official Audio", page)
+            self.assertNotIn("youtube:video:audio-id", xml)
+            self.assertNotIn("Official Audio", history)
 
     def test_ratings_link_feed_items_to_synced_listening_history(self):
         with tempfile.TemporaryDirectory() as directory:
