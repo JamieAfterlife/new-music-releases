@@ -141,6 +141,18 @@ class TrackerTests(unittest.TestCase):
             self.assertIn("lastfm_scrobbles_12month", page)
             self.assertNotIn("__RECENT_LASTFM_JSON__", page)
 
+    def test_manage_page_encrypts_restricted_github_token(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            page = make_manage_html(settings)
+            self.assertIn("localStorage.setItem(connectionKey", page)
+            self.assertIn("Forget saved token", page)
+            self.assertIn("crypto.subtle.encrypt", page)
+            self.assertIn("crypto.subtle.decrypt", page)
+            self.assertIn("iterations:250000", page)
+            self.assertNotIn("token:el('token')", page)
+
     def test_recent_lastfm_candidates_use_twelve_month_counts(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

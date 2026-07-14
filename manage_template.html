@@ -65,7 +65,7 @@
     .empty { padding:30px; color:var(--muted); text-align:center; border:1px dashed #444; border-radius:6px; }
     details { margin-top:22px; padding:17px 19px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
     summary { cursor:pointer; font-weight:780; }
-    .connect { display:grid; grid-template-columns:1fr 1.4fr auto; gap:9px; margin-top:14px; }
+    .connect { display:grid; grid-template-columns:1fr 1.25fr 1fr auto; gap:9px; margin-top:14px; }
     .notice { margin-top:12px; color:var(--muted); }.notice[data-kind="success"] { color:var(--green); }.notice[data-kind="error"] { color:#f17b61; }
     .savebar { position:sticky; bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:14px 17px; background:rgba(25,25,25,.96); border:1px solid #484848; border-radius:8px; box-shadow:0 14px 35px #000; backdrop-filter:blur(12px); }
     .savebar p { margin:0; }
@@ -122,20 +122,26 @@
 
     <details id="connection">
       <summary>GitHub connection for saving</summary>
-      <p>Use a fine-grained token limited to this repository with Contents read/write access. It stays in this tab and is sent only to GitHub.</p>
-      <div class="connect"><input id="repository" autocomplete="off" spellcheck="false" placeholder="owner/repository" aria-label="GitHub repository"><input id="token" type="password" autocomplete="off" placeholder="Fine-grained GitHub token" aria-label="GitHub token"><button id="connect" class="button">Connect</button></div>
+      <p>Use a fine-grained token limited to this repository with Contents read/write access. Add an unlock password to remember it securely on this device, or leave the password blank to use it only in this tab.</p>
+      <div class="connect"><input id="repository" autocomplete="off" spellcheck="false" placeholder="owner/repository" aria-label="GitHub repository"><input id="token" type="password" autocomplete="off" placeholder="Fine-grained GitHub token" aria-label="GitHub token"><input id="unlock-password" type="password" autocomplete="current-password" placeholder="Unlock password" aria-label="Local unlock password"><button id="connect" class="button">Connect</button></div>
       <div id="status" class="notice" role="status">Connect once before saving.</div>
+      <div class="onboarding__actions"><button id="forget-token" class="button button--quiet button--small" hidden>Forget saved token</button></div>
     </details>
 
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save artist choices</button></div>
   </main>
   <script>
     const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__ };
-    let connected = false, dirty = false, branch = 'main';
+    let connected = false, dirty = false, branch = 'main', activeToken = '';
     let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site);
     let artists = new Map(), recentChoices = new Map();
     const el = id => document.getElementById(id);
-    el('repository').value = embedded.repository;
+    const connectionKey = `new-music-tracker:github:${location.pathname.split('/').filter(Boolean)[0] || 'site'}`;
+    let savedConnection = null;
+    try { savedConnection=JSON.parse(localStorage.getItem(connectionKey)||'null'); } catch { savedConnection=null; }
+    el('repository').value = savedConnection?.repository || embedded.repository;
+    el('forget-token').hidden = !savedConnection?.ciphertext;
+    if(savedConnection?.ciphertext)el('status').textContent='Saved connection found. Enter your unlock password to reconnect.';
     el('feed-title').value = site.feed_title || 'My new music';
     el('timezone').value = site.timezone || 'UTC';
     el('lastfm-username').value = site.lastfm_username || '';
@@ -193,7 +199,24 @@
       }
     }
     function setStatus(text,kind='') { el('status').textContent=text; el('status').dataset.kind=kind; }
-    function authHeaders() { return { Accept:'application/vnd.github+json', Authorization:`Bearer ${el('token').value.trim()}`, 'X-GitHub-Api-Version':'2022-11-28' }; }
+    function toBase64(bytes) { let binary=''; for(const value of bytes)binary+=String.fromCharCode(value); return btoa(binary); }
+    function fromBase64(value) { return Uint8Array.from(atob(value),character=>character.charCodeAt(0)); }
+    async function deriveConnectionKey(password,salt) {
+      const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);
+      return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+    }
+    async function encryptConnection(token,password,repository) {
+      const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+      const key=await deriveConnectionKey(password,salt);
+      const ciphertext=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(token));
+      return {version:1,repository,salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(new Uint8Array(ciphertext))};
+    }
+    async function decryptConnection(saved,password) {
+      const key=await deriveConnectionKey(password,fromBase64(saved.salt));
+      const clear=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromBase64(saved.iv)},key,fromBase64(saved.ciphertext));
+      return new TextDecoder().decode(clear);
+    }
+    function authHeaders() { return { Accept:'application/vnd.github+json', Authorization:`Bearer ${activeToken}`, 'X-GitHub-Api-Version':'2022-11-28' }; }
     async function github(path,options={}) { const response=await fetch(`https://api.github.com/repos/${el('repository').value.trim()}${path}`,{...options,headers:{...authHeaders(),...(options.headers||{})}}); const body=await response.json().catch(()=>({})); if(!response.ok) throw new Error(body.message||`GitHub returned ${response.status}`); return body; }
     el('filter').addEventListener('input',render);
     el('review-recent').addEventListener('click',()=>{el('recent-review').hidden=false;el('review-recent').hidden=true;});
@@ -227,7 +250,30 @@
       } catch(error) { el('results').textContent=`Search failed: ${error.message}`; } finally { el('search').disabled=false; }
     }
     el('search').addEventListener('click',search); el('query').addEventListener('keydown',event=>{if(event.key==='Enter')search();});
-    el('connect').addEventListener('click',async()=>{ if(!el('repository').value.trim()||!el('token').value.trim()){setStatus('Enter the repository and token first.','error');return;} el('connect').disabled=true; setStatus('Connecting…'); try { const repo=await github(''); branch=repo.default_branch||'main'; connected=true; el('save').disabled=!dirty; setStatus(`Connected to ${el('repository').value.trim()}.`,'success'); } catch(error){setStatus(`Could not connect: ${error.message}`,'error');} finally{el('connect').disabled=false;} });
+    async function connectGithub() {
+      const repository=el('repository').value.trim(),enteredToken=el('token').value.trim(),password=el('unlock-password').value;
+      if(!repository){setStatus('Enter the repository first.','error');return;}
+      let token=enteredToken,encrypted=null;
+      if(!token&&savedConnection?.ciphertext){
+        if(!password){setStatus('Enter your unlock password.','error');return;}
+        try{token=await decryptConnection(savedConnection,password);}catch{setStatus('That unlock password is incorrect.','error');return;}
+      }else if(!token){setStatus('Enter the GitHub token first.','error');return;}
+      if(enteredToken&&password){
+        if(password.length<8){setStatus('Use at least 8 characters for the unlock password.','error');return;}
+        encrypted=await encryptConnection(token,password,repository);
+      }
+      activeToken=token;el('connect').disabled=true;setStatus('Connecting…');
+      try {
+        const repo=await github(''); branch=repo.default_branch||'main'; connected=true; el('save').disabled=!dirty;
+        let stored=!!savedConnection?.ciphertext;
+        if(encrypted){try{localStorage.setItem(connectionKey,JSON.stringify(encrypted));savedConnection=encrypted;stored=true;}catch{stored=false;}}
+        el('token').value='';el('unlock-password').value='';el('forget-token').hidden=!stored;
+        setStatus(stored?`Connected to ${repository}. The encrypted token is saved for this tracker URL.`:`Connected to ${repository} for this tab.`,'success');
+      } catch(error){connected=false;activeToken='';setStatus(`Could not connect: ${error.message}`,'error');}
+      finally{el('connect').disabled=false;}
+    }
+    el('connect').addEventListener('click',connectGithub);
+    el('forget-token').addEventListener('click',()=>{try{localStorage.removeItem(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('token').value='';el('unlock-password').value='';el('forget-token').hidden=true;el('save').disabled=true;setStatus('Encrypted token removed from this device.','success');});
     function makeFiles() {
       const tracked=[...artists.values()].filter(x=>x.tracked&&x.mbid).map(x=>x.record).sort((a,b)=>a.name.localeCompare(b.name));
       const blocked=[...artists.values()].filter(x=>!x.tracked&&x.mbid).sort((a,b)=>a.name.localeCompare(b.name));
