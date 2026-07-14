@@ -21,6 +21,9 @@ class FakeYouTube:
     def uploads(self, playlist_id, limit=15):
         return self._uploads
 
+    def recent_uploads(self, channel_id):
+        return self._uploads
+
     def search_channels(self, artist_name, limit=3):
         return [{
             "id": {"channelId": f"UC-{artist_name}"},
@@ -43,6 +46,14 @@ class HandleYouTube(FakeYouTube):
         return None
 
     def search_channels(self, artist_name, limit=5):
+        return []
+
+
+class FeedOnlyYouTube(FakeYouTube):
+    def recent_uploads(self, channel_id):
+        return self._uploads
+
+    def uploads(self, playlist_id, limit=50):
         return []
 
 
@@ -140,6 +151,21 @@ class YouTubeVideoTests(unittest.TestCase):
             queue = json.loads((root / "data" / "video_review.json").read_text())
             self.assertIn("auto-id", videos["videos"])
             self.assertEqual(queue["videos"][0]["id"], "review-id")
+
+    def test_recent_channel_feed_catches_video_missing_from_uploads_playlist(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "video_sources.json").write_text(json.dumps({"channels": [
+                {"handle": "UCR7Ls5FuT6UKTcsMkcwgCUA", "kind": "artist", "artist_names": ["Mastodon"]}
+            ]}), encoding="utf-8")
+            (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Mastodon"}]}), encoding="utf-8")
+            found, review = scan_videos(
+                root, "key", dt.datetime(2026, 7, 15, 9, tzinfo=dt.timezone.utc),
+                FeedOnlyYouTube([upload("94Cr7eKDZbA", "Mastodon - Snakes For Dinner (Official Video)")]),
+            )
+            self.assertEqual((found, review), (1, 0))
+            videos = json.loads((root / "data" / "videos.json").read_text())
+            self.assertIn("94Cr7eKDZbA", videos["videos"])
 
     def test_old_approval_cannot_publish_an_excluded_audio_upload(self):
         with tempfile.TemporaryDirectory() as directory:

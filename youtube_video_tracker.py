@@ -13,8 +13,10 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
+from xml.etree import ElementTree as ET
 
 API_ROOT = "https://www.googleapis.com/youtube/v3"
+FEED_ROOT = "https://www.youtube.com/feeds/videos.xml"
 OFFICIAL_VIDEO_RE = re.compile(r"\b(?:official\s+music\s+video|official\s+video|music\s+(?:live\s+)?video)\b", re.I)
 MAYBE_VIDEO_RE = re.compile(r"\b(?:official|video|premiere)\b", re.I)
 EXCLUDED_VIDEO_RE = re.compile(
@@ -139,6 +141,36 @@ class YouTube:
             {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": str(limit)},
         )
         return data.get("items", [])
+
+    def recent_uploads(self, channel_id: str) -> list[dict[str, Any]]:
+        """Read YouTube's official channel feed so brand-new uploads are not missed."""
+        request = urllib.request.Request(
+            f"{FEED_ROOT}?{urllib.parse.urlencode({'channel_id': channel_id})}",
+            headers={"Accept": "application/atom+xml", "User-Agent": "NewMusicReleaseTracker/2.0"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                root = ET.fromstring(response.read())
+        except (OSError, ET.ParseError):
+            return []
+        namespaces = {"atom": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015", "media": "http://search.yahoo.com/mrss/"}
+        items = []
+        for entry in root.findall("atom:entry", namespaces):
+            video_id = entry.findtext("yt:videoId", default="", namespaces=namespaces)
+            title = entry.findtext("atom:title", default="", namespaces=namespaces)
+            published = entry.findtext("atom:published", default="", namespaces=namespaces)
+            thumbnail = entry.find("media:group/media:thumbnail", namespaces)
+            if video_id and published:
+                items.append({
+                    "snippet": {
+                        "title": title,
+                        "publishedAt": published,
+                        "resourceId": {"videoId": video_id},
+                        "thumbnails": {"high": {"url": thumbnail.get("url", "") if thumbnail is not None else ""}},
+                    },
+                    "contentDetails": {"videoId": video_id},
+                })
+        return items
 
     def search_channels(self, artist_name: str, limit: int = 5) -> list[dict[str, Any]]:
         data = self.get(
@@ -298,7 +330,15 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
         if not uploads_id:
             continue
         channel_name = channel.get("snippet", {}).get("title") or identifier
-        for item in youtube.uploads(uploads_id, 50):
+        recent = youtube.recent_uploads(str(channel.get("id", "")))
+        playlist = youtube.uploads(uploads_id, 50)
+        combined: dict[str, dict[str, Any]] = {}
+        for item in [*recent, *playlist]:
+            snippet = item.get("snippet", {})
+            item_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
+            if item_id and item_id not in combined:
+                combined[item_id] = item
+        for item in combined.values():
             snippet = item.get("snippet", {})
             video_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
             published = snippet.get("publishedAt", "")
