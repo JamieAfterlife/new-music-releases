@@ -322,17 +322,26 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
         identifier = str(source.get("channel_id") or source.get("handle") or "").strip()
         if not identifier:
             continue
-        channel = youtube.channel(identifier)
-        if not channel:
+        direct_channel_id = identifier if identifier.startswith("UC") else str(source.get("channel_id") or "")
+        recent = youtube.recent_uploads(direct_channel_id) if direct_channel_id else []
+        try:
+            channel = youtube.channel(identifier)
+        except OSError:
+            channel = None
+        if channel and is_topic_channel(channel):
             continue
-        if is_topic_channel(channel):
+        channel_id = str(channel.get("id", "")) if channel else direct_channel_id
+        if channel_id and not recent:
+            recent = youtube.recent_uploads(channel_id)
+        uploads_id = channel.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads") if channel else ""
+        try:
+            playlist = youtube.uploads(uploads_id, 50) if uploads_id else []
+        except OSError:
+            playlist = []
+        if not recent and not playlist:
             continue
-        uploads_id = channel.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads")
-        if not uploads_id:
-            continue
-        channel_name = channel.get("snippet", {}).get("title") or identifier
-        recent = youtube.recent_uploads(str(channel.get("id", "")))
-        playlist = youtube.uploads(uploads_id, 50)
+        mapped_names = [str(name).strip() for name in source.get("artist_names", []) if str(name).strip()]
+        channel_name = (channel.get("snippet", {}).get("title") if channel else "") or next(iter(mapped_names), identifier)
         combined: dict[str, dict[str, Any]] = {}
         for item in [*recent, *playlist]:
             snippet = item.get("snippet", {})
@@ -362,7 +371,7 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
                 "id": video_id,
                 "title": snippet.get("title") or "Untitled video",
                 "channel": channel_name,
-                "channel_id": channel.get("id", ""),
+                "channel_id": channel_id,
                 "published_at": published,
                 "thumbnail": thumbnail,
                 "url": f"https://www.youtube.com/watch?v={video_id}",

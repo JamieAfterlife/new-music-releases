@@ -58,6 +58,11 @@ class FeedOnlyYouTube(FakeYouTube):
         return []
 
 
+class FeedWithoutApiYouTube(FeedOnlyYouTube):
+    def channel(self, identifier):
+        raise OSError("quota exhausted")
+
+
 def upload(video_id, title, published="2026-07-14T08:00:00Z"):
     return {
         "snippet": {
@@ -167,6 +172,19 @@ class YouTubeVideoTests(unittest.TestCase):
             self.assertEqual((found, review), (1, 0))
             videos = json.loads((root / "data" / "videos.json").read_text())
             self.assertIn("94Cr7eKDZbA", videos["videos"])
+
+    def test_channel_id_feed_still_works_when_data_api_quota_is_exhausted(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "video_sources.json").write_text(json.dumps({"channels": [
+                {"handle": "UCR7Ls5FuT6UKTcsMkcwgCUA", "kind": "artist", "artist_names": ["Mastodon"]}
+            ]}), encoding="utf-8")
+            (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Mastodon"}]}), encoding="utf-8")
+            found, review = scan_videos(
+                root, "key", dt.datetime(2026, 7, 15, 9, tzinfo=dt.timezone.utc),
+                FeedWithoutApiYouTube([upload("94Cr7eKDZbA", "Mastodon - Snakes For Dinner (Official Video)")]),
+            )
+            self.assertEqual((found, review), (1, 0))
 
     def test_known_channels_scan_before_noncritical_discovery_failure(self):
         with tempfile.TemporaryDirectory() as directory:
