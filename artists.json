@@ -37,6 +37,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Abbie Falls",
+      "mbid": "693ce51c-1933-4387-b227-e84545125593",
+      "lastfm_scrobbles_12month": 5,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Abigail Williams",
       "mbid": "bb2d449e-d6c1-4f0c-8603-5b285acd311e",
       "lastfm_scrobbles": 75,
@@ -134,6 +141,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Alissa White‐Gluz",
+      "mbid": "d6228c97-5b2e-47d1-8d99-06bf7484be54",
+      "lastfm_scrobbles_12month": 5,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "All That Remains",
       "mbid": "4f8b7186-b2a2-40db-97ae-6e1cd46d57b1",
       "lastfm_scrobbles": 203,
@@ -168,7 +182,9 @@
       "name": "Angelmaker",
       "mbid": "c5f8c1d7-9823-4b1a-bdfc-2995f847600b",
       "lastfm_scrobbles": 234,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 20,
+      "manual_tracking": true
     },
     {
       "name": "Animals as Leaders",
@@ -199,7 +215,9 @@
       "name": "Arch Enemy",
       "mbid": "e631bb92-3e2b-43e3-a2cb-b605e2fb53bd",
       "lastfm_scrobbles": 224,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 11,
+      "manual_tracking": true
     },
     {
       "name": "Architects",
@@ -211,7 +229,9 @@
       "name": "Archspire",
       "mbid": "89c3e96a-9dfe-4264-8995-4e5f9b0fb358",
       "lastfm_scrobbles": 112,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 29,
+      "manual_tracking": true
     },
     {
       "name": "Arctic Monkeys",
@@ -265,7 +285,9 @@
       "name": "August Burns Red",
       "mbid": "5bac9b4f-2f1c-4d39-8d11-231d5b6650ce",
       "lastfm_scrobbles": 69,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 13,
+      "manual_tracking": true
     },
     {
       "name": "Austrian Death Machine",
@@ -277,7 +299,9 @@
       "name": "Avenged Sevenfold",
       "mbid": "24e1b53c-3085-4581-8472-0b0088d2508c",
       "lastfm_scrobbles": 746,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 51,
+      "manual_tracking": true
     },
     {
       "name": "Aversions Crown",
@@ -302,7 +326,9 @@
       "mbid": "27e2997f-f7a1-4353-bcc4-57b9274fa9a4",
       "spotify_id": "630wzNP2OL7fl4Xl0GnMWq",
       "lastfm_scrobbles": 214,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 5,
+      "manual_tracking": true
     },
     {
       "name": "Backtrack",
@@ -314,7 +340,9 @@
       "name": "Bad Omens",
       "mbid": "eecada09-acfc-472d-ae55-e9e5a43f12d8",
       "lastfm_scrobbles": 431,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 30,
+      "manual_tracking": true
     },
     {
       "name": "Beartooth",
@@ -346,7 +374,9 @@
       "name": "Bilmuri",
       "mbid": "b09de30a-09ac-4cc9-8812-49bb12e2bfa6",
       "lastfm_scrobbles": 122,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 42,
+      "manual_tracking": true
     },
     {
       "name": "Black Sabbath",
@@ -359,6 +389,13 @@
       "mbid": "8cfeaa08-6209-421b-958c-178921afe437",
       "lastfm_scrobbles": 317,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Black Veil Brides",
+      "mbid": "33319aed-9bd7-4cd1-903c-716845c1b7cd",
+      "lastfm_scrobbles_12month": 6,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Blanke",
@@ -377,18 +414,6 @@
       "name": "Blessthefall",
       "mbid": "aafa70a4-2f06-4975-935e-b283fc87de7e",
       "lastfm_scrobbles": 109,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "blink‐182",
-      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
-      "lastfm_scrobbles": 954,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "blink‐182",
-      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
-      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -451,7 +476,9 @@
       "mbid": "074e3847-f67f-49f9-81f1-8c8cea147e8e",
       "spotify_id": "1Ffb6ejR6Fe5IamqA5oRUF",
       "lastfm_scrobbles": 1455,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 56,
+      "manual_tracking": true
     },
     {
       "name": "BROJOB",
@@ -571,7 +598,9 @@
       "name": "Crystal Lake",
       "mbid": "f5c78fe9-6072-4219-97eb-bd62c4cbd87d",
       "lastfm_scrobbles": 70,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 7,
+      "manual_tracking": true
     },
     {
       "name": "Culture Shock",
@@ -607,7 +636,9 @@
       "name": "Darko US",
       "mbid": "add25648-f252-444f-8837-08ac9fc48f19",
       "lastfm_scrobbles": 210,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 15,
+      "manual_tracking": true
     },
     {
       "name": "Dartz",
@@ -620,6 +651,13 @@
       "mbid": "302bd7b9-d012-4360-897a-93b00c855680",
       "lastfm_scrobbles": 83,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Dayseeker",
+      "mbid": "d9a9b6aa-c5c5-40dc-95ec-0bff029245c0",
+      "lastfm_scrobbles_12month": 8,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Dayshell",
@@ -698,7 +736,9 @@
       "name": "Dimmu Borgir",
       "mbid": "17167af8-c1da-45cc-bba2-9d23f068b7a3",
       "lastfm_scrobbles": 53,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 6,
+      "manual_tracking": true
     },
     {
       "name": "Dio",
@@ -717,7 +757,9 @@
       "mbid": "525bc102-00fa-4e0f-9d14-d994d5bf63e9",
       "spotify_id": "7dfpBi0QvO9FmlhBK6XHwJ",
       "lastfm_scrobbles": 110,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 13,
+      "manual_tracking": true
     },
     {
       "name": "Disturbed",
@@ -750,11 +792,20 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Dying Wish",
+      "mbid": "a13e51cc-e031-45aa-92e4-1c92520faa0a",
+      "lastfm_scrobbles_12month": 5,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Electric Callboy",
       "mbid": "cf075492-d880-4afc-b87b-d6b03e33dacc",
       "spotify_id": "1WNoKxsp715jez1Td4vthc",
       "lastfm_scrobbles": 1680,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 16,
+      "manual_tracking": true
     },
     {
       "name": "Ellie Goulding",
@@ -837,7 +888,9 @@
       "name": "Fear Factory",
       "mbid": "c17f08f4-2542-46fb-97f3-3202d60c225a",
       "lastfm_scrobbles": 70,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 15,
+      "manual_tracking": true
     },
     {
       "name": "Feed Me",
@@ -849,12 +902,6 @@
       "name": "FEVER 333",
       "mbid": "9f3732d2-034b-4471-ada8-287a4379cf47",
       "lastfm_scrobbles": 196,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Fit For A King",
-      "mbid": "6eaab7b4-f2cb-4c80-9b36-7e7d5c2fa8c5",
-      "lastfm_scrobbles": 88,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -873,7 +920,9 @@
       "name": "FKA Rayne",
       "mbid": "94923da6-5e8e-4aea-9f12-983706fee414",
       "lastfm_scrobbles": 50,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 15,
+      "manual_tracking": true
     },
     {
       "name": "Fleshgod Apocalypse",
@@ -906,28 +955,32 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Franciska Friede",
-      "mbid": "69533f58-e2ef-4939-b5fe-e9389f5a79dd",
-      "lastfm_scrobbles": 104,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Franciska Friede",
-      "mbid": "69533f58-e2ef-4939-b5fe-e9389f5a79dd",
-      "lastfm_scrobbles": 104,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "Frenzal Rhomb",
       "mbid": "e9461e3f-2d60-4d3f-9514-096536441a18",
       "lastfm_scrobbles": 54,
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "From Ashes to New",
+      "mbid": "66baa549-ec7d-410f-88bf-d4f9bbb21890",
+      "lastfm_scrobbles_12month": 7,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
+      "name": "Frozen Soul",
+      "mbid": "6bba25e7-c470-4917-9f6b-f8501d8caadc",
+      "lastfm_scrobbles_12month": 16,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Ghost",
       "mbid": "2bcf2e02-5bc3-4c76-bf76-41126cb11444",
       "lastfm_scrobbles": 1450,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 7,
+      "manual_tracking": true
     },
     {
       "name": "Ghostemane",
@@ -951,7 +1004,9 @@
       "name": "Gojira",
       "mbid": "1c5efd53-d6b6-4d63-9d22-a15025cf5f07",
       "lastfm_scrobbles": 323,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 14,
+      "manual_tracking": true
     },
     {
       "name": "Goodnight Nurse",
@@ -964,6 +1019,13 @@
       "mbid": "084308bd-1654-436f-ba03-df6697104e19",
       "lastfm_scrobbles": 237,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Guilt Trip",
+      "mbid": "7115dd4a-2960-46a1-ab39-aba869a304ec",
+      "lastfm_scrobbles_12month": 6,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Guns N' Roses",
@@ -1000,7 +1062,9 @@
       "mbid": "ce2703e5-34f4-4389-883f-00f8ca2662c2",
       "spotify_id": "4N2I7VsF86h59tbsvVoB1h",
       "lastfm_scrobbles": 222,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 9,
+      "manual_tracking": true
     },
     {
       "name": "Hands Like Houses",
@@ -1050,7 +1114,9 @@
       "mbid": "1921c28c-ec61-4725-8e35-38dd656f7923",
       "spotify_id": "3Uobr6LgQpBbk6k4QGAb3V",
       "lastfm_scrobbles": 488,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 11,
+      "manual_tracking": true
     },
     {
       "name": "I See Stars",
@@ -1075,7 +1141,9 @@
       "mbid": "d8f0f6ac-a0a7-47bd-9786-f9106d7bdd11",
       "spotify_id": "52qKfVcIV4GS8A8Vay2xtt",
       "lastfm_scrobbles": 188,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 8,
+      "manual_tracking": true
     },
     {
       "name": "Ill Niño",
@@ -1133,16 +1201,27 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "INFECTIOUS JELQING",
+      "mbid": "e6cfcc63-a291-4dcd-85c2-6daae1d42654",
+      "lastfm_scrobbles_12month": 5,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Ingested",
       "mbid": "5a92705b-5925-4616-b178-c3e60877aa24",
       "lastfm_scrobbles": 177,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 16,
+      "manual_tracking": true
     },
     {
       "name": "Iron Maiden",
       "mbid": "ca891d65-d9b0-4258-89f7-e6ba29d83767",
       "lastfm_scrobbles": 398,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 86,
+      "manual_tracking": true
     },
     {
       "name": "Issues",
@@ -1188,16 +1267,11 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Kanye West Tribute Band",
-      "mbid": "0eb17834-1d29-47ef-a422-9dc68d73c5e4",
-      "lastfm_scrobbles": 152,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Kanye West Tribute Band",
-      "mbid": "0eb17834-1d29-47ef-a422-9dc68d73c5e4",
-      "lastfm_scrobbles": 152,
-      "lastfm_user": "DeathbatAttack"
+      "name": "Kanonenfieber",
+      "mbid": "b0016af8-3953-47ce-b865-475a770d7b17",
+      "lastfm_scrobbles_12month": 44,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Kanye West Tribute Band",
@@ -1243,7 +1317,9 @@
       "name": "Killswitch Engage",
       "mbid": "8295ee00-0096-461d-95c7-c2263d2a4c6d",
       "lastfm_scrobbles": 661,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 10,
+      "manual_tracking": true
     },
     {
       "name": "King 810",
@@ -1267,31 +1343,29 @@
       "name": "Knocked Loose",
       "mbid": "9ca10859-49e2-44e3-b3d6-04c535207bc2",
       "lastfm_scrobbles": 460,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 16,
+      "manual_tracking": true
+    },
+    {
+      "name": "Kobaryo",
+      "mbid": "2ac4d851-c5d9-48f7-8164-699cc5ce02d1",
+      "lastfm_scrobbles_12month": 21,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Korn",
       "mbid": "ac865b2e-bba8-4f5a-8756-dd40d5e39f46",
       "lastfm_scrobbles": 1642,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 8,
+      "manual_tracking": true
     },
     {
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Koven",
-      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
-      "spotify_id": "3UCbp6D1lvILlxRJT9LnFa",
-      "lastfm_scrobbles": 195,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Koven",
-      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
-      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1310,7 +1384,9 @@
       "name": "Kublai Khan TX",
       "mbid": "1ef09925-fb5d-46db-8263-e336d152487e",
       "lastfm_scrobbles": 63,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 7,
+      "manual_tracking": true
     },
     {
       "name": "La Dispute",
@@ -1334,7 +1410,9 @@
       "name": "Lamb of God",
       "mbid": "298909e4-ebcb-47b8-95e9-cc53b087fc65",
       "lastfm_scrobbles": 1124,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 13,
+      "manual_tracking": true
     },
     {
       "name": "Left to Suffer",
@@ -1370,13 +1448,17 @@
       "name": "Linkin Park",
       "mbid": "f59c5520-5f46-4d2c-b2c4-822eabf53419",
       "lastfm_scrobbles": 598,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 81,
+      "manual_tracking": true
     },
     {
       "name": "Lorna Shore",
       "mbid": "e86fc1f5-d632-44b2-8aea-38f83aadffe8",
       "lastfm_scrobbles": 255,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 26,
+      "manual_tracking": true
     },
     {
       "name": "Machine Head",
@@ -1440,7 +1522,9 @@
       "name": "Mayhem",
       "mbid": "c5f9e699-7b0d-4030-86dd-7acc8250d147",
       "lastfm_scrobbles": 94,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 14,
+      "manual_tracking": true
     },
     {
       "name": "Me First and the Gimme Gimmes",
@@ -1452,7 +1536,9 @@
       "name": "Megadeth",
       "mbid": "a9044915-8be3-4c7e-b11f-9e2d2ea0a91e",
       "lastfm_scrobbles": 550,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 69,
+      "manual_tracking": true
     },
     {
       "name": "Memphis May Fire",
@@ -1494,14 +1580,18 @@
       "name": "Mothica",
       "mbid": "41f0ee7a-c7f8-4b3d-a3a4-c705b4766130",
       "lastfm_scrobbles": 75,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 16,
+      "manual_tracking": true
     },
     {
       "name": "Motionless in White",
       "mbid": "1c5b9bd6-76e8-4fe7-a6df-3bc0b5a452cc",
       "spotify_id": "6MwPCCR936cYfM1dLsGVnl",
       "lastfm_scrobbles": 951,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 18,
+      "manual_tracking": true
     },
     {
       "name": "Motörhead",
@@ -1539,6 +1629,13 @@
       "mbid": "f79fa401-653a-4646-aa88-ee1954a7ac8a",
       "lastfm_scrobbles": 179,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Nekrogoblikon",
+      "mbid": "a0befa17-6652-43c7-a211-3c84432f15cd",
+      "lastfm_scrobbles_12month": 11,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "New Years Day",
@@ -1628,6 +1725,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Orbit Culture",
+      "mbid": "c4f8b170-36cf-4774-bbe9-8d93d204a681",
+      "lastfm_scrobbles_12month": 10,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Our Last Night",
       "mbid": "5466b02a-4465-4e87-b372-584cd5f97bff",
       "lastfm_scrobbles": 59,
@@ -1649,7 +1753,9 @@
       "name": "PALEFACE SWISS",
       "mbid": "6be0e54b-d3ff-4c17-b7e6-f82d0f624a47",
       "lastfm_scrobbles": 58,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 9,
+      "manual_tracking": true
     },
     {
       "name": "Pantera",
@@ -1673,7 +1779,9 @@
       "name": "Parkway Drive",
       "mbid": "a436dd02-0549-4c91-b608-df451217fdeb",
       "lastfm_scrobbles": 2342,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 30,
+      "manual_tracking": true
     },
     {
       "name": "Pathology",
@@ -1686,6 +1794,13 @@
       "mbid": "14fdd6b6-99f7-444c-b178-57aa1c3df6da",
       "lastfm_scrobbles": 73,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "PEELINGFLESH",
+      "mbid": "e02e390d-a9bb-457a-a22d-4c00f9131575",
+      "lastfm_scrobbles_12month": 34,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Pendulum",
@@ -1703,7 +1818,9 @@
       "name": "Periphery",
       "mbid": "a0cef17a-4574-44f4-9f97-fd068615dac6",
       "lastfm_scrobbles": 523,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 14,
+      "manual_tracking": true
     },
     {
       "name": "Pierce the Veil",
@@ -1734,7 +1851,9 @@
       "mbid": "4ad8190b-d2fd-46f8-a3d9-c0f55c034976",
       "spotify_id": "5mlbvTfWUOfDrUIK6dkNzv",
       "lastfm_scrobbles": 596,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 56,
+      "manual_tracking": true
     },
     {
       "name": "Post Malone",
@@ -1796,6 +1915,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Revocation",
+      "mbid": "2441c9e6-7e05-44f1-8da9-62025df367ab",
+      "lastfm_scrobbles_12month": 6,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Rezz",
       "mbid": "2eaf4267-4dd6-412a-9bb0-596afb90215b",
       "lastfm_scrobbles": 145,
@@ -1806,6 +1932,13 @@
       "mbid": "bccda8eb-dca7-4e4d-88fd-bbfbac87df24",
       "lastfm_scrobbles": 351,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Rinrin",
+      "mbid": "a2f67eea-555a-4f6a-a5f6-1bbad004c2b2",
+      "lastfm_scrobbles_12month": 19,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Rise Against",
@@ -1832,6 +1965,20 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Sanguisugabogg",
+      "mbid": "fae4dcff-5687-4ed2-a3f3-df6bd0506432",
+      "lastfm_scrobbles_12month": 39,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
+      "name": "Saosin",
+      "mbid": "47b8b42a-96e8-46fa-9ea6-70c5136ae971",
+      "lastfm_scrobbles_12month": 9,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Saving Grace",
       "mbid": "6b41d8f3-e8c5-4fe7-b5be-d1cb60a2aa80",
       "lastfm_scrobbles": 138,
@@ -1855,6 +2002,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Showing Teeth",
+      "mbid": "4af64db6-0182-4538-800c-bece70ae3a2a",
+      "lastfm_scrobbles_12month": 7,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Shrine of Malice",
       "mbid": "10be2684-6adb-4c18-84aa-fca31c98acd5",
       "spotify_id": "6NPqqqYcR7tAEHL4ORm6pQ"
@@ -1869,7 +2023,9 @@
       "name": "Signs of the Swarm",
       "mbid": "cdeefae7-b8e2-4972-8730-4611013837de",
       "lastfm_scrobbles": 267,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 8,
+      "manual_tracking": true
     },
     {
       "name": "Silent Planet",
@@ -1901,7 +2057,9 @@
       "mbid": "4cda7e49-b8cc-4efe-a8f6-b294d812496d",
       "spotify_id": "24Oiw7BlvO1BETecDLJt6m",
       "lastfm_scrobbles": 360,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 6,
+      "manual_tracking": true
     },
     {
       "name": "Slaves",
@@ -1931,7 +2089,9 @@
       "name": "Slipknot",
       "mbid": "a466c2a2-6517-42fb-a160-1087c3bafd9f",
       "lastfm_scrobbles": 2134,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 6,
+      "manual_tracking": true
     },
     {
       "name": "Soulfly",
@@ -1943,14 +2103,18 @@
       "name": "SPEED",
       "mbid": "dee1f6b1-4459-49c5-aef3-0f98d15c122f",
       "lastfm_scrobbles": 87,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 15,
+      "manual_tracking": true
     },
     {
       "name": "Spiritbox",
       "mbid": "9c935736-7530-41e4-b776-1dbcf534c061",
       "spotify_id": "4MzJMcHQBl9SIYSjwWn8QW",
       "lastfm_scrobbles": 487,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 7,
+      "manual_tracking": true
     },
     {
       "name": "Spite",
@@ -2041,7 +2205,9 @@
       "name": "Sylosis",
       "mbid": "114f8840-8704-4b70-9673-904d60ecadc8",
       "lastfm_scrobbles": 73,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 30,
+      "manual_tracking": true
     },
     {
       "name": "System of a Down",
@@ -2102,7 +2268,9 @@
       "name": "The Amity Affliction",
       "mbid": "0bfb9d2b-e732-4f28-b2fe-e1d3db9665f1",
       "lastfm_scrobbles": 1112,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 14,
+      "manual_tracking": true
     },
     {
       "name": "The Black Dahlia Murder",
@@ -2114,19 +2282,25 @@
       "name": "The Browning",
       "mbid": "fb759bfb-34ec-4f1d-91f9-fd46549bc3cd",
       "lastfm_scrobbles": 407,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 11,
+      "manual_tracking": true
     },
     {
       "name": "The Butcher Sisters",
       "mbid": "15f7af3e-6908-4998-9bf1-6a6ebd7bd84a",
       "lastfm_scrobbles": 50,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 50,
+      "manual_tracking": true
     },
     {
       "name": "The Devil Wears Prada",
       "mbid": "43c0958c-27ef-46c4-b4cc-83cfca54170d",
       "lastfm_scrobbles": 460,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 7,
+      "manual_tracking": true
     },
     {
       "name": "The Dillinger Escape Plan",
@@ -2192,6 +2366,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "The Pretty Wild",
+      "mbid": "e9698bb2-bfcf-4f47-8e05-b4901e0c270d",
+      "lastfm_scrobbles_12month": 7,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "The Prodigy",
       "mbid": "4a4ee089-93b1-4470-af9a-6ff575d32704",
       "lastfm_scrobbles": 260,
@@ -2243,14 +2424,18 @@
       "name": "Thornhill",
       "mbid": "368f19e5-51c0-45d7-80c5-963be6971ac7",
       "lastfm_scrobbles": 213,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 17,
+      "manual_tracking": true
     },
     {
-      "name": "thrown",
+      "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
       "lastfm_scrobbles": 230,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 8,
+      "manual_tracking": true
     },
     {
       "name": "Thy Art Is Murder",
@@ -2263,7 +2448,9 @@
       "mbid": "110963bd-56b9-40d5-b07c-7c23a9725b48",
       "spotify_id": "3jr9qsKWQjf3iMNQ3rWVDQ",
       "lastfm_scrobbles": 157,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 6,
+      "manual_tracking": true
     },
     {
       "name": "Tonight Alive",
@@ -2287,7 +2474,9 @@
       "name": "Trivium",
       "mbid": "1f5ff245-2837-4d4a-a609-e93e544478c3",
       "lastfm_scrobbles": 1890,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 14,
+      "manual_tracking": true
     },
     {
       "name": "Twelve Foot Ninja",
@@ -2338,6 +2527,13 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Venom Prison",
+      "mbid": "1fa3ae66-386f-4f9a-be17-3492a8658f10",
+      "lastfm_scrobbles_12month": 5,
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
+    },
+    {
       "name": "Vexed",
       "mbid": "e362a06c-43b0-413e-97b5-15d5e4feac4b",
       "lastfm_scrobbles": 129,
@@ -2365,7 +2561,9 @@
       "name": "Wage War",
       "mbid": "653f3412-63c8-4bd8-bce1-a33aaf93a837",
       "lastfm_scrobbles": 875,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 18,
+      "manual_tracking": true
     },
     {
       "name": "WARGASM",
@@ -2408,7 +2606,9 @@
       "name": "Whitechapel",
       "mbid": "56ba013c-610e-4d9b-98ed-c2ccff977a9e",
       "lastfm_scrobbles": 1650,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 18,
+      "manual_tracking": true
     },
     {
       "name": "Wind Rose",
@@ -2420,7 +2620,9 @@
       "name": "Windwaker",
       "mbid": "2b0ef1ab-e19c-4258-be71-d421b4cdae1c",
       "lastfm_scrobbles": 148,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "lastfm_scrobbles_12month": 8,
+      "manual_tracking": true
     },
     {
       "name": "Within Destruction",
