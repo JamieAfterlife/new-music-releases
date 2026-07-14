@@ -65,7 +65,7 @@ class YouTubeVideoTests(unittest.TestCase):
             (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Spiritbox"}]}), encoding="utf-8")
             fake = FakeYouTube([
                 upload("auto-id", "Spiritbox - Song (Official Music Video)"),
-                upload("review-id", "Unknown Band - Song (Official Video)"),
+                upload("review-id", "Unknown Band - Song (Official Video)", "2026-05-21T16:00:18Z"),
             ])
             found, review = scan_videos(
                 root, "key", dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc), fake

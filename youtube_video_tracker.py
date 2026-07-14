@@ -86,7 +86,7 @@ class YouTube:
         data = self.get("channels", {"part": "snippet,contentDetails", key: handle_or_id})
         return next(iter(data.get("items", [])), None)
 
-    def uploads(self, playlist_id: str, limit: int = 15) -> list[dict[str, Any]]:
+    def uploads(self, playlist_id: str, limit: int = 50) -> list[dict[str, Any]]:
         data = self.get(
             "playlistItems",
             {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": str(limit)},
@@ -104,7 +104,9 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
     state = load_json(root / "data" / "videos.json", {"videos": {}})
     videos = state.setdefault("videos", {})
     review: dict[str, dict[str, Any]] = {}
-    cutoff = now - dt.timedelta(days=45)
+    # A wider first-discovery window is important for artist channels that mix
+    # music videos with many shorts, covers, interviews, and personal uploads.
+    cutoff = now - dt.timedelta(days=180)
 
     for source in sources:
         if source.get("enabled", True) is False:
@@ -119,7 +121,7 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
         if not uploads_id:
             continue
         channel_name = channel.get("snippet", {}).get("title") or identifier
-        for item in youtube.uploads(uploads_id):
+        for item in youtube.uploads(uploads_id, 50):
             snippet = item.get("snippet", {})
             video_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
             published = snippet.get("publishedAt", "")
