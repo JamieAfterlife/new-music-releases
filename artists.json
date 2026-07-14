@@ -67,15 +67,15 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Abysmal Dawn",
-      "mbid": "128fba8e-a03a-444a-8a79-c99b31cda0ea",
-      "lastfm_scrobbles": 27,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "Abörted Hitler Cöck",
       "mbid": "005e1e7c-e93a-4a01-93a9-1c29e3b47446",
       "lastfm_scrobbles": 142,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Abysmal Dawn",
+      "mbid": "128fba8e-a03a-444a-8a79-c99b31cda0ea",
+      "lastfm_scrobbles": 27,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -582,12 +582,6 @@
       "name": "Blessthefall",
       "mbid": "aafa70a4-2f06-4975-935e-b283fc87de7e",
       "lastfm_scrobbles": 109,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "blink‐182",
-      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
-      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1347,7 +1341,8 @@
       "name": "FEVER 333",
       "mbid": "9f3732d2-034b-4471-ada8-287a4379cf47",
       "lastfm_scrobbles": 196,
-      "lastfm_user": "DeathbatAttack"
+      "lastfm_user": "DeathbatAttack",
+      "manual_tracking": true
     },
     {
       "name": "Filth",
@@ -2127,12 +2122,6 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Koven",
-      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
-      "lastfm_scrobbles": 195,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "Kreayshawn",
       "mbid": "b87b38cc-b446-4a0c-968a-addb0e244c9d",
       "lastfm_scrobbles": 41,
@@ -2380,6 +2369,12 @@
       "manual_tracking": true
     },
     {
+      "name": "Mélancolia",
+      "mbid": "a17e0944-469c-45ce-a6bd-2dab63aa61bc",
+      "lastfm_scrobbles": 45,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Memphis May Fire",
       "mbid": "681b5ab2-b7dd-4dff-85e9-1e84503ad36a",
       "lastfm_scrobbles": 770,
@@ -2465,6 +2460,12 @@
       "manual_tracking": true
     },
     {
+      "name": "Mötley Crüe",
+      "mbid": "26f07661-e115-471d-a930-206f5c89d17c",
+      "lastfm_scrobbles": 21,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Motörhead",
       "mbid": "57961a97-3796-4bf7-9f02-a985a8979ae9",
       "lastfm_scrobbles": 65,
@@ -2511,18 +2512,6 @@
       "name": "My Ticket Home",
       "mbid": "f79fa401-653a-4646-aa88-ee1954a7ac8a",
       "lastfm_scrobbles": 179,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Mélancolia",
-      "mbid": "a17e0944-469c-45ce-a6bd-2dab63aa61bc",
-      "lastfm_scrobbles": 45,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Mötley Crüe",
-      "mbid": "26f07661-e115-471d-a930-206f5c89d17c",
-      "lastfm_scrobbles": 21,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3895,6 +3884,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "VÏKÆ",
+      "mbid": "655430a5-5b18-4d84-94da-5249eccb18ef",
+      "lastfm_scrobbles": 23,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Vildhjarta",
       "mbid": "a75f009f-7234-4f69-81a2-c1f7492f4106",
       "lastfm_scrobbles": 266,
@@ -3934,12 +3929,6 @@
       "name": "Vulvodynia",
       "mbid": "53689c08-f234-4c47-9256-58c8568f06d1",
       "lastfm_scrobbles": 40,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "VÏKÆ",
-      "mbid": "655430a5-5b18-4d84-94da-5249eccb18ef",
-      "lastfm_scrobbles": 23,
       "lastfm_user": "DeathbatAttack"
     },
     {

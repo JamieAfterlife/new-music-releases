@@ -1,7 +1,27 @@
 {
-  "artist_aliases": [],
+  "artist_aliases": [
+    {
+      "source_name": "Fever 333",
+      "name": "FEVER 333",
+      "mbid": "9f3732d2-034b-4471-ada8-287a4379cf47"
+    }
+  ],
   "ignored_sources": [
     "Poppy, Amy Lee & Courtney LaPlante",
-    "Vesanic Rave"
+    "Vesanic Rave",
+    "The Fever 333",
+    "The Milwaukee Protocol",
+    "Scythe Gang 666",
+    "MAKJ & Lil Jon",
+    "frnkiero andthe cellabration",
+    "Fatboy Slim & Riva Starr",
+    "DJ Snake & Lil Jon",
+    "Dimitri Vegas, Martin Garrix & Like Mike",
+    "Deorro & J-Trick",
+    "Dimitri Vegas & Like Mike & Wolfpack Feat. Katy B",
+    "Confetti Canon",
+    "Borgore & Sikdope",
+    "Alesso & Calvin Harris",
+    "Afrojack, Dimitri Vegas, Like Mike & NERVO"
   ]
 }
