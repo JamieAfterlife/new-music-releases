@@ -36,9 +36,30 @@ def normalized(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
 
 
+def name_variants(value: str) -> set[str]:
+    """Include a punctuation-free acronym form, such as A.D. -> AD."""
+    tokens = normalized(value).split()
+    variants = {" ".join(tokens)} if tokens else set()
+    collapsed: list[str] = []
+    index = 0
+    while index < len(tokens):
+        end = index
+        while end < len(tokens) and len(tokens[end]) == 1:
+            end += 1
+        if end - index >= 2:
+            collapsed.append("".join(tokens[index:end]))
+            index = end
+        else:
+            collapsed.append(tokens[index])
+            index += 1
+    if collapsed:
+        variants.add(" ".join(collapsed))
+    return variants
+
+
 def title_mentions(title: str, artist: str) -> bool:
-    needle, haystack = normalized(artist), normalized(title)
-    return bool(needle and re.search(rf"(?:^|\s){re.escape(needle)}(?:\s|$)", haystack))
+    haystack = normalized(title)
+    return any(re.search(rf"(?:^|\s){re.escape(needle)}(?:\s|$)", haystack) for needle in name_variants(artist))
 
 
 def is_topic_channel(candidate: dict[str, Any]) -> bool:
@@ -72,8 +93,6 @@ def classify_video(
         return "auto", matched, "Official-video wording and tracked artist named in title"
     if maybe and matched:
         return "review", matched, "Tracked artist named with an uncertain video signal"
-    if strong and source.get("kind") == "label":
-        return "review", [], "Official-video wording on a label channel; artist match is uncertain"
     return "ignore", [], "No reliable tracked-artist match"
 
 

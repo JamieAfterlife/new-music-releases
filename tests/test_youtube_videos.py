@@ -60,7 +60,7 @@ class YouTubeVideoTests(unittest.TestCase):
         self.assertEqual(live_video[0], "auto")
         self.assertEqual(unclear_video[0], "review")
 
-    def test_label_channel_requires_artist_name_or_review(self):
+    def test_label_channel_requires_a_tracked_artist_in_the_title(self):
         tracked = [{"name": "Spiritbox"}]
         matched = classify_video(
             "Spiritbox - New Song (Official Video)", {"kind": "label"}, tracked
@@ -69,7 +69,15 @@ class YouTubeVideoTests(unittest.TestCase):
             "Unknown Band - New Song (Official Video)", {"kind": "label"}, tracked
         )
         self.assertEqual((matched[0], matched[1]), ("auto", ["Spiritbox"]))
-        self.assertEqual(uncertain[0], "review")
+        self.assertEqual(uncertain[0], "ignore")
+
+    def test_mapped_label_only_matches_its_mapped_artist(self):
+        tracked = [{"name": "Antagonist A.D."}, {"name": "The Beautiful Monument"}]
+        source = {"kind": "label", "artist_names": ["Antagonist A.D."]}
+        antagonist = classify_video("Antagonist AD - New Song (Official Music Video)", source, tracked)
+        other_band = classify_video("The Beautiful Monument - New Song (Official Music Video)", source, tracked)
+        self.assertEqual((antagonist[0], antagonist[1]), ("auto", ["Antagonist A.D."]))
+        self.assertEqual((other_band[0], other_band[1]), ("ignore", []))
 
     def test_auto_generated_topic_channels_are_excluded(self):
         self.assertTrue(is_topic_channel({"snippet": {"channelTitle": "Spiritbox - Topic"}}))
@@ -85,7 +93,7 @@ class YouTubeVideoTests(unittest.TestCase):
             (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Spiritbox"}]}), encoding="utf-8")
             fake = FakeYouTube([
                 upload("auto-id", "Spiritbox - Song (Official Music Video)"),
-                upload("review-id", "Unknown Band - Song (Official Video)", "2026-05-21T16:00:18Z"),
+                upload("review-id", "Spiritbox - Song Visualizer", "2026-05-21T16:00:18Z"),
             ])
             found, review = scan_videos(
                 root, "key", dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc), fake
