@@ -1555,6 +1555,591 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+      "kind": "artist",
+      "artist_names": [
+        "Linkin Park"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPfMDwzk8gCMOAZaJ9JEsgw",
+      "kind": "artist",
+      "artist_names": [
+        "Living Colour"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0nS0FSoouwc_Nm8g6DnH8w",
+      "kind": "artist",
+      "artist_names": [
+        "Lorna Shore"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCA5Ll7vHmwz3r_mt52NkE3Q",
+      "kind": "artist",
+      "artist_names": [
+        "Lune"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5mX9jQdmMRzCLfOJmeyhsg",
+      "kind": "artist",
+      "artist_names": [
+        "Machine Head"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYobZdR-x5ZJ_C05BSa-lcg",
+      "kind": "artist",
+      "artist_names": [
+        "Maezi666"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCv011hIm-QqpgDGt32xrIRA",
+      "kind": "artist",
+      "artist_names": [
+        "Maggie Lindemann"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPjU9DJfDv_HhTsorvhpAIw",
+      "kind": "artist",
+      "artist_names": [
+        "Malevolence"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbirjI1K3MGu0-Y1gTBNR5w",
+      "kind": "artist",
+      "artist_names": [
+        "Marilyn Manson"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCm2MkB7twKnwFViykMH1SeA",
+      "kind": "artist",
+      "artist_names": [
+        "Masticated Whores"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCR7Ls5FuT6UKTcsMkcwgCUA",
+      "kind": "artist",
+      "artist_names": [
+        "Mastodon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFASbIeJXQCxg3jzJu9HyJg",
+      "kind": "artist",
+      "artist_names": [
+        "Mayhem"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCLVz1B001PIbq9LliJenV2w",
+      "kind": "artist",
+      "artist_names": [
+        "Megadeth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPP0hCej0JX5hBT7p00N-Sw",
+      "kind": "artist",
+      "artist_names": [
+        "Mental Cruelty"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCxLbFcGicScOE07gwngd18g",
+      "kind": "artist",
+      "artist_names": [
+        "Meshuggah"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt-YVDXx-aEqwiPHkopZABg",
+      "kind": "artist",
+      "artist_names": [
+        "Metal Allegiance"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbulh9WdLtEXiooRcYK7SWw",
+      "kind": "artist",
+      "artist_names": [
+        "Metallica"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBEIiXDFatzq7ywkpjU9tIw",
+      "kind": "artist",
+      "artist_names": [
+        "Mothica"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC6_Ac6AKLT2oiQmNQpujaKg",
+      "kind": "artist",
+      "artist_names": [
+        "Muse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCCZGYab5SpD0I7Z5JqJZgww",
+      "kind": "artist",
+      "artist_names": [
+        "My Chemical Romance"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCMp7FseFvPnWMM9oouv_ohw",
+      "kind": "artist",
+      "artist_names": [
+        "My Ticket Home"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSHCTJS2P4Hvu_reLKtiT6g",
+      "kind": "artist",
+      "artist_names": [
+        "N.W.A"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCrgjtdl0Bnp-0CenQHqLadw",
+      "kind": "artist",
+      "artist_names": [
+        "Napalm Death"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIlCG-eRqxjgtbbp9AzeNeg",
+      "kind": "artist",
+      "artist_names": [
+        "Nekrogoblikon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYju6cJkaQafQvKE9q-vMWQ",
+      "kind": "artist",
+      "artist_names": [
+        "Netsky"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1TAp7wegA0AoGJ5kJmHbPw",
+      "kind": "artist",
+      "artist_names": [
+        "New Found Glory"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCLhcQ0bBZTLipRJ7D42Riow",
+      "kind": "artist",
+      "artist_names": [
+        "Nik Nocturnal"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPSso4A-41Rth8KMf0O40iw",
+      "kind": "artist",
+      "artist_names": [
+        "Noisia"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCDzB7hPwj9qoL_bKEb2atFw",
+      "kind": "artist",
+      "artist_names": [
+        "Northlane"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCAZtC3nKx-BGomyQz0Vhh3Q",
+      "kind": "artist",
+      "artist_names": [
+        "Nothing But Thieves"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClA4bJaw7hzOOg2sGGGW8ig",
+      "kind": "artist",
+      "artist_names": [
+        "Ocean Grove"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCMCoRJ9AMpZCiZI-cIyQrOQ",
+      "kind": "artist",
+      "artist_names": [
+        "Oceano"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1cJtRVNGe5uiQO6_4X9vuQ",
+      "kind": "artist",
+      "artist_names": [
+        "One Last Breath"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCzycs8MqvIY4nXWwS-v4J9g",
+      "kind": "artist",
+      "artist_names": [
+        "ONE OK ROCK"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmQSJTFZaXN85gYk6W3XbdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Opeth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_By14hK_6sTsA5DInKdgeA",
+      "kind": "artist",
+      "artist_names": [
+        "Ov Sulfur"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCe3JCin4Gnv9azlWnAs5keg",
+      "kind": "artist",
+      "artist_names": [
+        "Ozzy Osbourne"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3xhyrtTamVuGNGq5l6bPhw",
+      "kind": "artist",
+      "artist_names": [
+        "PALEFACE SWISS"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCeekxg1vju_sjIK9KjJJLYg",
+      "kind": "artist",
+      "artist_names": [
+        "Papa Roach"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCP0efewXEcuCddMFLjlCDJQ",
+      "kind": "artist",
+      "artist_names": [
+        "Parkway Drive"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjERtKPX3sKYHGrXLhoeUAA",
+      "kind": "artist",
+      "artist_names": [
+        "Patient Sixty-Seven"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClQT6Vnsm6BUm0I5kR26EkQ",
+      "kind": "artist",
+      "artist_names": [
+        "Pearl Jam"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCfVczXnryp-xB2xBG3ocUgw",
+      "kind": "artist",
+      "artist_names": [
+        "Periphery"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCyipvkWkNpmEQPGovalDjFA",
+      "kind": "artist",
+      "artist_names": [
+        "Pierce the Veil"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCE4DN7LDMXYvPDv_ZDXvNRg",
+      "kind": "artist",
+      "artist_names": [
+        "PiNKII"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjqLNIr1L5ZlDbjscuCJfxA",
+      "kind": "artist",
+      "artist_names": [
+        "Polaris"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCDe08Fs0s0YKJuk5h45csAQ",
+      "kind": "artist",
+      "artist_names": [
+        "Polyphia"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8JE00xTMBOqKs7o0grFTfQ",
+      "kind": "artist",
+      "artist_names": [
+        "Poppy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCMPQTQHieD18WxKUGgq4JcA",
+      "kind": "artist",
+      "artist_names": [
+        "Public Enemy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC16zGxZ1weXDUXzRYwtfPqg",
+      "kind": "artist",
+      "artist_names": [
+        "PVRIS"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYp3rk70ACGXQ4gFAiMr1SQ",
+      "kind": "artist",
+      "artist_names": [
+        "Rammstein"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCEuOwB9vSL1oPKGNdONB4ig",
+      "kind": "artist",
+      "artist_names": [
+        "Red Hot Chili Peppers"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBV0ixEuO3px_tXA3dobrdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Revocation"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCE-lTqBP7ztixDklJp1TxXQ",
+      "kind": "artist",
+      "artist_names": [
+        "Rezz"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSbQeLP-A97Pj54TOxqgBhg",
+      "kind": "artist",
+      "artist_names": [
+        "Rinrin"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCnflc7QsyMT-yjq4_4VuDGw",
+      "kind": "artist",
+      "artist_names": [
+        "Rose Funeral"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjQhd1APsd5NQhiVZV7GYzg",
+      "kind": "artist",
+      "artist_names": [
+        "Sabaton"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCueZm-grmoiLK0_tom_-5Xw",
+      "kind": "artist",
+      "artist_names": [
+        "Sanguisugabogg"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC-0Urs9tifl-7DDE1RLbBHQ",
+      "kind": "artist",
+      "artist_names": [
+        "SCARLXRD"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCY_lVP6KV_CMMPy0yjXyXzA",
+      "kind": "artist",
+      "artist_names": [
+        "Scumfuck"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCy255kU2vzTn2xL5dSJA2kg",
+      "kind": "artist",
+      "artist_names": [
+        "Senses Fail"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4Prl7UQx5i5PgRUh-O5XBg",
+      "kind": "artist",
+      "artist_names": [
+        "Sepultura"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjTXC0W1gKzpXG28CPzGVcw",
+      "kind": "artist",
+      "artist_names": [
+        "Shadow of Intent"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCcZcVw24HfbR14veZe7NyZA",
+      "kind": "artist",
+      "artist_names": [
+        "Showing Teeth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt9LU0sCIi2lhigDbbcwGxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Shrine of Malice"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
