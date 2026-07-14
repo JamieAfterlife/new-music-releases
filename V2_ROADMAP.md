@@ -13,7 +13,7 @@ Version 1 is permanently preserved by the `v1.0.0` Git tag. Version 2 remains a 
 - Use the timezone selected on the management page.
 - Keep the existing release-by-release RSS feed.
 
-### Music videos — next major feature
+### Music videos — implemented; awaiting personal API key and channel choices
 
 - Discover recent uploads from known artist and record-label YouTube channels.
 - Recognise strong title signals such as “official”, “official video”, and “music video”.

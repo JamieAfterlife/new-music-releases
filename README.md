@@ -177,6 +177,18 @@ The included GitHub Actions workflow checks every 12 hours and publishes `public
 
 Your page and RSS feed will then be available at the Pages URL. The workflow caches history between runs; RSS readers still deduplicate by the stable MusicBrainz release-group ID if the cache is ever lost.
 
+## Optional official music videos
+
+The **Music videos** page scans only the upload playlists of YouTube channels you configure. Artist and personal channels need one or more mapped artist names; label channels can match against the entire tracked-artist list. Strong titles such as **Official Music Video**, **Official Video**, or **Music Video** publish automatically when the artist match is reliable. Uncertain candidates appear in **Manage → Video review queue** for approval or permanent rejection.
+
+1. In Google Cloud, create or select a project and enable **YouTube Data API v3**.
+2. Open **APIs & Services → Credentials**, create an API key, and restrict it to **YouTube Data API v3**. GitHub-hosted runners do not have a stable IP, so an API-only restriction is the practical choice.
+3. In this GitHub repository, open **Settings → Secrets and variables → Actions** and create `YOUTUBE_API_KEY` containing the key.
+4. Open **Manage tracked artists → Music video channels** and add a handle such as `@AlexTerrible`. For that example, choose **Artist or personal channel** and map it to `Slaughter to Prevail`.
+5. Save, then run **Actions → Check new music → Run workflow**. The normal 12-hour schedule scans it thereafter.
+
+This reads public channel and upload metadata only; it does not need YouTube Premium or an OAuth login. The key is kept in GitHub Actions and is never published in the website or backup file.
+
 ## Important behavior
 
 - **Appearances:** The tracker searches recording artist credits as well as primary release-group credits and labels each match with the tracked artist responsible. A guest appearance on one track is presented as **Single · Feature**, even when that track belongs to an album; multi-track collaborations keep the container's Album or EP type. Compilations credited to Various Artists remain excluded, as do low-signal releases classified as both a compilation and a demo when the tracked artist only appears on them.

@@ -31,7 +31,10 @@ jobs:
         id: pages
       - uses: actions/cache@v4
         with:
-          path: data/state.json
+          path: |
+            data/state.json
+            data/videos.json
+            data/video_review.json
           key: music-state-${{ github.run_id }}
           restore-keys: music-state-
       - uses: actions/cache@v4
@@ -77,6 +80,10 @@ jobs:
         env:
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
         run: python music_release_tracker.py sync-lastfm
+      - name: Scan configured YouTube channels
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python youtube_video_tracker.py scan
       - name: Save imported artists
         run: |
           if ! git diff --quiet -- artists.json; then

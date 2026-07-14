@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+"""Discover official music videos from configured YouTube channel uploads."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import html
+import json
+import os
+import re
+import urllib.parse
+import urllib.request
+from pathlib import Path
+from typing import Any
+
+API_ROOT = "https://www.googleapis.com/youtube/v3"
+OFFICIAL_VIDEO_RE = re.compile(r"\b(?:official\s+music\s+video|official\s+video|music\s+video)\b", re.I)
+MAYBE_VIDEO_RE = re.compile(r"\b(?:official|video|visualizer|premiere)\b", re.I)
+
+
+def load_json(path: Path, default: Any) -> Any:
+    if not path.exists():
+        return default
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def save_json(path: Path, value: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_suffix(path.suffix + ".tmp")
+    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temp, path)
+
+
+def normalized(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
+
+
+def title_mentions(title: str, artist: str) -> bool:
+    needle, haystack = normalized(artist), normalized(title)
+    return bool(needle and re.search(rf"(?:^|\s){re.escape(needle)}(?:\s|$)", haystack))
+
+
+def classify_video(
+    title: str,
+    source: dict[str, Any],
+    tracked_artists: list[dict[str, Any]],
+) -> tuple[str, list[str], str]:
+    """Return auto/review/ignore, matched artist names, and an explanation."""
+    strong = bool(OFFICIAL_VIDEO_RE.search(title))
+    maybe = bool(MAYBE_VIDEO_RE.search(title))
+    mapped = [str(name).strip() for name in source.get("artist_names", []) if str(name).strip()]
+    if source.get("kind") == "artist" and mapped:
+        if strong:
+            return "auto", mapped, "Official-video wording on a mapped artist channel"
+        if maybe:
+            return "review", mapped, "Artist channel upload has a possible video signal"
+        return "ignore", [], "No music-video wording"
+
+    candidates = mapped or [artist.get("name", "") for artist in tracked_artists]
+    matched = sorted({name for name in candidates if title_mentions(title, name)}, key=str.casefold)
+    if strong and matched:
+        return "auto", matched, "Official-video wording and tracked artist named in title"
+    if maybe and matched:
+        return "review", matched, "Tracked artist named with an uncertain video signal"
+    if strong and source.get("kind") == "label":
+        return "review", [], "Official-video wording on a label channel; artist match is uncertain"
+    return "ignore", [], "No reliable tracked-artist match"
+
+
+class YouTube:
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+
+    def get(self, endpoint: str, params: dict[str, str]) -> dict[str, Any]:
+        query = urllib.parse.urlencode({**params, "key": self.api_key})
+        request = urllib.request.Request(
+            f"{API_ROOT}/{endpoint}?{query}",
+            headers={"Accept": "application/json", "User-Agent": "NewMusicReleaseTracker/2.0"},
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.load(response)
+
+    def channel(self, handle_or_id: str) -> dict[str, Any] | None:
+        key = "id" if handle_or_id.startswith("UC") else "forHandle"
+        data = self.get("channels", {"part": "snippet,contentDetails", key: handle_or_id})
+        return next(iter(data.get("items", [])), None)
+
+    def uploads(self, playlist_id: str, limit: int = 15) -> list[dict[str, Any]]:
+        data = self.get(
+            "playlistItems",
+            {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": str(limit)},
+        )
+        return data.get("items", [])
+
+
+def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtube: YouTube | None = None) -> tuple[int, int]:
+    now = now or dt.datetime.now(dt.timezone.utc)
+    youtube = youtube or YouTube(api_key)
+    sources = load_json(root / "video_sources.json", {"channels": []}).get("channels", [])
+    artists = load_json(root / "artists.json", {"artists": []}).get("artists", [])
+    decisions = load_json(root / "video_decisions.json", {"approved": [], "rejected": []})
+    approved, rejected = set(decisions.get("approved", [])), set(decisions.get("rejected", []))
+    state = load_json(root / "data" / "videos.json", {"videos": {}})
+    videos = state.setdefault("videos", {})
+    review: dict[str, dict[str, Any]] = {}
+    cutoff = now - dt.timedelta(days=45)
+
+    for source in sources:
+        if source.get("enabled", True) is False:
+            continue
+        identifier = str(source.get("channel_id") or source.get("handle") or "").strip()
+        if not identifier:
+            continue
+        channel = youtube.channel(identifier)
+        if not channel:
+            continue
+        uploads_id = channel.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads")
+        if not uploads_id:
+            continue
+        channel_name = channel.get("snippet", {}).get("title") or identifier
+        for item in youtube.uploads(uploads_id):
+            snippet = item.get("snippet", {})
+            video_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
+            published = snippet.get("publishedAt", "")
+            if not video_id or not published:
+                continue
+            try:
+                published_time = dt.datetime.fromisoformat(published.replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if published_time < cutoff:
+                continue
+            status, matched, reason = classify_video(snippet.get("title", ""), source, artists)
+            if video_id in approved:
+                status, reason = "auto", "Approved in the review queue"
+            if video_id in rejected:
+                status = "ignore"
+            thumbnails = snippet.get("thumbnails", {})
+            thumbnail = next((thumbnails[key].get("url") for key in ("maxres", "standard", "high", "medium", "default") if thumbnails.get(key)), "")
+            record = {
+                "id": video_id,
+                "title": snippet.get("title") or "Untitled video",
+                "channel": channel_name,
+                "channel_id": channel.get("id", ""),
+                "published_at": published,
+                "thumbnail": thumbnail,
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "matched_artists": matched,
+                "source": identifier,
+                "reason": reason,
+                "status": status,
+            }
+            if status == "auto":
+                videos[video_id] = record
+            elif status == "review":
+                review[video_id] = record
+
+    for video_id in rejected:
+        videos.pop(video_id, None)
+    save_json(root / "data" / "videos.json", state)
+    save_json(root / "data" / "video_review.json", {"videos": sorted(review.values(), key=lambda item: item["published_at"], reverse=True)})
+    return len(videos), len(review)
+
+
+def render_video_page(root: Path, output_dir: Path, title: str, timezone: str = "UTC") -> int:
+    state = load_json(root / "data" / "videos.json", {"videos": {}})
+    decisions = load_json(root / "video_decisions.json", {"approved": [], "rejected": []})
+    rejected = set(decisions.get("rejected", []))
+    videos = [video for video_id, video in state.get("videos", {}).items() if video_id not in rejected]
+    videos.sort(key=lambda item: item.get("published_at", ""), reverse=True)
+    cards = []
+    for video in videos:
+        artist = ", ".join(video.get("matched_artists", [])) or video.get("channel", "")
+        published = video.get("published_at", "")[:10]
+        cards.append(
+            '<article class="video" data-search="' + html.escape(f'{video.get("title", "")} {artist} {video.get("channel", "")}'.casefold(), quote=True) + '">'
+            f'<a class="thumb" href="{html.escape(video["url"], quote=True)}" target="_blank" rel="noopener"><img loading="lazy" src="{html.escape(video.get("thumbnail", ""), quote=True)}" alt=""></a>'
+            '<div class="video__body">'
+            f'<span class="video__date">{html.escape(published)}</span><a class="video__title" href="{html.escape(video["url"], quote=True)}" target="_blank" rel="noopener">{html.escape(video.get("title", "Untitled video"))}</a>'
+            f'<div class="video__artist">{html.escape(artist)}</div><div class="video__channel">{html.escape(video.get("channel", ""))}</div>'
+            f'<a class="watch" href="{html.escape(video["url"], quote=True)}" target="_blank" rel="noopener">Watch on YouTube</a></div></article>'
+        )
+    template_path = root / "videos_template.html"
+    if not template_path.exists():
+        template_path = Path(__file__).with_name("videos_template.html")
+    template = template_path.read_text(encoding="utf-8")
+    page = (template.replace("__TITLE__", html.escape(title)).replace("__COUNT__", str(len(videos))).replace("__VIDEOS__", "".join(cards)))
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "videos.html").write_text(page, encoding="utf-8")
+    return len(videos)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("command", choices=("scan", "render"))
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    args = parser.parse_args(argv)
+    site = load_json(args.root / "site.json", {})
+    key = os.environ.get("YOUTUBE_API_KEY", "").strip()
+    if args.command == "scan":
+        if key:
+            found, review = scan_videos(args.root, key)
+            print(f"Music videos: {found} published, {review} awaiting review.")
+        else:
+            print("Music video scan skipped: YOUTUBE_API_KEY is not configured.")
+    count = render_video_page(args.root, args.root / "public", site.get("feed_title", "My new music"), site.get("timezone", "UTC"))
+    print(f"Rendered {count} music video(s).")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

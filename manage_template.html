@@ -79,7 +79,7 @@
   <main class="shell">
     <header class="top">
       <div><p class="eyebrow">Release radar</p><h1>Manage tracked artists</h1><p>Deselect anyone you no longer want in your feed.</p></div>
-      <nav><a href="index.html">← Releases</a></nav>
+      <nav><a href="index.html">← Releases</a> · <a href="videos.html">Music videos</a></nav>
     </header>
 
     <section class="card">
@@ -131,6 +131,18 @@
     </section>
 
     <section class="card">
+      <div class="summary"><div><h2>Music video channels</h2><p>Track an artist, personal, or label channel by its YouTube handle. Artist mappings can contain multiple names separated by commas.</p></div><span id="video-source-count" class="count"></span></div>
+      <div class="site-fields">
+        <label class="field"><span>YouTube handle or channel ID</span><input id="video-handle" placeholder="@AlexTerrible" aria-label="YouTube handle or channel ID"></label>
+        <label class="field"><span>Channel type</span><select id="video-kind"><option value="artist">Artist or personal channel</option><option value="label">Record-label channel</option></select></label>
+        <label class="field field--wide"><span>Mapped artist names</span><input id="video-artists" placeholder="Slaughter to Prevail" aria-label="Mapped artist names"></label>
+      </div>
+      <div class="onboarding__actions"><button id="add-video-source" class="button button--quiet">Add channel</button></div>
+      <div id="video-sources" class="results"></div>
+      <div class="onboarding__review"><div class="summary"><div><h2>Video review queue</h2><p>Approve uncertain matches or reject them permanently.</p></div><span id="video-review-count" class="count"></span></div><div id="video-review" class="results"></div></div>
+    </section>
+
+    <section class="card">
       <div class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></div>
       <div id="muted-releases" class="results"></div>
     </section>
@@ -152,9 +164,9 @@
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
   <script>
-    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__ };
+    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__, videoSources:__VIDEO_SOURCES_JSON__, videoReview:__VIDEO_REVIEW_JSON__, videoDecisions:__VIDEO_DECISIONS_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
-    let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site), aliases = structuredClone(embedded.aliases);
+    let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site), aliases = structuredClone(embedded.aliases), videoSources = structuredClone(embedded.videoSources), videoDecisions = structuredClone(embedded.videoDecisions);
     let artists = new Map(), recentChoices = new Map(), activeAliasSource = '';
     const el = id => document.getElementById(id);
     const connectionKey = `new-music-tracker:github:${location.pathname.split('/').filter(Boolean)[0] || 'site'}`;
@@ -180,7 +192,7 @@
       ids.forEach((mbid,index) => { if (!artists.has(mbid)) artists.set(mbid,{ name:names[index] || mbid, mbid, tracked:false, record:{ name:names[index] || mbid, mbid } }); });
       names.forEach(name => { if (![...artists.values()].some(x => x.name.toLocaleLowerCase() === name.toLocaleLowerCase())) artists.set(`name:${name}`,{ name, mbid:'', tracked:false, record:{name,mbid:''} }); });
     }
-    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Changes are ready to save.' : 'Changes are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); renderMuted(); renderAliases(); }
+    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Changes are ready to save.' : 'Changes are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); renderMuted(); renderAliases(); renderVideoSettings(); }
     function prepareRecentReview() {
       const candidates = embedded.recent.artists || [];
       if (!candidates.length || site.lastfm_recent_reviewed) return;
@@ -255,6 +267,15 @@
       for(const record of aliases.artist_aliases){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=`${record.source_name} → ${record.name}`;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Saved name fix';copy.append(name,meta);const button=document.createElement('button');button.className='button button--quiet button--small';button.textContent='Remove';button.addEventListener('click',()=>{aliases.artist_aliases=aliases.artist_aliases.filter(item=>item.source_name!==record.source_name);markDirty();});row.append(copy,button);el('aliases').append(row);}
       if(!unresolved.length&&!aliases.artist_aliases.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No unresolved names or saved fixes.';el('aliases').append(empty);}
     }
+    function renderVideoSettings() {
+      videoSources.channels=videoSources.channels||[];videoDecisions.approved=videoDecisions.approved||[];videoDecisions.rejected=videoDecisions.rejected||[];
+      el('video-source-count').textContent=`${videoSources.channels.length} channel${videoSources.channels.length===1?'':'s'}`;el('video-sources').replaceChildren();
+      for(const source of videoSources.channels){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=source.handle||source.channel_id;const meta=document.createElement('div');meta.className='result__meta';meta.textContent=[source.kind==='label'?'Label':'Artist channel',(source.artist_names||[]).join(', ')].filter(Boolean).join(' · ');copy.append(name,meta);const button=document.createElement('button');button.className='button button--quiet button--small';button.textContent='Remove';button.addEventListener('click',()=>{videoSources.channels=videoSources.channels.filter(item=>item!==source);markDirty();});row.append(copy,button);el('video-sources').append(row);}
+      if(!videoSources.channels.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No YouTube channels configured yet.';el('video-sources').append(empty);}
+      const pending=(embedded.videoReview.videos||[]).filter(video=>!videoDecisions.approved.includes(video.id)&&!videoDecisions.rejected.includes(video.id));el('video-review-count').textContent=`${pending.length} pending`;el('video-review').replaceChildren();
+      for(const video of pending){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=video.title;const meta=document.createElement('div');meta.className='result__meta';meta.textContent=[video.channel,(video.matched_artists||[]).join(', '),video.reason].filter(Boolean).join(' · ');copy.append(name,meta);const actions=document.createElement('div');actions.className='onboarding__actions';const watch=document.createElement('a');watch.className='button button--quiet button--small';watch.href=video.url;watch.target='_blank';watch.rel='noopener';watch.textContent='Watch';const approve=document.createElement('button');approve.className='button button--small';approve.textContent='Approve';approve.addEventListener('click',()=>{videoDecisions.rejected=videoDecisions.rejected.filter(id=>id!==video.id);if(!videoDecisions.approved.includes(video.id))videoDecisions.approved.push(video.id);markDirty();});const reject=document.createElement('button');reject.className='button button--danger button--small';reject.textContent='Reject';reject.addEventListener('click',()=>{videoDecisions.approved=videoDecisions.approved.filter(id=>id!==video.id);if(!videoDecisions.rejected.includes(video.id))videoDecisions.rejected.push(video.id);markDirty();});actions.append(watch,approve,reject);row.append(copy,actions);el('video-review').append(row);}
+      if(!pending.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Nothing needs review.';el('video-review').append(empty);}
+    }
     function setStatus(text,kind='') { el('status').textContent=text; el('status').dataset.kind=kind; }
     function toBase64(bytes) { let binary=''; for(const value of bytes)binary+=String.fromCharCode(value); return btoa(binary); }
     function fromBase64(value) { return Uint8Array.from(atob(value),character=>character.charCodeAt(0)); }
@@ -291,7 +312,7 @@
     el('select-all').addEventListener('click',() => { for(const artist of artists.values()) if(artist.mbid){artist.tracked=true;artist.record.manual_tracking=true;} markDirty(); });
     el('start-fresh').addEventListener('click',() => {
       if (!confirm('Start with an empty artist list? This removes every tracked and blocked artist when you save.')) return;
-      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases.artist_aliases=[];
+      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases.artist_aliases=[];videoSources.channels=[];videoDecisions={approved:[],rejected:[]};
       el('feed-title').value='My new music';
       el('timezone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
       el('lastfm-username').value=''; el('lastfm-threshold').value='50';
@@ -308,6 +329,7 @@
     }
     el('search').addEventListener('click',search); el('query').addEventListener('keydown',event=>{if(event.key==='Enter')search();});
     el('find-alias').addEventListener('click',()=>beginAlias(el('alias-source').value));el('alias-source').addEventListener('keydown',event=>{if(event.key==='Enter')beginAlias(el('alias-source').value);});
+    el('add-video-source').addEventListener('click',()=>{let handle=el('video-handle').value.trim();const kind=el('video-kind').value,artistNames=el('video-artists').value.split(',').map(value=>value.trim()).filter(Boolean);if(!handle){el('video-handle').focus();return;}if(!handle.startsWith('@')&&!handle.startsWith('UC'))handle=`@${handle}`;if(kind==='artist'&&!artistNames.length){el('video-artists').focus();return;}videoSources.channels=(videoSources.channels||[]).filter(source=>(source.handle||source.channel_id)!==handle);videoSources.channels.push({handle,kind,artist_names:artistNames,enabled:true});el('video-handle').value='';el('video-artists').value='';markDirty();});
     async function connectGithub() {
       const repository=el('repository').value.trim(),enteredToken=el('token').value.trim(),password=el('unlock-password').value;
       if(!repository){setStatus('Enter the repository first.','error');return;}
@@ -340,7 +362,7 @@
     }
     el('export-backup').addEventListener('click',()=>{
       makeFiles();
-      const backup={version:1,exported_at:new Date().toISOString(),watchlist,blacklist,site,aliases,theme:el('theme').value};
+      const backup={version:1,exported_at:new Date().toISOString(),watchlist,blacklist,site,aliases,video_sources:videoSources,video_decisions:videoDecisions,theme:el('theme').value};
       const blob=new Blob([`${JSON.stringify(backup,null,2)}\n`],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');
       link.href=url;link.download=`new-music-backup-${new Date().toISOString().slice(0,10)}.json`;link.click();URL.revokeObjectURL(url);
       el('backup-status').textContent='Backup downloaded. It does not contain your GitHub token.';el('backup-status').dataset.kind='success';
@@ -351,7 +373,7 @@
       try {
         const backup=JSON.parse(await file.text());
         if(backup.version!==1||!Array.isArray(backup.watchlist?.artists)||typeof backup.blacklist!=='object'||typeof backup.site!=='object')throw new Error('This is not a valid tracker backup');
-        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[]});
+        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[]});videoSources=structuredClone(backup.video_sources||{channels:[]});videoDecisions=structuredClone(backup.video_decisions||{approved:[],rejected:[]});
         blacklist.release_ids=Array.isArray(blacklist.release_ids)?blacklist.release_ids:[];
         el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
         if(['default','youtube','purple'].includes(backup.theme)){el('theme').value=backup.theme;try{localStorage.setItem('release-theme',backup.theme);}catch{}applyTheme();}
@@ -373,7 +395,7 @@
       await github(`/git/refs/heads/${encodeURIComponent(branch)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({sha:commit.sha,force:false})});
       return changed.length;
     }
-    el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site},{path:'aliases.json',value:aliases,original:embedded.aliases}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
+    el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site},{path:'aliases.json',value:aliases,original:embedded.aliases},{path:'video_sources.json',value:videoSources,original:embedded.videoSources},{path:'video_decisions.json',value:videoDecisions,original:embedded.videoDecisions}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
     rebuildArtists();
     const muteId=new URLSearchParams(location.search).get('mute');
     if(muteId&&embedded.releases.some(release=>release.id===muteId)){
@@ -381,7 +403,7 @@
       if(!blacklist.release_ids.includes(muteId)){blacklist.release_ids.push(muteId);dirty=true;el('changes').textContent='This release is ready to mute; connect to GitHub and save.';}
       history.replaceState({},'',location.pathname);
     }
-    render(); renderMuted(); renderAliases(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
+    render(); renderMuted(); renderAliases(); renderVideoSettings(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
   </script>
 </body>
 </html>

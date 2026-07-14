@@ -26,7 +26,10 @@ jobs:
         id: pages
       - uses: actions/cache/restore@v4
         with:
-          path: data/state.json
+          path: |
+            data/state.json
+            data/videos.json
+            data/video_review.json
           key: music-state-digest-${{ github.run_id }}
           restore-keys: music-state-
       - uses: actions/cache/restore@v4

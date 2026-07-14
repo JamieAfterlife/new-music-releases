@@ -23,6 +23,8 @@ from typing import Any, Iterable
 from xml.etree import ElementTree as ET
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from youtube_video_tracker import render_video_page
+
 VERSION = "0.1.0"
 MB_ROOT = "https://musicbrainz.org/ws/2"
 LASTFM_ROOT = "https://ws.audioscrobbler.com/2.0/"
@@ -989,6 +991,9 @@ def make_manage_html(settings: Settings) -> str:
     )
     aliases = load_json(settings.root / "aliases.json", {"artist_aliases": []})
     unresolved = load_json(settings.root / "data" / "lastfm_unresolved.json", {"artists": []})
+    video_sources = load_json(settings.root / "video_sources.json", {"channels": []})
+    video_review = load_json(settings.root / "data" / "video_review.json", {"videos": []})
+    video_decisions = load_json(settings.root / "video_decisions.json", {"approved": [], "rejected": []})
     state = load_json(settings.state_file, {"releases": {}})
     releases = [
         {
@@ -1015,6 +1020,9 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__RELEASES_JSON__", script_json(releases))
         .replace("__ALIASES_JSON__", script_json(aliases))
         .replace("__UNRESOLVED_JSON__", script_json(unresolved))
+        .replace("__VIDEO_SOURCES_JSON__", script_json(video_sources))
+        .replace("__VIDEO_REVIEW_JSON__", script_json(video_review))
+        .replace("__VIDEO_DECISIONS_JSON__", script_json(video_decisions))
     )
 
 
@@ -1107,6 +1115,7 @@ def run_check(
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
+    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
     return visible_new, len(visible_releases(settings, discovered.values(), now))
 
@@ -1135,6 +1144,7 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     (settings.output_dir / "digest.xml").write_text(make_digest_rss(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "index.html").write_text(make_html(settings, visible, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
+    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
     return len(visible)
 
 
