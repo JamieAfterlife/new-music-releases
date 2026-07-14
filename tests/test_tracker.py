@@ -126,6 +126,40 @@ class TrackerTests(unittest.TestCase):
             self.assertIn(ARTIST["name"], page)
             self.assertIn("artist--tracked", page)
 
+    def test_manage_page_embeds_release_muting_and_backup(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.state_file = root / "data" / "state.json"
+            settings.blacklist_file = root / "blacklist.json"
+            settings.state_file.parent.mkdir()
+            settings.state_file.write_text(
+                json.dumps({"releases": {"release-id": {
+                    "title": "A Release", "artist": "An Artist", "date": "2026-07-14"
+                }}}),
+                encoding="utf-8",
+            )
+            settings.blacklist_file.write_text(
+                json.dumps({"artists": [], "artist_mbids": [], "release_ids": ["release-id"]}),
+                encoding="utf-8",
+            )
+            page = make_manage_html(settings)
+            self.assertIn("Muted releases", page)
+            self.assertIn("A Release", page)
+            self.assertIn("Export backup", page)
+            self.assertIn("GitHub tokens are never included", page)
+            self.assertNotIn("__RELEASES_JSON__", page)
+
+    def test_site_templates_include_device_themes(self):
+        web = Path("web_template.html").read_text(encoding="utf-8")
+        manage = Path("manage_template.html").read_text(encoding="utf-8")
+        for page in (web, manage):
+            self.assertIn("release-theme", page)
+            self.assertIn('data-theme="youtube"', page)
+            self.assertIn('data-theme="purple"', page)
+        self.assertIn("YouTube red", web)
+        self.assertIn("Black/purple", manage)
+
     def test_release_filters_allow_multiple_categories(self):
         template = Path("web_template.html").read_text(encoding="utf-8")
         self.assertIn("const activeFilters = new Set()", template)

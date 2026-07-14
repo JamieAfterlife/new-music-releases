@@ -6,17 +6,19 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com https://musicbrainz.org; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
   <title>Manage tracked artists · __TITLE__</title>
   <style>
-    :root { color-scheme:dark; --green:#1db954; --black:#000; --panel:#121212; --raised:#1b1b1b; --line:#303030; --text:#f5f5f5; --muted:#a7a7a7; }
+    :root { color-scheme:dark; --brand:#1db954; --black:#000; --panel:#121212; --raised:#1b1b1b; --line:#303030; --text:#f5f5f5; --muted:#a7a7a7; }
+    :root[data-theme="youtube"] { --brand:#ff304f; --black:#050000; --panel:#160d0f; --raised:#211114; --line:#402126; }
+    :root[data-theme="purple"] { --brand:#ad7aff; --black:#050307; --panel:#130f19; --raised:#1c1525; --line:#38284a; }
     * { box-sizing:border-box; }
     body { margin:0; background:var(--black); color:var(--text); font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
-    button,input { font:inherit; } button { cursor:pointer; } [hidden] { display:none!important; }
+    button,input,select { font:inherit; } button { cursor:pointer; } [hidden] { display:none!important; }
     .shell { max-width:900px; margin:auto; padding:38px 22px 90px; }
     .top { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; padding-bottom:26px; border-bottom:1px solid var(--line); }
-    .eyebrow { margin:0 0 6px; color:var(--green); font-size:.72rem; font-weight:850; letter-spacing:.16em; text-transform:uppercase; }
+    .eyebrow { margin:0 0 6px; color:var(--brand); font-size:.72rem; font-weight:850; letter-spacing:.16em; text-transform:uppercase; }
     h1 { margin:0; font-size:clamp(2rem,6vw,3.5rem); line-height:1; letter-spacing:-.045em; }
     h2 { margin:0; font-size:1.15rem; }
     p { margin:8px 0 0; color:var(--muted); }
-    a { color:var(--green); font-weight:750; text-decoration:none; } a:hover { text-decoration:underline; }
+    a { color:var(--brand); font-weight:750; text-decoration:none; } a:hover { text-decoration:underline; }
     .card { margin-top:22px; padding:19px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
     .toolbar { display:grid; grid-template-columns:1fr auto; gap:9px; margin-top:15px; }
     .toolbar--manage { grid-template-columns:1fr auto auto; }
@@ -27,13 +29,13 @@
     .toggle input { position:absolute; width:1px; height:1px; opacity:0; }
     .toggle__track { position:relative; display:block!important; width:42px; height:23px; margin:0!important; background:#383838; border:1px solid #555; border-radius:999px; transition:.15s; }
     .toggle__track::after { position:absolute; top:3px; left:3px; width:15px; height:15px; background:#aaa; border-radius:50%; content:""; transition:.15s; }
-    .toggle input:checked + .toggle__track { background:#173d24; border-color:var(--green); }
-    .toggle input:checked + .toggle__track::after { left:22px; background:var(--green); }
+    .toggle input:checked + .toggle__track { background:#242024; border-color:var(--brand); }
+    .toggle input:checked + .toggle__track::after { left:22px; background:var(--brand); }
     .toggle input:focus-visible + .toggle__track { outline:2px solid #fff; outline-offset:3px; }
     .toggle__copy { margin:0!important; color:#ddd!important; font-size:.86rem!important; font-weight:600!important; }
-    input { width:100%; padding:11px 13px; color:var(--text); background:#242424; border:1px solid #444; border-radius:5px; outline:none; }
-    input:focus { border-color:#ddd; }
-    .button { padding:10px 15px; color:#050505; font-weight:800; background:var(--green); border:1px solid var(--green); border-radius:999px; }
+    input,select { width:100%; padding:11px 13px; color:var(--text); background:#242424; border:1px solid #444; border-radius:5px; outline:none; }
+    input:focus,select:focus { border-color:#ddd; }
+    .button { padding:10px 15px; color:#050505; font-weight:800; background:var(--brand); border:1px solid var(--brand); border-radius:999px; }
     .button--quiet { color:#ddd; background:#242424; border-color:#4a4a4a; }
     .button--danger { color:#f17b61; background:#241817; border-color:#6b3933; }
     .button--small { padding:7px 12px; font-size:.8rem; }
@@ -47,12 +49,12 @@
     .artist-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; max-height:620px; margin-top:14px; overflow:auto; padding-right:3px; }
     .artist { position:relative; display:flex; align-items:center; gap:11px; min-width:0; padding:11px 12px 11px 10px; background:var(--raised); border:1px solid #292929; border-left:3px solid transparent; border-radius:6px; cursor:pointer; transition:opacity .15s,background .15s,border-color .15s,transform .15s; }
     .artist:hover { border-top-color:#555; border-right-color:#555; border-bottom-color:#555; transform:translateY(-1px); }
-    .artist--tracked { background:#171b18; border-left-color:var(--green); }
+    .artist--tracked { background:var(--raised); border-left-color:var(--brand); }
     .artist--blocked { opacity:.48; filter:saturate(.3); }
     .artist--blocked:hover { opacity:.75; }
     .artist input { position:absolute; width:1px; height:1px; opacity:0; }
     .artist__indicator { display:grid; place-items:center; width:20px; height:20px; flex:none; color:#071108; font-size:.75rem; font-weight:950; background:#242424; border:1px solid #606060; border-radius:50%; }
-    .artist input:checked + .artist__indicator { background:var(--green); border-color:var(--green); }
+    .artist input:checked + .artist__indicator { background:var(--brand); border-color:var(--brand); }
     .artist input:checked + .artist__indicator::after { content:"✓"; }
     .artist input:focus-visible + .artist__indicator { outline:2px solid #fff; outline-offset:3px; }
     .artist__copy { min-width:0; }
@@ -66,7 +68,7 @@
     details { margin-top:22px; padding:17px 19px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
     summary { cursor:pointer; font-weight:780; }
     .connect { display:grid; grid-template-columns:1fr 1.25fr 1fr auto; gap:9px; margin-top:14px; }
-    .notice { margin-top:12px; color:var(--muted); }.notice[data-kind="success"] { color:var(--green); }.notice[data-kind="error"] { color:#f17b61; }
+    .notice { margin-top:12px; color:var(--muted); }.notice[data-kind="success"] { color:var(--brand); }.notice[data-kind="error"] { color:#f17b61; }
     .savebar { position:sticky; bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:14px 17px; background:rgba(25,25,25,.96); border:1px solid #484848; border-radius:8px; box-shadow:0 14px 35px #000; backdrop-filter:blur(12px); }
     .savebar p { margin:0; }
     @media(max-width:700px) { .artist-list { grid-template-columns:1fr; } .connect,.site-fields { grid-template-columns:1fr; } .toolbar--manage { grid-template-columns:1fr 1fr; }.toolbar--manage input { grid-column:1/-1; } }
@@ -85,6 +87,7 @@
       <div class="site-fields">
         <label class="field"><span>Feed title</span><input id="feed-title" maxlength="80" aria-label="Feed title"></label>
         <label class="field"><span>Timezone</span><input id="timezone" list="timezones" placeholder="Pacific/Auckland" aria-label="Timezone"></label>
+        <label class="field"><span>Theme on this device</span><select id="theme"><option value="default">Green</option><option value="youtube">YouTube red</option><option value="purple">Black/purple</option></select></label>
         <label class="field"><span>Last.fm username (optional)</span><input id="lastfm-username" maxlength="80" placeholder="Leave blank to skip Last.fm" aria-label="Last.fm username"></label>
         <label class="field"><span>Minimum Last.fm scrobbles</span><input id="lastfm-threshold" type="number" min="1" max="1000000" value="50" aria-label="Minimum Last.fm scrobbles"></label>
         <label class="field field--wide"><span>Notifications</span><span class="toggle"><input id="github-notifications" type="checkbox"><span class="toggle__track" aria-hidden="true"></span><span class="toggle__copy">Create a GitHub Issue when new music is released</span></span></label>
@@ -120,6 +123,17 @@
       <div id="results" class="results" aria-live="polite"></div>
     </section>
 
+    <section class="card">
+      <div class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></div>
+      <div id="muted-releases" class="results"></div>
+    </section>
+
+    <section class="card">
+      <h2>Backup and restore</h2><p>Download your artists, muted releases and site settings, or restore them on another copy of the tracker. GitHub tokens are never included.</p>
+      <div class="onboarding__actions"><button id="export-backup" class="button button--quiet">Export backup</button><button id="import-backup" class="button button--quiet">Import backup</button><input id="backup-file" type="file" accept="application/json,.json" hidden></div>
+      <div id="backup-status" class="notice" role="status"></div>
+    </section>
+
     <details id="connection">
       <summary>GitHub connection for saving</summary>
       <p>Use a fine-grained token limited to this repository with Contents read/write access. Add an unlock password to remember it securely on this device, or leave the password blank to use it only in this tab.</p>
@@ -128,10 +142,10 @@
       <div class="onboarding__actions"><button id="forget-token" class="button button--quiet button--small" hidden>Forget saved token</button></div>
     </details>
 
-    <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save artist choices</button></div>
+    <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
   <script>
-    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__ };
+    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
     let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site);
     let artists = new Map(), recentChoices = new Map();
@@ -147,6 +161,10 @@
     el('lastfm-username').value = site.lastfm_username || '';
     el('lastfm-threshold').value = site.min_lastfm_scrobbles || 50;
     el('github-notifications').checked = !!site.github_issue_notifications;
+    try { el('theme').value=localStorage.getItem('release-theme')||'default'; } catch { el('theme').value='default'; }
+    function applyTheme(){if(el('theme').value==='default')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=el('theme').value;}
+    applyTheme();
+    el('theme').addEventListener('change',()=>{try{localStorage.setItem('release-theme',el('theme').value);}catch{}applyTheme();});
 
     function rebuildArtists() {
       artists = new Map();
@@ -155,7 +173,7 @@
       ids.forEach((mbid,index) => { if (!artists.has(mbid)) artists.set(mbid,{ name:names[index] || mbid, mbid, tracked:false, record:{ name:names[index] || mbid, mbid } }); });
       names.forEach(name => { if (![...artists.values()].some(x => x.name.toLocaleLowerCase() === name.toLocaleLowerCase())) artists.set(`name:${name}`,{ name, mbid:'', tracked:false, record:{name,mbid:''} }); });
     }
-    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Artist choices are ready to save.' : 'Artist choices are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); }
+    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Changes are ready to save.' : 'Changes are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); renderMuted(); }
     function prepareRecentReview() {
       const candidates = embedded.recent.artists || [];
       if (!candidates.length || site.lastfm_recent_reviewed) return;
@@ -196,6 +214,22 @@
         const name=document.createElement('span'); name.className='artist__name'; name.textContent=artist.name;
         const state=document.createElement('span'); state.className='artist__state'; state.textContent=artist.tracked?'Tracked':'Blocked';
         copy.append(name,document.createElement('br'),state); label.append(checkbox,indicator,copy); el('artists').append(label);
+      }
+    }
+    function renderMuted() {
+      const ids = blacklist.release_ids || [];
+      const lookup = new Map(embedded.releases.map(release => [release.id,release]));
+      el('muted-count').textContent = `${ids.length} muted`;
+      el('muted-releases').replaceChildren();
+      if (!ids.length) { const empty=document.createElement('div'); empty.className='empty'; empty.textContent='No muted releases.'; el('muted-releases').append(empty); return; }
+      for (const id of ids) {
+        const release=lookup.get(id)||{title:'Unknown release',artist:'',date:''};
+        const row=document.createElement('div'); row.className='result';
+        const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=release.title;
+        const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[release.artist,release.date].filter(Boolean).join(' · '); copy.append(name,meta);
+        const button=document.createElement('button'); button.className='button button--quiet button--small'; button.textContent='Unmute';
+        button.addEventListener('click',()=>{blacklist.release_ids=(blacklist.release_ids||[]).filter(value=>value!==id);markDirty();});
+        row.append(copy,button); el('muted-releases').append(row);
       }
     }
     function setStatus(text,kind='') { el('status').textContent=text; el('status').dataset.kind=kind; }
@@ -280,6 +314,27 @@
       watchlist={...watchlist,artists:tracked}; blacklist={...blacklist,artists:blocked.map(x=>x.name),artist_mbids:blocked.map(x=>x.mbid)};
       site={...site,feed_title:el('feed-title').value.trim()||'My new music',timezone:el('timezone').value.trim()||'UTC',lastfm_username:el('lastfm-username').value.trim(),min_lastfm_scrobbles:Number(el('lastfm-threshold').value)||50,github_issue_notifications:el('github-notifications').checked};
     }
+    el('export-backup').addEventListener('click',()=>{
+      makeFiles();
+      const backup={version:1,exported_at:new Date().toISOString(),watchlist,blacklist,site,theme:el('theme').value};
+      const blob=new Blob([`${JSON.stringify(backup,null,2)}\n`],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');
+      link.href=url;link.download=`new-music-backup-${new Date().toISOString().slice(0,10)}.json`;link.click();URL.revokeObjectURL(url);
+      el('backup-status').textContent='Backup downloaded. It does not contain your GitHub token.';el('backup-status').dataset.kind='success';
+    });
+    el('import-backup').addEventListener('click',()=>el('backup-file').click());
+    el('backup-file').addEventListener('change',async()=>{
+      const file=el('backup-file').files[0];if(!file)return;
+      try {
+        const backup=JSON.parse(await file.text());
+        if(backup.version!==1||!Array.isArray(backup.watchlist?.artists)||typeof backup.blacklist!=='object'||typeof backup.site!=='object')throw new Error('This is not a valid tracker backup');
+        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);
+        blacklist.release_ids=Array.isArray(blacklist.release_ids)?blacklist.release_ids:[];
+        el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
+        if(['default','youtube','purple'].includes(backup.theme)){el('theme').value=backup.theme;try{localStorage.setItem('release-theme',backup.theme);}catch{}applyTheme();}
+        rebuildArtists();markDirty();el('backup-status').textContent='Backup loaded. Connect to GitHub and save to apply it to every device.';el('backup-status').dataset.kind='success';
+      } catch(error) { el('backup-status').textContent=`Could not import backup: ${error.message}`;el('backup-status').dataset.kind='error'; }
+      finally { el('backup-file').value=''; }
+    });
     async function saveFiles(files) {
       const changed=files.filter(file=>JSON.stringify(file.value)!==JSON.stringify(file.original));
       if(!changed.length)return 0;
@@ -295,7 +350,14 @@
       return changed.length;
     }
     el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
-    rebuildArtists(); render(); prepareRecentReview();
+    rebuildArtists();
+    const muteId=new URLSearchParams(location.search).get('mute');
+    if(muteId&&embedded.releases.some(release=>release.id===muteId)){
+      blacklist.release_ids=blacklist.release_ids||[];
+      if(!blacklist.release_ids.includes(muteId)){blacklist.release_ids.push(muteId);dirty=true;el('changes').textContent='This release is ready to mute; connect to GitHub and save.';}
+      history.replaceState({},'',location.pathname);
+    }
+    render(); renderMuted(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
   </script>
 </body>
 </html>

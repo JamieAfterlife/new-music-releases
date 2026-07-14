@@ -921,6 +921,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 f'<a class="service" href="{html.escape(youtube_music, quote=True)}" target="_blank" rel="noopener">YouTube Music</a>'
                 f'<a class="service" href="{html.escape(youtube, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
                 f'<a class="service service--muted" href="{html.escape(release["musicbrainz"], quote=True)}" target="_blank" rel="noopener">MusicBrainz</a>'
+                f'<a class="service service--mute" href="manage.html?mute={urllib.parse.quote(release["id"], safe="")}">Mute</a>'
                 '</div></div></article>'
             )
         groups.append(
@@ -963,6 +964,17 @@ def make_manage_html(settings: Settings) -> str:
         settings.root / "data" / "lastfm_recent_artists.json",
         {"period": "12month", "minimum_scrobbles": 5, "artists": []},
     )
+    state = load_json(settings.state_file, {"releases": {}})
+    releases = [
+        {
+            "id": release_id,
+            "title": release.get("title") or "Unknown release",
+            "artist": release.get("artist") or "Unknown artist",
+            "date": release.get("date") or "",
+        }
+        for release_id, release in state.get("releases", {}).items()
+    ]
+    releases.sort(key=lambda release: (release["date"], release["artist"], release["title"]), reverse=True)
 
     def script_json(value: Any) -> str:
         return json.dumps(value, ensure_ascii=False).replace("</", "<\\/")
@@ -975,6 +987,7 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__BLACKLIST_JSON__", script_json(blacklist))
         .replace("__SITE_JSON__", script_json(site))
         .replace("__RECENT_LASTFM_JSON__", script_json(recent))
+        .replace("__RELEASES_JSON__", script_json(releases))
     )
 
 
