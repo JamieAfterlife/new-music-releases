@@ -1,3 +1,15 @@
 {
-  "ratings": {}
+  "ratings": {
+    "release:497feea7-e7b6-4380-b999-0d253f75adc4": {
+      "id": "release:497feea7-e7b6-4380-b999-0d253f75adc4",
+      "title": "Count Your Blessings | Repented",
+      "artist": "Bring Me the Horizon",
+      "type": "Album",
+      "release_date": "2026-07-10",
+      "url": "https://open.spotify.com/prerelease/3snANKiUXsNxI9X2hbYKrd",
+      "image": "https://coverartarchive.org/release-group/497feea7-e7b6-4380-b999-0d253f75adc4/front-250",
+      "rating": 5,
+      "rated_at": "2026-07-14T23:43:14.218Z"
+    }
+  }
 }
