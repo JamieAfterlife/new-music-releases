@@ -150,6 +150,24 @@ class TrackerTests(unittest.TestCase):
             self.assertIn("GitHub tokens are never included", page)
             self.assertNotIn("__RELEASES_JSON__", page)
 
+    def test_manage_page_embeds_alias_review_queue(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            (root / "data").mkdir()
+            (root / "aliases.json").write_text(json.dumps({"artist_aliases": [{
+                "source_name": "Odd Last.fm Name", "name": "Correct Artist", "mbid": "correct-id"
+            }]}), encoding="utf-8")
+            (root / "data" / "lastfm_unresolved.json").write_text(
+                json.dumps({"artists": [{"source_name": "Needs Review"}]}), encoding="utf-8"
+            )
+            page = make_manage_html(settings)
+            self.assertIn("Artist name fixes", page)
+            self.assertIn("Odd Last.fm Name", page)
+            self.assertIn("Needs Review", page)
+            self.assertNotIn("__ALIASES_JSON__", page)
+            self.assertNotIn("__UNRESOLVED_JSON__", page)
+
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")
         manage = Path("manage_template.html").read_text(encoding="utf-8")
@@ -216,6 +234,26 @@ class TrackerTests(unittest.TestCase):
             self.assertEqual(candidates[0]["lastfm_scrobbles_12month"], 7)
             saved = json.loads((root / "data" / "lastfm_recent_artists.json").read_text())
             self.assertEqual(saved["period"], "12month")
+
+    def test_custom_alias_resolves_future_lastfm_imports(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.blacklist_file = root / "blacklist.json"
+            (root / "aliases.json").write_text(json.dumps({"artist_aliases": [{
+                "source_name": "Odd Last.fm Name", "name": "Correct Artist", "mbid": "correct-id"
+            }]}), encoding="utf-8")
+            with patch("music_release_tracker.fetch_lastfm_artists", return_value=[{
+                "name": "Odd Last.fm Name", "mbid": "", "playcount": "12"
+            }]):
+                processed, unresolved, total = import_lastfm(
+                    settings, FakeMusicBrainz([]), "listener", "key", 5
+                )
+            self.assertEqual((processed, unresolved, total), (1, [], 1))
+            saved = json.loads(settings.watchlist.read_text(encoding="utf-8"))
+            self.assertEqual(saved["artists"][0]["mbid"], "correct-id")
+            self.assertEqual(saved["artists"][0]["name"], "Correct Artist")
 
     def test_metadata_prefers_complete_same_day_digital_edition(self):
         class EditionMusicBrainz(MusicBrainz):

@@ -124,6 +124,13 @@
     </section>
 
     <section class="card">
+      <div class="summary"><div><h2>Artist name fixes</h2><p>Match an unclear Last.fm name to the correct MusicBrainz artist once, then reuse that choice automatically.</p></div><span id="alias-count" class="count"></span></div>
+      <div class="toolbar"><input id="alias-source" type="text" placeholder="Last.fm artist name" aria-label="Last.fm artist name"><button id="find-alias" class="button button--quiet">Find match</button></div>
+      <div id="alias-review" class="results"></div>
+      <div id="aliases" class="results"></div>
+    </section>
+
+    <section class="card">
       <div class="summary"><div><h2>Muted releases</h2><p>Muted releases disappear from the website and feeds, without blocking the artist.</p></div><span id="muted-count" class="count"></span></div>
       <div id="muted-releases" class="results"></div>
     </section>
@@ -145,10 +152,10 @@
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
   <script>
-    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__ };
+    const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
-    let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site);
-    let artists = new Map(), recentChoices = new Map();
+    let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site), aliases = structuredClone(embedded.aliases);
+    let artists = new Map(), recentChoices = new Map(), activeAliasSource = '';
     const el = id => document.getElementById(id);
     const connectionKey = `new-music-tracker:github:${location.pathname.split('/').filter(Boolean)[0] || 'site'}`;
     let savedConnection = null;
@@ -173,7 +180,7 @@
       ids.forEach((mbid,index) => { if (!artists.has(mbid)) artists.set(mbid,{ name:names[index] || mbid, mbid, tracked:false, record:{ name:names[index] || mbid, mbid } }); });
       names.forEach(name => { if (![...artists.values()].some(x => x.name.toLocaleLowerCase() === name.toLocaleLowerCase())) artists.set(`name:${name}`,{ name, mbid:'', tracked:false, record:{name,mbid:''} }); });
     }
-    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Changes are ready to save.' : 'Changes are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); renderMuted(); }
+    function markDirty() { dirty = true; el('changes').textContent = connected ? 'Changes are ready to save.' : 'Changes are ready; connect to GitHub to save.'; el('save').disabled = !connected; render(); renderMuted(); renderAliases(); }
     function prepareRecentReview() {
       const candidates = embedded.recent.artists || [];
       if (!candidates.length || site.lastfm_recent_reviewed) return;
@@ -232,6 +239,22 @@
         row.append(copy,button); el('muted-releases').append(row);
       }
     }
+    function beginAlias(source) {
+      activeAliasSource=source.trim();if(!activeAliasSource)return;
+      el('alias-source').value=activeAliasSource;el('query').value=activeAliasSource;el('results').textContent=`Choose the correct MusicBrainz match for “${activeAliasSource}”.`;
+      search();el('query').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    function renderAliases() {
+      aliases.artist_aliases=aliases.artist_aliases||[];
+      const mapped=new Set(aliases.artist_aliases.map(record=>record.source_name.toLocaleLowerCase()));
+      const unresolved=(embedded.unresolved.artists||[]).filter(record=>!mapped.has(record.source_name.toLocaleLowerCase()));
+      el('alias-count').textContent=`${aliases.artist_aliases.length} saved`;
+      el('alias-review').replaceChildren();
+      for(const record of unresolved){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=record.source_name;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Needs a MusicBrainz match';copy.append(name,meta);const button=document.createElement('button');button.className='button button--small';button.textContent='Review';button.addEventListener('click',()=>beginAlias(record.source_name));row.append(copy,button);el('alias-review').append(row);}
+      el('aliases').replaceChildren();
+      for(const record of aliases.artist_aliases){const row=document.createElement('div');row.className='result';const copy=document.createElement('div');const name=document.createElement('div');name.className='result__name';name.textContent=`${record.source_name} → ${record.name}`;const meta=document.createElement('div');meta.className='result__meta';meta.textContent='Saved name fix';copy.append(name,meta);const button=document.createElement('button');button.className='button button--quiet button--small';button.textContent='Remove';button.addEventListener('click',()=>{aliases.artist_aliases=aliases.artist_aliases.filter(item=>item.source_name!==record.source_name);markDirty();});row.append(copy,button);el('aliases').append(row);}
+      if(!unresolved.length&&!aliases.artist_aliases.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No unresolved names or saved fixes.';el('aliases').append(empty);}
+    }
     function setStatus(text,kind='') { el('status').textContent=text; el('status').dataset.kind=kind; }
     function toBase64(bytes) { let binary=''; for(const value of bytes)binary+=String.fromCharCode(value); return btoa(binary); }
     function fromBase64(value) { return Uint8Array.from(atob(value),character=>character.charCodeAt(0)); }
@@ -268,7 +291,7 @@
     el('select-all').addEventListener('click',() => { for(const artist of artists.values()) if(artist.mbid){artist.tracked=true;artist.record.manual_tracking=true;} markDirty(); });
     el('start-fresh').addEventListener('click',() => {
       if (!confirm('Start with an empty artist list? This removes every tracked and blocked artist when you save.')) return;
-      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[];
+      artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases.artist_aliases=[];
       el('feed-title').value='My new music';
       el('timezone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
       el('lastfm-username').value=''; el('lastfm-threshold').value='50';
@@ -279,11 +302,12 @@
     async function search() {
       const query=el('query').value.trim(); if(!query) return; el('search').disabled=true; el('results').textContent='Searching MusicBrainz…';
       try { const escaped=query.replace(/([\\"])/g,'\\$1'); const params=new URLSearchParams({query:`artist:"${escaped}"`,fmt:'json',limit:'8'}); const response=await fetch(`https://musicbrainz.org/ws/2/artist?${params}`,{headers:{Accept:'application/json'}}); if(!response.ok) throw new Error(`MusicBrainz returned ${response.status}`); const data=await response.json(); el('results').replaceChildren();
-        for(const item of data.artists||[]) { const row=document.createElement('div'); row.className='result'; const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=item.name; const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[item.type,item.country,item.disambiguation,item.score?`${item.score}% match`:null].filter(Boolean).join(' · '); copy.append(name,meta); const button=document.createElement('button'); button.className='button button--small'; const existing=artists.get(item.id); button.textContent=existing?.tracked?'Added':'Add'; button.disabled=!!existing?.tracked; button.addEventListener('click',()=>{ const current=artists.get(item.id); if(current){current.tracked=true;current.record.manual_tracking=true;}else artists.set(item.id,{name:item.name,mbid:item.id,tracked:true,record:{name:item.name,mbid:item.id,manual_tracking:true}}); button.textContent='Added'; button.disabled=true; markDirty(); }); row.append(copy,button); el('results').append(row); }
+        for(const item of data.artists||[]) { const row=document.createElement('div'); row.className='result'; const copy=document.createElement('div'); const name=document.createElement('div'); name.className='result__name'; name.textContent=item.name; const meta=document.createElement('div'); meta.className='result__meta'; meta.textContent=[item.type,item.country,item.disambiguation,item.score?`${item.score}% match`:null].filter(Boolean).join(' · '); copy.append(name,meta); const button=document.createElement('button'); button.className='button button--small'; const existing=artists.get(item.id); button.textContent=activeAliasSource?'Use match':existing?.tracked?'Added':'Add'; button.disabled=!activeAliasSource&&!!existing?.tracked; button.addEventListener('click',()=>{ const current=artists.get(item.id); if(current){current.tracked=true;current.record.manual_tracking=true;}else artists.set(item.id,{name:item.name,mbid:item.id,tracked:true,record:{name:item.name,mbid:item.id,manual_tracking:true}}); if(activeAliasSource){aliases.artist_aliases=(aliases.artist_aliases||[]).filter(record=>record.source_name.toLocaleLowerCase()!==activeAliasSource.toLocaleLowerCase());aliases.artist_aliases.push({source_name:activeAliasSource,name:item.name,mbid:item.id});activeAliasSource='';el('alias-source').value='';el('results').textContent='Name fix added. Save changes to use it during future Last.fm imports.';}else{button.textContent='Added';button.disabled=true;} markDirty(); }); row.append(copy,button); el('results').append(row); }
         if(!(data.artists||[]).length) el('results').textContent='No artists found.';
       } catch(error) { el('results').textContent=`Search failed: ${error.message}`; } finally { el('search').disabled=false; }
     }
     el('search').addEventListener('click',search); el('query').addEventListener('keydown',event=>{if(event.key==='Enter')search();});
+    el('find-alias').addEventListener('click',()=>beginAlias(el('alias-source').value));el('alias-source').addEventListener('keydown',event=>{if(event.key==='Enter')beginAlias(el('alias-source').value);});
     async function connectGithub() {
       const repository=el('repository').value.trim(),enteredToken=el('token').value.trim(),password=el('unlock-password').value;
       if(!repository){setStatus('Enter the repository first.','error');return;}
@@ -316,7 +340,7 @@
     }
     el('export-backup').addEventListener('click',()=>{
       makeFiles();
-      const backup={version:1,exported_at:new Date().toISOString(),watchlist,blacklist,site,theme:el('theme').value};
+      const backup={version:1,exported_at:new Date().toISOString(),watchlist,blacklist,site,aliases,theme:el('theme').value};
       const blob=new Blob([`${JSON.stringify(backup,null,2)}\n`],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');
       link.href=url;link.download=`new-music-backup-${new Date().toISOString().slice(0,10)}.json`;link.click();URL.revokeObjectURL(url);
       el('backup-status').textContent='Backup downloaded. It does not contain your GitHub token.';el('backup-status').dataset.kind='success';
@@ -327,7 +351,7 @@
       try {
         const backup=JSON.parse(await file.text());
         if(backup.version!==1||!Array.isArray(backup.watchlist?.artists)||typeof backup.blacklist!=='object'||typeof backup.site!=='object')throw new Error('This is not a valid tracker backup');
-        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);
+        watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[]});
         blacklist.release_ids=Array.isArray(blacklist.release_ids)?blacklist.release_ids:[];
         el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
         if(['default','youtube','purple'].includes(backup.theme)){el('theme').value=backup.theme;try{localStorage.setItem('release-theme',backup.theme);}catch{}applyTheme();}
@@ -349,7 +373,7 @@
       await github(`/git/refs/heads/${encodeURIComponent(branch)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({sha:commit.sha,force:false})});
       return changed.length;
     }
-    el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
+    el('save').addEventListener('click',async()=>{if(!connected||!dirty)return;el('save').disabled=true;setStatus('Saving…');makeFiles();try{const saved=await saveFiles([{path:'artists.json',value:watchlist,original:embedded.watchlist},{path:'blacklist.json',value:blacklist,original:embedded.blacklist},{path:'site.json',value:site,original:embedded.site},{path:'aliases.json',value:aliases,original:embedded.aliases}]);dirty=false;el('changes').textContent='Saved. The release page will update after its quick rebuild.';setStatus(saved?'Settings saved together in one update.':'Everything was already up to date.','success');}catch(error){setStatus(`Could not save: ${error.message}. Refresh the page before retrying if GitHub updated while it was open.`,'error');el('save').disabled=false;}});
     rebuildArtists();
     const muteId=new URLSearchParams(location.search).get('mute');
     if(muteId&&embedded.releases.some(release=>release.id===muteId)){
@@ -357,7 +381,7 @@
       if(!blacklist.release_ids.includes(muteId)){blacklist.release_ids.push(muteId);dirty=true;el('changes').textContent='This release is ready to mute; connect to GitHub and save.';}
       history.replaceState({},'',location.pathname);
     }
-    render(); renderMuted(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
+    render(); renderMuted(); renderAliases(); prepareRecentReview(); el('save').disabled=!connected||!dirty;
   </script>
 </body>
 </html>

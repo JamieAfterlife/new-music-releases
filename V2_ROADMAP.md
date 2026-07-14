@@ -4,7 +4,7 @@ Version 1 is permanently preserved by the `v1.0.0` Git tag. Version 2 remains a 
 
 ## Agreed scope
 
-### Daily digest RSS — in progress
+### Daily digest RSS — complete
 
 - Publish during the listener's local 6am hour.
 - Show releases expected today first.
@@ -27,6 +27,8 @@ Version 1 is permanently preserved by the `v1.0.0` Git tag. Version 2 remains a 
 - Add easy release muting using the existing release-ID blacklist.
 - Add export/import for tracked artists, blacklist, aliases, settings, and review decisions.
 - Add selectable themes using the current design: green default, YouTube red, and black/purple.
+
+These controls are complete. Alias management and a Last.fm unresolved-name review queue are also live; the same data model can now be extended for music-video sources and review decisions.
 
 ### Concerts — later and lowest priority
 

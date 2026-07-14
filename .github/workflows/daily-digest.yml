@@ -31,7 +31,9 @@ jobs:
           restore-keys: music-state-
       - uses: actions/cache/restore@v4
         with:
-          path: data/lastfm_recent_artists.json
+          path: |
+            data/lastfm_recent_artists.json
+            data/lastfm_unresolved.json
           key: music-recent-digest-${{ github.run_id }}
           restore-keys: music-recent-
       - name: Check the listener's local time

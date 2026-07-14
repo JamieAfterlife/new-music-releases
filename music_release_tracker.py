@@ -325,13 +325,14 @@ def build_recent_lastfm_candidates(
     resolved: dict[str, dict[str, Any]] = {}
     unresolved: list[str] = []
 
+    aliases = lastfm_artist_aliases(settings)
     for item in eligible:
         name = item.get("name", "").strip()
         if not name or name in LASTFM_IGNORED_ARTISTS:
             continue
         mbid = item.get("mbid", "").strip()
-        if name in LASTFM_ARTIST_ALIASES:
-            name, mbid = LASTFM_ARTIST_ALIASES[name]
+        if name.casefold() in aliases:
+            name, mbid = aliases[name.casefold()]
         try:
             chosen = {"id": mbid, "name": name} if mbid else best_artist(name, mb.search_artists(name))
             if not chosen:
@@ -377,13 +378,14 @@ def import_lastfm(
     artists = data.setdefault("artists", [])
     blacklist = load_json(settings.blacklist_file, {})
 
+    aliases = lastfm_artist_aliases(settings)
     for item in eligible:
         name = item.get("name", "").strip()
         if name in LASTFM_IGNORED_ARTISTS:
             continue
         mbid = item.get("mbid", "").strip()
-        if name in LASTFM_ARTIST_ALIASES:
-            name, mbid = LASTFM_ARTIST_ALIASES[name]
+        if name.casefold() in aliases:
+            name, mbid = aliases[name.casefold()]
         try:
             entry = next((x for x in artists if mbid and x.get("mbid") == mbid), None)
             if entry is None:
@@ -430,6 +432,27 @@ def save_json(path: Path, value: Any) -> None:
     temp = path.with_suffix(path.suffix + ".tmp")
     temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     os.replace(temp, path)
+
+
+def lastfm_artist_aliases(settings: Settings) -> dict[str, tuple[str, str]]:
+    """Combine built-in corrections with aliases chosen on the management page."""
+    aliases = {source.casefold(): target for source, target in LASTFM_ARTIST_ALIASES.items()}
+    custom = load_json(settings.root / "aliases.json", {"artist_aliases": []})
+    for record in custom.get("artist_aliases", []):
+        source = str(record.get("source_name", "")).strip()
+        name = str(record.get("name", "")).strip()
+        mbid = str(record.get("mbid", "")).strip()
+        if source and name and mbid:
+            aliases[source.casefold()] = (name, mbid)
+    return aliases
+
+
+def save_lastfm_unresolved(settings: Settings, names: Iterable[str]) -> None:
+    unique = sorted({name.strip() for name in names if name.strip()}, key=str.casefold)
+    save_json(
+        settings.root / "data" / "lastfm_unresolved.json",
+        {"artists": [{"source_name": name} for name in unique]},
+    )
 
 
 def artist_credit(item: dict[str, Any]) -> tuple[str, list[str]]:
@@ -964,6 +987,8 @@ def make_manage_html(settings: Settings) -> str:
         settings.root / "data" / "lastfm_recent_artists.json",
         {"period": "12month", "minimum_scrobbles": 5, "artists": []},
     )
+    aliases = load_json(settings.root / "aliases.json", {"artist_aliases": []})
+    unresolved = load_json(settings.root / "data" / "lastfm_unresolved.json", {"artists": []})
     state = load_json(settings.state_file, {"releases": {}})
     releases = [
         {
@@ -988,6 +1013,8 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__SITE_JSON__", script_json(site))
         .replace("__RECENT_LASTFM_JSON__", script_json(recent))
         .replace("__RELEASES_JSON__", script_json(releases))
+        .replace("__ALIASES_JSON__", script_json(aliases))
+        .replace("__UNRESOLVED_JSON__", script_json(unresolved))
     )
 
 
@@ -1304,6 +1331,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"At least {threshold} scrobbles: {count}")
         else:
             added, unresolved, total = import_lastfm(settings, mb, args.user, api_key, args.min_plays)
+            save_lastfm_unresolved(settings, unresolved)
             print(f"Imported/updated {added} of {total} Last.fm artists; unresolved: {len(unresolved)}")
             if unresolved:
                 print("Unresolved: " + ", ".join(unresolved), file=sys.stderr)
@@ -1328,6 +1356,7 @@ def main(argv: list[str] | None = None) -> int:
                 api_key,
                 5,
             )
+            save_lastfm_unresolved(settings, [*unresolved, *recent_unresolved])
             print(f"Synced {processed} of {total} Last.fm artists; unresolved: {len(unresolved)}")
             print(
                 f"Prepared {len(recent)} recent favourites for review; "
