@@ -948,12 +948,12 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
         current = int(ratings.get(item_id, {}).get("rating", 0) or 0)
         stars = "".join(
             f'<a class="rating__star{" rating__star--selected" if number <= current else ""}" '
-            f'href="history.html?rate={urllib.parse.quote(item_id, safe="")}&amp;stars={number}" '
+            f'href="history.html?rate={urllib.parse.quote(item_id, safe="")}&amp;stars={number}&amp;return=releases" '
             f'aria-label="Rate {number} out of 5" title="Rate {number} out of 5">★</a>'
             for number in range(1, 6)
         )
         sentiment = "Liked" if current >= 4 else "Disliked" if current else "Rate"
-        return f'<div class="rating" data-rating="{current}"><span>{sentiment}</span>{stars}</div>'
+        return f'<div class="rating" data-rating="{current}" data-server-rating="{current}" data-rating-id="{html.escape(item_id, quote=True)}"><span>{sentiment}</span>{stars}</div>'
 
     by_date: dict[str, list[dict[str, Any]]] = {}
     for release in selected:
@@ -1067,6 +1067,7 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
             html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")),
         )
         .replace("__COUNT__", str(len(selected) + len(videos)))
+        .replace("__REPOSITORY_JSON__", json.dumps(os.environ.get("GITHUB_REPOSITORY", "")).replace("</", "<\\/"))
         .replace("__GROUPS__", "".join(groups))
     )
 

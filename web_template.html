@@ -161,9 +161,20 @@
     const order = document.querySelector('#order');
     const theme = document.querySelector('#theme');
     const releasesContainer = document.querySelector('#releases');
-    const activeFilters = new Set();
+    const trackerRepository = __REPOSITORY_JSON__;
+    const trackerStorageId = trackerRepository || location.pathname.split('/').filter(Boolean)[0] || 'site';
+    const filterStorageKey = `release-filters:${trackerStorageId}`;
+    const searchStorageKey = `release-search:${trackerStorageId}`;
+    let savedFilters = [];
+    try { savedFilters = JSON.parse(localStorage.getItem(filterStorageKey) || '[]'); } catch (_) {}
+    const allowedFilters = new Set(buttons.map(button => button.dataset.filter).filter(filter => filter !== 'all'));
+    const activeFilters = new Set(Array.isArray(savedFilters) ? savedFilters.filter(filter => allowedFilters.has(filter)) : []);
     try { order.value = localStorage.getItem('release-order') || 'type'; } catch (_) {}
     try { theme.value = localStorage.getItem('release-theme') || 'default'; } catch (_) {}
+    try { search.value = localStorage.getItem(searchStorageKey) || ''; } catch (_) {}
+    function saveFilterState() {
+      try { localStorage.setItem(filterStorageKey, JSON.stringify([...activeFilters])); } catch (_) {}
+    }
     function applyTheme() {
       if (theme.value === 'default') document.documentElement.removeAttribute('data-theme');
       else document.documentElement.dataset.theme = theme.value;
@@ -208,7 +219,10 @@
       count.textContent = `${shown} item${shown === 1 ? '' : 's'}`;
       empty.style.display = shown ? 'none' : 'block';
     }
-    search.addEventListener('input', applyFilters);
+    search.addEventListener('input', () => {
+      try { localStorage.setItem(searchStorageKey, search.value); } catch (_) {}
+      applyFilters();
+    });
     order.addEventListener('change', () => {
       try { localStorage.setItem('release-order', order.value); } catch (_) {}
       applyOrder();
@@ -230,9 +244,32 @@
         const selected = item.dataset.filter === 'all' ? activeFilters.size === 0 : activeFilters.has(item.dataset.filter);
         item.setAttribute('aria-pressed', String(selected));
       });
+      saveFilterState();
       applyDateOrder();
       applyFilters();
     }));
+    buttons.forEach(item => {
+      const selected = item.dataset.filter === 'all' ? activeFilters.size === 0 : activeFilters.has(item.dataset.filter);
+      item.setAttribute('aria-pressed', String(selected));
+    });
+    const ratingStorageKey = `new-music-tracker:rating-overrides:${trackerStorageId}`;
+    function applyRatingOverrides() {
+      let ratingOverrides = {};
+      try { ratingOverrides = JSON.parse(localStorage.getItem(ratingStorageKey) || '{}') || {}; } catch (_) {}
+      let cleanedRatings = false;
+      document.querySelectorAll('.rating[data-rating-id]').forEach(control => {
+        const override = ratingOverrides[control.dataset.ratingId];
+        if (!override) return;
+        const serverRating = Number(control.dataset.serverRating || 0), localRating = Number(override.rating || 0);
+        if (serverRating === localRating) { delete ratingOverrides[control.dataset.ratingId]; cleanedRatings = true; return; }
+        control.dataset.rating = String(localRating);
+        control.querySelector('span').textContent = localRating >= 4 ? 'Liked' : localRating ? 'Disliked' : 'Rate';
+        control.querySelectorAll('.rating__star').forEach((star, index) => star.classList.toggle('rating__star--selected', index < localRating));
+      });
+      if (cleanedRatings) try { localStorage.setItem(ratingStorageKey, JSON.stringify(ratingOverrides)); } catch (_) {}
+    }
+    applyRatingOverrides();
+    window.addEventListener('pageshow', applyRatingOverrides);
     document.querySelectorAll('.cover img').forEach(image => image.addEventListener('error', () => image.classList.add('is-missing')));
     applyOrder();
     applyDateOrder();

@@ -237,9 +237,11 @@ class TrackerTests(unittest.TestCase):
 
     def test_release_filters_allow_multiple_categories(self):
         template = Path("web_template.html").read_text(encoding="utf-8")
-        self.assertIn("const activeFilters = new Set()", template)
+        self.assertIn("const activeFilters = new Set(Array.isArray(savedFilters)", template)
         self.assertIn("activeFilters.has(filter)", template)
         self.assertIn("selectedCategories.some", template)
+        self.assertIn("localStorage.setItem(filterStorageKey", template)
+        self.assertIn("localStorage.setItem(searchStorageKey", template)
         self.assertNotIn("let active = 'all'", template)
 
     def test_manage_page_embeds_recent_lastfm_review(self):
@@ -718,7 +720,12 @@ class TrackerTests(unittest.TestCase):
             page = make_html(settings, [release], generated)
             history = make_history_html(settings, [release], generated)
             self.assertIn('data-rating="5"', page)
+            self.assertIn('data-server-rating="5"', page)
+            self.assertIn('data-rating-id="release:', page)
             self.assertIn("history.html?rate=release%3A", page)
+            self.assertIn("return=releases", page)
+            self.assertIn("applyRatingOverrides", page)
+            self.assertIn("window.addEventListener('pageshow', applyRatingOverrides)", page)
             self.assertIn("Listening history", page)
             self.assertIn("Liked", history)
             self.assertIn("Disliked", history)
@@ -727,6 +734,9 @@ class TrackerTests(unittest.TestCase):
             self.assertIn(release["date"], history)
             self.assertIn("Search MusicBrainz", history)
             self.assertIn("/ws/2/release-group?query=", history)
+            self.assertIn("saveRatingOverride", history)
+            self.assertIn("Save & return to releases", history)
+            self.assertIn("GitHub can refresh in the background", history)
             old_release = {**release, "id": "old-release", "date": "2025-09-04"}
             old_history = make_history_html(settings, [old_release], generated)
             self.assertIn('"release:old-release"', old_history)
