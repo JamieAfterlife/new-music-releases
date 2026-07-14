@@ -810,11 +810,19 @@ def make_manage_html(settings: Settings) -> str:
     )
 
 
-def run_check(settings: Settings, mb: MusicBrainz, now: dt.datetime | None = None) -> tuple[list[dict[str, Any]], int]:
+def run_check(
+    settings: Settings,
+    mb: MusicBrainz,
+    now: dt.datetime | None = None,
+    artist_mbids: set[str] | None = None,
+) -> tuple[list[dict[str, Any]], int]:
+    """Scan every active artist, or only the supplied MusicBrainz IDs."""
     now = now or dt.datetime.now(dt.timezone.utc)
     start = (now.date() - dt.timedelta(days=settings.lookback_days)).isoformat()
     end = (now.date() + dt.timedelta(days=settings.future_days)).isoformat()
     watchlist = load_json(settings.watchlist, {"artists": []}).get("artists", [])
+    if artist_mbids is not None:
+        watchlist = [artist for artist in watchlist if artist.get("mbid") in artist_mbids]
     state = load_json(settings.state_file, {"releases": {}})
     known: dict[str, dict[str, Any]] = state.setdefault("releases", {})
     discovered: dict[str, dict[str, Any]] = {}
@@ -1063,6 +1071,12 @@ def build_parser() -> argparse.ArgumentParser:
     check = sub.add_parser("check", help="Check releases and rebuild RSS/HTML")
     check.add_argument("--quiet-if-none", action="store_true", help="Print nothing when no releases are new")
     check.add_argument("--notification-file", type=Path, help="Write GitHub-ready Markdown when new releases are found")
+    check.add_argument(
+        "--artist-mbids",
+        help="Comma-separated MusicBrainz artist IDs to scan instead of the full watchlist",
+    )
+    changed = sub.add_parser("changed-artists", help="List watchlist IDs added since an earlier artists.json")
+    changed.add_argument("previous", type=Path)
     sub.add_parser("rebuild", help="Rebuild RSS/HTML from saved releases without an API scan")
     enrich = sub.add_parser("enrich", help="Backfill RSS tracklists and artwork metadata")
     enrich.add_argument("--refresh", action="store_true", help="Refresh metadata even when already checked")
@@ -1130,8 +1144,21 @@ def main(argv: list[str] | None = None) -> int:
                 f"Prepared {len(recent)} recent favourites for review; "
                 f"unresolved: {len(recent_unresolved)}"
             )
+    elif args.command == "changed-artists":
+        previous = load_json(args.previous, {"artists": []})
+        current = load_json(settings.watchlist, {"artists": []})
+        old_ids = {artist.get("mbid") for artist in previous.get("artists", []) if artist.get("mbid")}
+        new_ids = sorted(
+            artist["mbid"]
+            for artist in current.get("artists", [])
+            if artist.get("mbid") and artist["mbid"] not in old_ids
+        )
+        print(",".join(new_ids))
     elif args.command == "check":
-        new_releases, current = run_check(settings, mb)
+        selected_mbids = None
+        if args.artist_mbids is not None:
+            selected_mbids = {value.strip() for value in args.artist_mbids.split(",") if value.strip()}
+        new_releases, current = run_check(settings, mb, artist_mbids=selected_mbids)
         if args.notification_file and args.notification_file.exists():
             args.notification_file.unlink()
         if new_releases:

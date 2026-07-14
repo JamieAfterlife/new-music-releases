@@ -132,6 +132,8 @@ On the first Last.fm-powered build, the management page offers a recent-favourit
 
 Saving requires a fine-grained GitHub token limited to the tracker repository with **Contents: Read and write** permission. The token stays only in the open browser tab and is sent only to GitHub; it is never included in the generated site or committed to the repository. After saving, the normal GitHub Pages workflow rebuilds the releases automatically.
 
+The management page saves the artist list, blacklist, and site settings together in one GitHub update. Removing artists or changing display settings performs a quick rebuild from saved release data. Newly added or re-enabled artists are scanned on their own; the full watchlist scan is reserved for the scheduled 12-hour check or a manual workflow run.
+
 The management page also edits the site title and timezone. **Start fresh** clears both the inherited watchlist and artist blacklist, which makes a fork ready for a different listener without requiring Last.fm.
 
 It can also enable GitHub Issue notifications. When a scheduled check finds released music, the workflow creates one issue containing the release types and Spotify, YouTube Music, and YouTube links. To receive these through email or GitHub Mobile, watch the repository and select **Custom → Issues**. RSS remains available independently.

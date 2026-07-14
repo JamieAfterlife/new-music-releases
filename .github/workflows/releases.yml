@@ -15,7 +15,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -25,14 +25,37 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/configure-pages@v5
         id: pages
       - uses: actions/cache@v4
         with:
-          path: data/state.json
+          path: data/
           key: music-state-${{ github.run_id }}
           restore-keys: music-state-
+      - name: Prepare incremental update
+        if: ${{ github.event_name == 'push' }}
+        id: changes
+        run: |
+          mkdir -p "$RUNNER_TEMP/music-tracker"
+          if git cat-file -e "${{ github.event.before }}:artists.json" 2>/dev/null; then
+            git show "${{ github.event.before }}:artists.json" > "$RUNNER_TEMP/music-tracker/previous-artists.json"
+          else
+            echo '{"artists":[]}' > "$RUNNER_TEMP/music-tracker/previous-artists.json"
+          fi
+          changed_files="$(git diff --name-only "${{ github.event.before }}" HEAD)"
+          sync_required=false
+          while IFS= read -r changed_file; do
+            case "$changed_file" in
+              artists.json|blacklist.json) ;;
+              "") ;;
+              *) sync_required=true ;;
+            esac
+          done <<< "$changed_files"
+          echo "sync_required=$sync_required" >> "$GITHUB_OUTPUT"
       - name: Sync optional Last.fm library
+        if: ${{ github.event_name != 'push' || steps.changes.outputs.sync_required == 'true' }}
         env:
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
         run: python music_release_tracker.py sync-lastfm
@@ -42,14 +65,32 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add artists.json
-            git commit -m "Sync artists from Last.fm"
+            git commit -m "Sync artists from Last.fm [skip ci]"
             git push
           fi
-      - name: Generate feed
+      - name: Find newly tracked artists
+        if: ${{ github.event_name == 'push' }}
+        id: artists
+        run: |
+          artist_mbids="$(python music_release_tracker.py changed-artists "$RUNNER_TEMP/music-tracker/previous-artists.json")"
+          echo "mbids=$artist_mbids" >> "$GITHUB_OUTPUT"
+      - name: Run scheduled full scan
+        if: ${{ github.event_name != 'push' }}
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
         run: python music_release_tracker.py check --notification-file new-releases.md
+      - name: Scan newly tracked artists
+        if: ${{ github.event_name == 'push' && steps.artists.outputs.mbids != '' }}
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+          MUSICBRAINZ_CONTACT: ${{ github.server_url }}/${{ github.repository }}
+        run: python music_release_tracker.py check --artist-mbids "${{ steps.artists.outputs.mbids }}" --notification-file new-releases.md
+      - name: Quickly rebuild saved releases
+        if: ${{ github.event_name == 'push' && steps.artists.outputs.mbids == '' }}
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: python music_release_tracker.py rebuild
       - name: Notify through GitHub
         if: ${{ hashFiles('new-releases.md') != '' }}
         env:

@@ -1,5 +1,6 @@
 import datetime as dt
 import csv
+import io
 import json
 import tempfile
 import unittest
@@ -18,6 +19,7 @@ from music_release_tracker import (
     is_various_artists,
     make_rss,
     make_manage_html,
+    main,
     import_csv,
     import_lastfm,
     comparable_date,
@@ -377,6 +379,53 @@ class TrackerTests(unittest.TestCase):
             )
             state = json.loads(settings.state_file.read_text(encoding="utf-8"))
             self.assertEqual(len(state["releases"]), 1)
+
+    def test_incremental_check_scans_only_selected_artist(self):
+        class CountingMusicBrainz(FakeMusicBrainz):
+            def __init__(self):
+                super().__init__([])
+                self.scanned = []
+
+            def release_groups(self, mbid, start, end):
+                self.scanned.append(mbid)
+                return [group(rgid=f"release-{mbid}", artist_id=mbid)]
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            second = {"name": "Second Artist", "mbid": "second-mbid"}
+            (root / "artists.json").write_text(
+                json.dumps({"artists": [ARTIST, second]}), encoding="utf-8"
+            )
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            settings.include_appearances = False
+            mb = CountingMusicBrainz()
+            run_check(
+                settings,
+                mb,
+                dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc),
+                artist_mbids={second["mbid"]},
+            )
+            self.assertEqual(mb.scanned, [second["mbid"]])
+            state = json.loads(settings.state_file.read_text(encoding="utf-8"))
+            self.assertEqual(set(state["releases"]), {"release-second-mbid"})
+
+    def test_changed_artists_command_lists_only_new_ids(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            previous = root / "previous.json"
+            previous.write_text(json.dumps({"artists": [ARTIST]}), encoding="utf-8")
+            new_artist = {"name": "New Artist", "mbid": "new-mbid"}
+            (root / "artists.json").write_text(
+                json.dumps({"artists": [ARTIST, new_artist]}), encoding="utf-8"
+            )
+            output = io.StringIO()
+            with patch("sys.stdout", output):
+                result = main(["--config", str(root / "config.toml"), "changed-artists", str(previous)])
+            self.assertEqual(result, 0)
+            self.assertEqual(output.getvalue().strip(), "new-mbid")
 
     def test_rss_contains_release_identity(self):
         release = normalize_release(group(), ARTIST)
