@@ -2121,6 +2121,42 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCpYBLzzDffFvONgoXiH-kMQ",
+      "kind": "artist",
+      "artist_names": [
+        "Whitechapel"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCpkYRsmyqlzkrSYwPSSXRyg",
+      "kind": "artist",
+      "artist_names": [
+        "Wind Rose"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt1bQVjeLjJPXGwhuc8O8qg",
+      "kind": "artist",
+      "artist_names": [
+        "Within Destruction"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCeWSsy6hPAxThTS6QSAVwAA",
+      "kind": "artist",
+      "artist_names": [
+        "Yelawolf"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
