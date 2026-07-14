@@ -26,6 +26,7 @@
     }
     :root[data-theme="youtube"] { --brand: #ff304f; --black: #050000; --panel: #160d0f; --panel-hover: #211114; --line: #402126; }
     :root[data-theme="purple"] { --brand: #ad7aff; --black: #050307; --panel: #130f19; --panel-hover: #1c1525; --line: #38284a; }
+    :root[data-theme="grey"] { --brand: #b8b8b8; --black: #080808; --panel: #181818; --panel-hover: #222; --line: #3b3b3b; }
     * { box-sizing: border-box; }
     html { background: var(--black); }
     body { margin: 0; background: var(--black); color: var(--text); font: 15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
@@ -139,8 +140,9 @@
         <label class="order" for="theme">Theme
           <select id="theme">
             <option value="default">Green</option>
-            <option value="youtube">YouTube red</option>
-            <option value="purple">Black/purple</option>
+            <option value="youtube">Red</option>
+            <option value="purple">Purple</option>
+            <option value="grey">Grey</option>
           </select>
         </label>
         <span id="count" class="result-count">__COUNT__ releases</span>

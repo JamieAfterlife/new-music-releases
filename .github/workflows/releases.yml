@@ -87,13 +87,13 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python youtube_video_tracker.py scan
-      - name: Save imported artists
+      - name: Save imported artists and discovered channels
         run: |
-          if ! git diff --quiet -- artists.json; then
+          if ! git diff --quiet -- artists.json video_sources.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add artists.json
-            git commit -m "Sync artists from Last.fm [skip ci]"
+            git add artists.json video_sources.json
+            git commit -m "Sync artists and YouTube channels [skip ci]"
             git push
           fi
       - name: Find newly tracked artists

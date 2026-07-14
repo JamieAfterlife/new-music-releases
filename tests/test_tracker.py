@@ -201,12 +201,16 @@ class TrackerTests(unittest.TestCase):
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")
         manage = Path("manage_template.html").read_text(encoding="utf-8")
-        for page in (web, manage):
+        history = Path("history_template.html").read_text(encoding="utf-8")
+        videos = Path("videos_template.html").read_text(encoding="utf-8")
+        for page in (web, manage, history, videos):
             self.assertIn("release-theme", page)
             self.assertIn('data-theme="youtube"', page)
             self.assertIn('data-theme="purple"', page)
-        self.assertIn("YouTube red", web)
-        self.assertIn("Black/purple", manage)
+            self.assertIn('data-theme="grey"', page)
+        self.assertIn('>Red</option>', web)
+        self.assertIn('>Purple</option>', manage)
+        self.assertIn('>Grey</option>', manage)
 
     def test_release_filters_allow_multiple_categories(self):
         template = Path("web_template.html").read_text(encoding="utf-8")
