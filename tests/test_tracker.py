@@ -123,6 +123,13 @@ class TrackerTests(unittest.TestCase):
             self.assertIn(ARTIST["name"], page)
             self.assertIn("artist--tracked", page)
 
+    def test_release_filters_allow_multiple_categories(self):
+        template = Path("web_template.html").read_text(encoding="utf-8")
+        self.assertIn("const activeFilters = new Set()", template)
+        self.assertIn("activeFilters.has(filter)", template)
+        self.assertIn("selectedCategories.some", template)
+        self.assertNotIn("let active = 'all'", template)
+
     def test_manage_page_embeds_recent_lastfm_review(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

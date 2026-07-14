@@ -138,7 +138,7 @@
     const empty = document.querySelector('#empty');
     const order = document.querySelector('#order');
     const releasesContainer = document.querySelector('#releases');
-    let active = 'all';
+    const activeFilters = new Set();
     try { order.value = localStorage.getItem('release-order') || 'type'; } catch (_) {}
     function applyOrder() {
       days.forEach(day => {
@@ -154,7 +154,7 @@
       });
     }
     function applyDateOrder() {
-      const orderedDays = [...days].sort((a, b) => active === 'upcoming' ?
+      const orderedDays = [...days].sort((a, b) => activeFilters.has('upcoming') ?
         a.dataset.date.localeCompare(b.dataset.date) :
         b.dataset.date.localeCompare(a.dataset.date));
       orderedDays.forEach(day => releasesContainer.appendChild(day));
@@ -164,12 +164,14 @@
       let shown = 0;
       cards.forEach(card => {
         const isUpcoming = card.dataset.upcoming === 'true';
-        const typeMatch = active === 'upcoming' ? isUpcoming : !isUpcoming && (
-          active === 'all' || card.dataset.type === active ||
-          (active === 'live' && card.dataset.live === 'true') ||
-          (active === 'feature' && card.dataset.feature === 'true')
+        const wantsUpcoming = activeFilters.has('upcoming');
+        const selectedCategories = [...activeFilters].filter(value => value !== 'upcoming');
+        const cardCategory = card.dataset.feature === 'true' ? 'feature' : card.dataset.type;
+        const categoryMatch = selectedCategories.length === 0 || selectedCategories.some(value =>
+          value === cardCategory || (value === 'live' && card.dataset.live === 'true')
         );
-        const visible = typeMatch && (!query || card.dataset.search.includes(query));
+        const visible = isUpcoming === wantsUpcoming && categoryMatch &&
+          (!query || card.dataset.search.includes(query));
         card.hidden = !visible;
         if (visible) shown += 1;
       });
@@ -183,8 +185,18 @@
       applyOrder();
     });
     buttons.forEach(button => button.addEventListener('click', () => {
-      active = button.dataset.filter;
-      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      const filter = button.dataset.filter;
+      if (filter === 'all') {
+        activeFilters.clear();
+      } else if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+      } else {
+        activeFilters.add(filter);
+      }
+      buttons.forEach(item => {
+        const selected = item.dataset.filter === 'all' ? activeFilters.size === 0 : activeFilters.has(item.dataset.filter);
+        item.setAttribute('aria-pressed', String(selected));
+      });
       applyDateOrder();
       applyFilters();
     }));
