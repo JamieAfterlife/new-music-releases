@@ -39,6 +39,54 @@
         "A Skylit Drive"
       ],
       "enabled": true
+    },
+    {
+      "handle": "UCEIeoYVgJT6sbwhKWoIzN8g",
+      "kind": "artist",
+      "artist_names": [
+        "Aborted"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCtcweOkME_1z-Jb-HOwiaxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Abörted Hitler Cöck"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCB0JSO6d5ysH2Mmqz5I9rIw",
+      "kind": "artist",
+      "artist_names": [
+        "AC/DC"
+      ],
+      "enabled": true
+    },
+    {
+      "handle": "UCWhd8smWZSFEjbnl9Bxt01Q",
+      "kind": "artist",
+      "artist_names": [
+        "AFI"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UCddHnokkt592bK-gFjwoIyw",
+      "kind": "artist",
+      "artist_names": [
+        "Chelsea Grin"
+      ],
+      "enabled": true
+    },
+    {
+      "channel_id": "UC99gXrm2NHOlKVLuKIk6IGA",
+      "kind": "artist",
+      "artist_names": [
+        "Airbourne"
+      ],
+      "enabled": true
     }
   ]
 }
