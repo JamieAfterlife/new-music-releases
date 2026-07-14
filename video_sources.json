@@ -1563,6 +1563,564 @@
         "Mastodon"
       ],
       "enabled": true
+    },
+    {
+      "channel_id": "UC9-jq3nQG4gUoYEA-j6d8oQ",
+      "kind": "artist",
+      "artist_names": [
+        "Signs of the Swarm"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UChQidgcBzCuN2IOQ6s1wRFw",
+      "kind": "artist",
+      "artist_names": [
+        "Silverstein"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCcfVrE3mmeQZ_RN3u5cUECA",
+      "kind": "artist",
+      "artist_names": [
+        "Skepta"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYehkfWFUgpMAkchZN_MlOw",
+      "kind": "artist",
+      "artist_names": [
+        "Skindred"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_TVqp_SyG6j5hG-xVRy95A",
+      "kind": "artist",
+      "artist_names": [
+        "Skrillex"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC6WCQjfkWnDWvFfw_YDrq5g",
+      "kind": "artist",
+      "artist_names": [
+        "Slash"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC7SUtttQ3b9R0zhaap6nFLA",
+      "kind": "artist",
+      "artist_names": [
+        "Slaves"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCA7S5M8w5X4P1NRzaJ4lsrg",
+      "kind": "artist",
+      "artist_names": [
+        "Slayer"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2P1n0rQG2PtWe7-xEi306g",
+      "kind": "artist",
+      "artist_names": [
+        "Sleeping With Sirens"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCOJZ1tna8yj8mAEITPkHNCQ",
+      "kind": "artist",
+      "artist_names": [
+        "Slipknot"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCsnBzXuzzsrJKArgWtJxi2g",
+      "kind": "artist",
+      "artist_names": [
+        "Soulfly"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCHKSayVT2Ks-gQBXmMLGTag",
+      "kind": "artist",
+      "artist_names": [
+        "Soundgarden"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmWxquutalJ1ZjdmWLdlhSg",
+      "kind": "artist",
+      "artist_names": [
+        "Spiritbox"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCeB8d73jg7xk5Mb1YNrxsnQ",
+      "kind": "artist",
+      "artist_names": [
+        "Stone Sour"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFybxa5OJJQBe2O4hJAEzyg",
+      "kind": "artist",
+      "artist_names": [
+        "Storm the Sky"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbUlnnMk-KjDxhA_ESAMJkg",
+      "kind": "artist",
+      "artist_names": [
+        "Story Of The Year"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPNN85BKmXoHML4N6-6vV4g",
+      "kind": "artist",
+      "artist_names": [
+        "Stray From the Path"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCclo9P5aWVQ97jSWVgRknPQ",
+      "kind": "artist",
+      "artist_names": [
+        "Suffocation"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCV90CO91mdpteVQUdRwNasA",
+      "kind": "artist",
+      "artist_names": [
+        "Suffokate"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_KZ6lUe4JU01qELYUsvSvQ",
+      "kind": "artist",
+      "artist_names": [
+        "Suicide Silence"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5zU9uDbWQh6YW8qY5JsTXw",
+      "kind": "artist",
+      "artist_names": [
+        "Sum 41"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCs9KWsVwYDs_A3qE1EeQmQA",
+      "kind": "artist",
+      "artist_names": [
+        "Sunami"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC7KzjYfJvfCTFvbMbw_BhUw",
+      "kind": "artist",
+      "artist_names": [
+        "SVDDEN DEATH"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UChmRfFrxabJc55fFrfVSltA",
+      "kind": "artist",
+      "artist_names": [
+        "Sylosis"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC7-YMmnc0ppcWmio8t1WdcA",
+      "kind": "artist",
+      "artist_names": [
+        "System of a Down"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_jfHxaQRH0Dkl2ev9sLi6A",
+      "kind": "artist",
+      "artist_names": [
+        "Tallah"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCUW-wQUSx8cGzxt_nTwTNbg",
+      "kind": "artist",
+      "artist_names": [
+        "Termina"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCzvBMFhS0gqjx1rA0bswiHg",
+      "kind": "artist",
+      "artist_names": [
+        "TesseracT"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0HZ7oBniMsRBI4skF6LClQ",
+      "kind": "artist",
+      "artist_names": [
+        "Testament"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8YyEjOExG8y0jgc0-AbyNg",
+      "kind": "artist",
+      "artist_names": [
+        "The Acacia Strain"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCwb_jWaLetzcNtvHXXyElyw",
+      "kind": "artist",
+      "artist_names": [
+        "The Algorithm"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCW5bPOVKOxDBNlIQBacw6Ow",
+      "kind": "artist",
+      "artist_names": [
+        "The Amity Affliction"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCb7rLL14riAGkvB5cKooCvQ",
+      "kind": "artist",
+      "artist_names": [
+        "The Browning"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCVYcBnEt9RUSCNQHmn4RLzA",
+      "kind": "artist",
+      "artist_names": [
+        "The Butcher Sisters"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCaW3bUfT_p_lImbMICEfe9Q",
+      "kind": "artist",
+      "artist_names": [
+        "The Faceless"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCdoRo51zNbTpLU_sl6Hyskw",
+      "kind": "artist",
+      "artist_names": [
+        "The Gaslight Anthem"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmzIxXC9rY3EiEQuqVL7p6Q",
+      "kind": "artist",
+      "artist_names": [
+        "The Ghost Inside"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC7IZbkKDd20v6Ni_vFX63rQ",
+      "kind": "artist",
+      "artist_names": [
+        "The Prodigy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCz6iQk8kuB0nKNFKzz6Nyjg",
+      "kind": "artist",
+      "artist_names": [
+        "The Ready Set"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCj7gK7sJAtlNnflInDplG2Q",
+      "kind": "artist",
+      "artist_names": [
+        "The Story So Far"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCOFuhXwdqX57_fTlDUMDWWA",
+      "kind": "artist",
+      "artist_names": [
+        "Thornhill"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFFPfHHf46fwdIpuT-p2z4w",
+      "kind": "artist",
+      "artist_names": [
+        "Thrown"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCGjEbsGoyWSJlMjzuWM4FKQ",
+      "kind": "artist",
+      "artist_names": [
+        "Thy Art Is Murder"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCdVMdmxfujDnidsL-E_vfYQ",
+      "kind": "artist",
+      "artist_names": [
+        "Times of Grace"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFqe6OhMhaW3n8wWdyzUDcg",
+      "kind": "artist",
+      "artist_names": [
+        "Traitors"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4UQFLK99sYuG1b8oRd5BvQ",
+      "kind": "artist",
+      "artist_names": [
+        "Trivium"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCP5O_Y-RbtVJUEv4uLP-O8A",
+      "kind": "artist",
+      "artist_names": [
+        "Turnstile"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCkqCRisceYym4UaHIP2f3XA",
+      "kind": "artist",
+      "artist_names": [
+        "Vampires Everywhere!"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0IC3jjeCvYVRg3mRHth-og",
+      "kind": "artist",
+      "artist_names": [
+        "Vana"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5NyB0QcZ4hnLhduHuHLm3Q",
+      "kind": "artist",
+      "artist_names": [
+        "Veil of Maya"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2zSHTbBI0TMxkx_uRy-Wsw",
+      "kind": "artist",
+      "artist_names": [
+        "Vended"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIXPW2ilH6B84asawNZwn4w",
+      "kind": "artist",
+      "artist_names": [
+        "Venom Prison"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC6xJXFCAXdPyB3OSqlNt5AA",
+      "kind": "artist",
+      "artist_names": [
+        "Vexed"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCXFnyuz7PKU2g2P83I1EYMA",
+      "kind": "artist",
+      "artist_names": [
+        "Vildhjarta"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCGsEybBSWojd5G1u3I8tRGw",
+      "kind": "artist",
+      "artist_names": [
+        "Viscera"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3Oz9jPqEApA8B464wZga7g",
+      "kind": "artist",
+      "artist_names": [
+        "Void of Vision"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCgj23Szu6ZYEvxiJCFjQ_7g",
+      "kind": "artist",
+      "artist_names": [
+        "Volbeat"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCVbRGNXwrOMEZ1qzGBPf-ow",
+      "kind": "artist",
+      "artist_names": [
+        "Wage War"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCraEGV4XIkLbJhHMLCNcExg",
+      "kind": "artist",
+      "artist_names": [
+        "WARGASM"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCx8Ju5UQibU_6AzhVl_mXgQ",
+      "kind": "artist",
+      "artist_names": [
+        "Wednesday 13"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCkMYR1Nerqm5U6LQZpayMhg",
+      "kind": "artist",
+      "artist_names": [
+        "While She Sleeps"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC7dWTzwC_DN77KgVMIyhQng",
+      "kind": "artist",
+      "artist_names": [
+        "White Zombie"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
