@@ -83,6 +83,7 @@ jobs:
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
         run: python music_release_tracker.py sync-lastfm
       - name: Scan configured YouTube channels
+        continue-on-error: true
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python youtube_video_tracker.py scan
