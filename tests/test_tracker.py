@@ -176,10 +176,11 @@ class TrackerTests(unittest.TestCase):
 
     def test_management_sections_collapse_and_release_credits_can_be_ignored(self):
         template = Path("manage_template.html").read_text(encoding="utf-8")
-        self.assertGreaterEqual(template.count('<details class="card">'), 7)
+        self.assertGreaterEqual(template.count('<details class="card">'), 8)
         self.assertIn("Ignore credit", template)
         self.assertIn("ignored_sources", template)
         self.assertIn('details.card[open] > summary::after', template)
+        self.assertIn('<summary class="summary"><div><h2>Video review queue</h2>', template)
 
     def test_artist_name_fix_search_stays_in_its_own_section(self):
         template = Path("manage_template.html").read_text(encoding="utf-8")
@@ -194,12 +195,15 @@ class TrackerTests(unittest.TestCase):
         helper = Path("device_auth.js").read_text(encoding="utf-8")
         for page in (manage, history):
             self.assertIn('id="trust-device"', page)
-            self.assertIn('src="device-auth.js"', page)
+            self.assertIn('src="device-auth.js?v=4"', page)
             self.assertIn("autoConnectTrusted()", page)
+            self.assertIn("DeviceAuth.loadSession(connectionKey)", page)
+            self.assertIn("DeviceAuth.saveSession(connectionKey", page)
         self.assertIn("indexedDB.open", helper)
         self.assertIn("trusted-v2", helper)
         self.assertIn("localStorage.setItem", helper)
         self.assertIn("exportKey('raw'", helper)
+        self.assertIn("sessionStorage.setItem", helper)
         self.assertIn("el('trust-device').checked = true", manage)
         self.assertIn("el('trust-device').checked=true", history)
 

@@ -149,8 +149,12 @@
       <div class="onboarding__actions"><button id="add-video-source" class="button button--quiet">Add channel</button></div>
       <div id="video-sources" class="results"></div>
       <div class="onboarding__review"><div class="summary"><div><h2>Suggested channels</h2><p>Automatic discovery checks your tracked artists in safe batches. Confirm the right channel before it is scanned.</p></div><span id="channel-review-count" class="count"></span></div><div id="channel-review" class="results"></div></div>
-      <div class="onboarding__review"><div class="summary"><div><h2>Video review queue</h2><p>Approve uncertain matches or reject them permanently.</p></div><span id="video-review-count" class="count"></span></div><div id="video-review" class="results"></div></div>
       <div class="onboarding__review"><div class="summary"><div><h2>Hidden videos</h2><p>Restore a video that you previously hid from the website and RSS feed.</p></div><span id="hidden-video-count" class="count"></span></div><div id="hidden-videos" class="results"></div></div>
+    </details>
+
+    <details class="card">
+      <summary class="summary"><div><h2>Video review queue</h2><p>Approve uncertain music-video matches or reject them permanently.</p></div><span id="video-review-count" class="count"></span></summary>
+      <div id="video-review" class="results"></div>
     </details>
 
     <details class="card">
@@ -175,14 +179,14 @@
 
     <div class="savebar"><p id="changes">No unsaved changes.</p><button id="save" class="button" disabled>Save changes</button></div>
   </main>
-  <script src="device-auth.js"></script>
+  <script src="device-auth.js?v=4"></script>
   <script>
     const embedded = { repository:__REPOSITORY_JSON__, watchlist:__WATCHLIST_JSON__, blacklist:__BLACKLIST_JSON__, site:__SITE_JSON__, recent:__RECENT_LASTFM_JSON__, releases:__RELEASES_JSON__, aliases:__ALIASES_JSON__, unresolved:__UNRESOLVED_JSON__, videoSources:__VIDEO_SOURCES_JSON__, videoReview:__VIDEO_REVIEW_JSON__, channelReview:__VIDEO_CHANNEL_REVIEW_JSON__, videoDecisions:__VIDEO_DECISIONS_JSON__, publishedVideos:__PUBLISHED_VIDEOS_JSON__ };
     let connected = false, dirty = false, branch = 'main', activeToken = '';
     let watchlist = structuredClone(embedded.watchlist), blacklist = structuredClone(embedded.blacklist), site = structuredClone(embedded.site), aliases = structuredClone(embedded.aliases), videoSources = structuredClone(embedded.videoSources), videoDecisions = structuredClone(embedded.videoDecisions);
     let artists = new Map(), recentChoices = new Map(), activeAliasSource = '';
     const el = id => document.getElementById(id);
-    const connectionKey = `new-music-tracker:github:${location.pathname.split('/').filter(Boolean)[0] || 'site'}`;
+    const connectionKey = `new-music-tracker:github:${embedded.repository || location.pathname.split('/').filter(Boolean)[0] || 'site'}`;
     let savedConnection = null;
     try { savedConnection=JSON.parse(localStorage.getItem(connectionKey)||'null'); } catch { savedConnection=null; }
     el('repository').value = savedConnection?.repository || embedded.repository;
@@ -377,7 +381,7 @@
         const repo=await github(''); branch=repo.default_branch||'main'; connected=true; el('save').disabled=!dirty;
         let stored=!!savedConnection?.ciphertext;
         if(encrypted){try{localStorage.setItem(connectionKey,JSON.stringify(encrypted));savedConnection=encrypted;stored=true;}catch{stored=false;}}
-        let trustError='';if(el('trust-device').checked&&window.DeviceAuth){try{await DeviceAuth.save(connectionKey,token,repository);stored=true;}catch(error){trustError=error.message;}}
+        window.DeviceAuth?.saveSession(connectionKey,token,repository,branch);let trustError='';if(el('trust-device').checked&&window.DeviceAuth){try{await DeviceAuth.save(connectionKey,token,repository);stored=true;}catch(error){trustError=error.message;}}
         el('token').value='';el('unlock-password').value='';el('forget-token').hidden=!stored;
         setStatus(trustError?`Connected, but automatic login could not be saved: ${trustError}`:el('trust-device').checked?`Connected to ${repository}. Automatic login is saved on this device.`:stored?`Connected to ${repository}. The encrypted token is saved for this tracker URL.`:`Connected to ${repository} for this tab.`,trustError?'error':'success');
       } catch(error){connected=false;activeToken='';setStatus(`Could not connect: ${error.message}`,'error');}
@@ -385,11 +389,11 @@
     }
     async function autoConnectTrusted(){
       if(!window.DeviceAuth)return;
-      try{const trusted=await DeviceAuth.load(connectionKey);if(!trusted)return;el('repository').value=trusted.repository||embedded.repository;activeToken=trusted.token;setStatus('Reconnecting from this trusted device…');const repo=await github('');branch=repo.default_branch||'main';connected=true;el('trust-device').checked=true;el('forget-token').hidden=false;el('save').disabled=!dirty;setStatus(`Connected automatically to ${el('repository').value}.`,'success');}
+      try{const session=DeviceAuth.loadSession(connectionKey),trusted=session||await DeviceAuth.load(connectionKey);if(!trusted)return;el('repository').value=trusted.repository||embedded.repository;activeToken=trusted.token;branch=trusted.branch||'main';connected=true;el('trust-device').checked=true;el('forget-token').hidden=false;el('save').disabled=!dirty;DeviceAuth.saveSession(connectionKey,activeToken,el('repository').value,branch);setStatus(`Connected automatically to ${el('repository').value}.`,'success');github('').then(repo=>{branch=repo.default_branch||'main';DeviceAuth.saveSession(connectionKey,activeToken,el('repository').value,branch);}).catch(()=>{});}
       catch(error){connected=false;activeToken='';setStatus(`Trusted-device reconnect failed: ${error.message}`,'error');}
     }
     el('connect').addEventListener('click',connectGithub);
-    el('forget-token').addEventListener('click',async()=>{try{localStorage.removeItem(connectionKey);}catch{}try{await window.DeviceAuth?.remove(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('token').value='';el('unlock-password').value='';el('trust-device').checked=false;el('forget-token').hidden=true;el('save').disabled=true;setStatus('Saved connection removed from this device.','success');});
+    el('forget-token').addEventListener('click',async()=>{try{localStorage.removeItem(connectionKey);}catch{}window.DeviceAuth?.removeSession(connectionKey);try{await window.DeviceAuth?.remove(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('token').value='';el('unlock-password').value='';el('trust-device').checked=false;el('forget-token').hidden=true;el('save').disabled=true;setStatus('Saved connection removed from this device.','success');});
     function makeFiles() {
       const tracked=[...artists.values()].filter(x=>x.tracked&&x.mbid).map(x=>x.record).sort((a,b)=>a.name.localeCompare(b.name));
       const blocked=[...artists.values()].filter(x=>!x.tracked&&x.mbid).sort((a,b)=>a.name.localeCompare(b.name));

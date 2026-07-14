@@ -88,5 +88,17 @@
     try { await transaction('readwrite', store => store.delete(id)); } catch (_) {}
   }
 
-  window.DeviceAuth = { load, save, remove };
+  function saveSession(id, token, repository, branch = 'main') {
+    try { sessionStorage.setItem(`${storagePrefix}session:${id}`, JSON.stringify({ token, repository, branch })); } catch (_) {}
+  }
+
+  function loadSession(id) {
+    try { return JSON.parse(sessionStorage.getItem(`${storagePrefix}session:${id}`) || 'null'); } catch (_) { return null; }
+  }
+
+  function removeSession(id) {
+    try { sessionStorage.removeItem(`${storagePrefix}session:${id}`); } catch (_) {}
+  }
+
+  window.DeviceAuth = { load, save, remove, saveSession, loadSession, removeSession };
 }());

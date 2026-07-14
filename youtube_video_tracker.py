@@ -21,9 +21,10 @@ FEED_ROOT = "https://www.youtube.com/feeds/videos.xml"
 OFFICIAL_VIDEO_RE = re.compile(r"\b(?:official\s+music\s+video|official\s+video|music\s+(?:live\s+)?video)\b", re.I)
 MAYBE_VIDEO_RE = re.compile(r"\b(?:official|video|premiere)\b", re.I)
 EXCLUDED_VIDEO_RE = re.compile(
-    r"\b(?:official\s+audio|audio[\s-]+only|visuali[sz]er|lyrics?\s+video|vlog|behind[\s-]+the[\s-]+scenes)\b",
+    r"\b(?:official\s+audio|audio[\s-]+only|visuali[sz]er|lyrics?\s+video|vlog|behind[\s-]+the[\s-]+scenes|trailers?|promos?|promotional|recap|highlights?|vertical\s+videos?)\b|#(?:shorts?|vertical)\b",
     re.I,
 )
+YOUTUBE_DURATION_RE = re.compile(r"^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$")
 
 
 def load_json(path: Path, default: Any) -> Any:
@@ -84,9 +85,40 @@ def is_strong_artist_channel(candidate: dict[str, Any], artist_name: str) -> boo
     return any(title == f"{variant}{suffix}" for variant in name_variants(artist_name) for suffix in allowed_suffixes)
 
 
+def parse_youtube_duration(value: str) -> int | None:
+    """Convert the ISO-8601 durations returned by YouTube into seconds."""
+    match = YOUTUBE_DURATION_RE.fullmatch(str(value or ""))
+    if not match:
+        return None
+    hours, minutes, seconds = (int(part or 0) for part in match.groups())
+    return hours * 3600 + minutes * 60 + seconds
+
+
+def is_excluded_video(
+    title: str,
+    duration_seconds: int | None = None,
+    tags: list[str] | None = None,
+) -> bool:
+    """Reject non-music-video formats, Shorts, and clips shorter than one minute."""
+    if EXCLUDED_VIDEO_RE.search(title):
+        return True
+    if duration_seconds is not None and duration_seconds < 60:
+        return True
+    excluded_tags = {"short", "shorts", "vertical", "verticalvideo", "vertical video"}
+    return any(str(tag).casefold().strip().lstrip("#") in excluded_tags for tag in (tags or []))
+
+
 def is_excluded_video_title(title: str) -> bool:
-    """Reject static-audio and non-performance formats even when called official."""
-    return bool(EXCLUDED_VIDEO_RE.search(title))
+    """Compatibility helper for callers that only have a video title."""
+    return is_excluded_video(title)
+
+
+def is_excluded_video_record(video: dict[str, Any]) -> bool:
+    return is_excluded_video(
+        str(video.get("title", "")),
+        video.get("duration_seconds"),
+        video.get("tags", []),
+    )
 
 
 def classify_video(
@@ -142,6 +174,24 @@ class YouTube:
             {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": str(limit)},
         )
         return data.get("items", [])
+
+    def video_details(self, video_ids: list[str]) -> dict[str, dict[str, Any]]:
+        """Fetch duration and tags in inexpensive batches of up to 50 videos."""
+        details: dict[str, dict[str, Any]] = {}
+        for offset in range(0, len(video_ids), 50):
+            chunk = video_ids[offset:offset + 50]
+            if not chunk:
+                continue
+            data = self.get("videos", {"part": "contentDetails,snippet", "id": ",".join(chunk)})
+            for item in data.get("items", []):
+                video_id = str(item.get("id", ""))
+                if not video_id:
+                    continue
+                details[video_id] = {
+                    "duration_seconds": parse_youtube_duration(item.get("contentDetails", {}).get("duration", "")),
+                    "tags": item.get("snippet", {}).get("tags", []),
+                }
+        return details
 
     def recent_uploads(self, channel_id: str) -> list[dict[str, Any]]:
         """Read YouTube's official channel feed so brand-new uploads are not missed."""
@@ -308,7 +358,7 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
     for video_id, video in list(videos.items()):
         if (
             str(video.get("channel", "")).casefold().endswith(" - topic")
-            or is_excluded_video_title(str(video.get("title", "")))
+            or is_excluded_video_record(video)
         ):
             videos.pop(video_id, None)
     review: dict[str, dict[str, Any]] = {}
@@ -348,6 +398,10 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
             item_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
             if item_id and item_id not in combined:
                 combined[item_id] = item
+        try:
+            details = youtube.video_details(list(combined))
+        except (AttributeError, OSError):
+            details = {}
         for item in combined.values():
             snippet = item.get("snippet", {})
             video_id = item.get("contentDetails", {}).get("videoId") or snippet.get("resourceId", {}).get("videoId")
@@ -360,8 +414,14 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
                 continue
             if published_time < cutoff:
                 continue
+            detail = details.get(video_id, {})
+            duration_seconds = detail.get("duration_seconds")
+            tags = detail.get("tags", [])
+            if is_excluded_video(snippet.get("title", ""), duration_seconds, tags):
+                videos.pop(video_id, None)
+                continue
             status, matched, reason = classify_video(snippet.get("title", ""), source, artists)
-            if video_id in approved and not is_excluded_video_title(snippet.get("title", "")):
+            if video_id in approved:
                 status, reason = "auto", "Approved in the review queue"
             if video_id in rejected:
                 status = "ignore"
@@ -379,6 +439,8 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
                 "source": identifier,
                 "reason": reason,
                 "status": status,
+                "duration_seconds": duration_seconds,
+                "tags": tags,
             }
             if status == "auto":
                 videos[video_id] = record
@@ -398,7 +460,7 @@ def render_video_page(root: Path, output_dir: Path, title: str, timezone: str = 
         video for video_id, video in state.get("videos", {}).items()
         if video_id not in rejected
         and not str(video.get("channel", "")).casefold().endswith(" - topic")
-        and not is_excluded_video_title(str(video.get("title", "")))
+        and not is_excluded_video_record(video)
     ]
     videos.sort(key=lambda item: item.get("published_at", ""), reverse=True)
     cards = []

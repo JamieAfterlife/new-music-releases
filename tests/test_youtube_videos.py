@@ -5,12 +5,13 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from youtube_video_tracker import classify_video, discover_channels, is_excluded_video_title, is_strong_artist_channel, is_topic_channel, main as video_main, render_video_page, scan_videos
+from youtube_video_tracker import classify_video, discover_channels, is_excluded_video, is_excluded_video_title, is_strong_artist_channel, is_topic_channel, main as video_main, parse_youtube_duration, render_video_page, scan_videos
 
 
 class FakeYouTube:
-    def __init__(self, uploads):
+    def __init__(self, uploads, details=None):
         self._uploads = uploads
+        self._details = details or {}
 
     def channel(self, identifier):
         return {
@@ -24,6 +25,12 @@ class FakeYouTube:
 
     def recent_uploads(self, channel_id):
         return self._uploads
+
+    def video_details(self, video_ids):
+        return {
+            video_id: self._details.get(video_id, {"duration_seconds": 180, "tags": []})
+            for video_id in video_ids
+        }
 
     def search_channels(self, artist_name, limit=3):
         return [{
@@ -103,11 +110,49 @@ class YouTubeVideoTests(unittest.TestCase):
             "Spiritbox - Song (Lyric Video)",
             "Spiritbox Studio Vlog",
             "Spiritbox - Behind-the-Scenes",
+            "Spiritbox - Album Trailer",
+            "Spiritbox - Tour Promo",
+            "Spiritbox - New Song #Shorts",
+            "Spiritbox - Tour Recap",
+            "Spiritbox - Festival Highlights",
+            "Spiritbox - Song (Vertical Video)",
         ]
         for title in titles:
             with self.subTest(title=title):
                 self.assertTrue(is_excluded_video_title(title))
                 self.assertEqual(classify_video(title, source, [])[0], "ignore")
+
+    def test_duration_and_tags_exclude_shorts_but_one_minute_is_allowed(self):
+        self.assertEqual(parse_youtube_duration("PT1M"), 60)
+        self.assertEqual(parse_youtube_duration("PT1H2M3S"), 3723)
+        self.assertTrue(is_excluded_video("Song (Official Music Video)", 59, []))
+        self.assertFalse(is_excluded_video("Song (Official Music Video)", 60, []))
+        self.assertTrue(is_excluded_video("Song (Official Music Video)", 180, ["metal", "#shorts"]))
+        self.assertTrue(is_excluded_video("Song (Official Music Video)", 180, ["verticalvideo"]))
+
+    def test_scan_drops_under_one_minute_and_tagged_shorts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "video_sources.json").write_text(json.dumps({"channels": [
+                {"handle": "@Test", "kind": "artist", "artist_names": ["Spiritbox"]}
+            ]}), encoding="utf-8")
+            (root / "artists.json").write_text(json.dumps({"artists": [{"name": "Spiritbox"}]}), encoding="utf-8")
+            uploads = [
+                upload("short-id", "Spiritbox - Short Song (Official Music Video)"),
+                upload("tagged-id", "Spiritbox - Tagged Song (Official Music Video)"),
+                upload("full-id", "Spiritbox - Full Song (Official Music Video)"),
+            ]
+            details = {
+                "short-id": {"duration_seconds": 59, "tags": []},
+                "tagged-id": {"duration_seconds": 180, "tags": ["shorts"]},
+                "full-id": {"duration_seconds": 60, "tags": []},
+            }
+            found, review = scan_videos(
+                root, "key", dt.datetime(2026, 7, 14, 9, tzinfo=dt.timezone.utc), FakeYouTube(uploads, details)
+            )
+            self.assertEqual((found, review), (1, 0))
+            videos = json.loads((root / "data" / "videos.json").read_text())["videos"]
+            self.assertEqual(set(videos), {"full-id"})
 
     def test_label_channel_requires_a_tracked_artist_in_the_title(self):
         tracked = [{"name": "Spiritbox"}]
