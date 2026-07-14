@@ -25,12 +25,6 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Abandon All Ships",
-      "mbid": "4a90622e-fc29-4c60-845b-d1752cd286cd",
-      "lastfm_scrobbles": 186,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "Abigail Williams",
       "mbid": "bb2d449e-d6c1-4f0c-8603-5b285acd311e",
       "lastfm_scrobbles": 75,
@@ -63,18 +57,6 @@
     {
       "name": "Advocates",
       "mbid": "41b85d9b-2a76-4e63-b956-0898be6c5490",
-      "lastfm_scrobbles": 55,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Aeon",
-      "mbid": "834a160d-9b9c-434c-9ef3-10bf86e33b3b",
-      "lastfm_scrobbles": 87,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
-      "name": "Aerosmith",
-      "mbid": "3d2b98e5-556f-4451-a3ff-c50ea18d57cb",
       "lastfm_scrobbles": 55,
       "lastfm_user": "DeathbatAttack"
     },
@@ -291,12 +273,6 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Avicii",
-      "mbid": "c85cfd6b-b1e9-4a50-bd55-eb725f04f7d5",
-      "lastfm_scrobbles": 90,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "BABYMETAL",
       "mbid": "27e2997f-f7a1-4353-bcc4-57b9274fa9a4",
       "spotify_id": "630wzNP2OL7fl4Xl0GnMWq",
@@ -480,12 +456,6 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
-      "name": "Casino Madrid",
-      "mbid": "51a7f1f6-6802-4e5a-8796-c0e78c0e5886",
-      "lastfm_scrobbles": 116,
-      "lastfm_user": "DeathbatAttack"
-    },
-    {
       "name": "Cattle Decapitation",
       "mbid": "0bfb489b-7da8-4b28-b144-eee7599ed1e9",
       "lastfm_scrobbles": 109,
@@ -558,11 +528,6 @@
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 7,
       "manual_tracking": true
-    },
-    {
-      "name": "Culture Shock",
-      "mbid": "1d7123b2-bb07-4221-99f4-b8c838ce7fe4",
-      "spotify_id": "6lp2VnIRXXpC9Wz7hSX6RE"
     },
     {
       "name": "Currents",
@@ -1695,6 +1660,11 @@
       "mbid": "8ed919fb-eaee-45a1-ba99-b3ede9ca5f1d",
       "lastfm_scrobbles": 601,
       "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "PiNKII",
+      "mbid": "a9964fed-619e-459d-8212-072ee5149d63",
+      "manual_tracking": true
     },
     {
       "name": "Polaris",
