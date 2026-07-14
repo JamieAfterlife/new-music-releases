@@ -264,6 +264,90 @@ def fetch_lastfm_artists(user: str, api_key: str) -> list[dict[str, Any]]:
         page += 1
 
 
+def fetch_lastfm_top_artists(
+    user: str,
+    api_key: str,
+    period: str = "12month",
+) -> list[dict[str, Any]]:
+    """Return a user's top artists for a supported Last.fm chart period."""
+    artists: list[dict[str, Any]] = []
+    page = 1
+    while True:
+        params = urllib.parse.urlencode({
+            "method": "user.gettopartists",
+            "api_key": api_key,
+            "user": user,
+            "period": period,
+            "limit": 1000,
+            "page": page,
+            "format": "json",
+        })
+        request = urllib.request.Request(
+            f"{LASTFM_ROOT}?{params}",
+            headers={"User-Agent": f"NewAlbumReleases/{VERSION} (personal music tracker)"},
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            data = json.load(response)
+        if "error" in data:
+            raise RuntimeError(f"Last.fm error {data['error']}: {data.get('message', 'Unknown error')}")
+        container = data.get("topartists", {})
+        artists.extend(container.get("artist", []))
+        attrs = container.get("@attr", {})
+        total_pages = int(attrs.get("totalPages", page))
+        if page >= total_pages:
+            return artists
+        page += 1
+
+
+def build_recent_lastfm_candidates(
+    settings: Settings,
+    mb: MusicBrainz,
+    user: str,
+    api_key: str,
+    min_plays: int = 5,
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Resolve recent Last.fm favourites for the website's first-run review."""
+    source = fetch_lastfm_top_artists(user, api_key, "12month")
+    eligible = [x for x in source if int(x.get("playcount", 0)) >= min_plays]
+    resolved: dict[str, dict[str, Any]] = {}
+    unresolved: list[str] = []
+
+    for item in eligible:
+        name = item.get("name", "").strip()
+        if not name or name in LASTFM_IGNORED_ARTISTS:
+            continue
+        mbid = item.get("mbid", "").strip()
+        if name in LASTFM_ARTIST_ALIASES:
+            name, mbid = LASTFM_ARTIST_ALIASES[name]
+        try:
+            chosen = {"id": mbid, "name": name} if mbid else best_artist(name, mb.search_artists(name))
+            if not chosen:
+                raise ValueError(f"No MusicBrainz artist found for {name!r}")
+            key = chosen["id"]
+            existing = resolved.setdefault(
+                key,
+                {
+                    "name": chosen.get("name", name),
+                    "mbid": key,
+                    "lastfm_scrobbles_12month": 0,
+                    "lastfm_user": user,
+                },
+            )
+            existing["lastfm_scrobbles_12month"] += int(item.get("playcount", 0))
+        except (ValueError, urllib.error.URLError, urllib.error.HTTPError):
+            unresolved.append(name)
+
+    candidates = sorted(
+        resolved.values(),
+        key=lambda x: (-int(x["lastfm_scrobbles_12month"]), x["name"].casefold()),
+    )
+    save_json(
+        settings.root / "data" / "lastfm_recent_artists.json",
+        {"period": "12month", "minimum_scrobbles": min_plays, "artists": candidates},
+    )
+    return candidates, unresolved
+
+
 def import_lastfm(
     settings: Settings,
     mb: MusicBrainz,
@@ -707,6 +791,10 @@ def make_manage_html(settings: Settings) -> str:
         settings.root / "site.json",
         {"feed_title": settings.feed_title, "timezone": settings.timezone},
     )
+    recent = load_json(
+        settings.root / "data" / "lastfm_recent_artists.json",
+        {"period": "12month", "minimum_scrobbles": 5, "artists": []},
+    )
 
     def script_json(value: Any) -> str:
         return json.dumps(value, ensure_ascii=False).replace("</", "<\\/")
@@ -718,6 +806,7 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__WATCHLIST_JSON__", script_json(watchlist))
         .replace("__BLACKLIST_JSON__", script_json(blacklist))
         .replace("__SITE_JSON__", script_json(site))
+        .replace("__RECENT_LASTFM_JSON__", script_json(recent))
     )
 
 
@@ -734,6 +823,7 @@ def run_check(settings: Settings, mb: MusicBrainz, now: dt.datetime | None = Non
             watched.get("lastfm_scrobbles") is not None
             and int(watched["lastfm_scrobbles"]) < settings.min_lastfm_scrobbles
             and not watched.get("spotify_id")
+            and not watched.get("manual_tracking")
         ):
             continue
         mbid = watched.get("mbid")
@@ -1028,7 +1118,18 @@ def main(argv: list[str] | None = None) -> int:
                 api_key,
                 settings.min_lastfm_scrobbles,
             )
+            recent, recent_unresolved = build_recent_lastfm_candidates(
+                settings,
+                mb,
+                settings.lastfm_username,
+                api_key,
+                5,
+            )
             print(f"Synced {processed} of {total} Last.fm artists; unresolved: {len(unresolved)}")
+            print(
+                f"Prepared {len(recent)} recent favourites for review; "
+                f"unresolved: {len(recent_unresolved)}"
+            )
     elif args.command == "check":
         new_releases, current = run_check(settings, mb)
         if args.notification_file and args.notification_file.exists():

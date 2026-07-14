@@ -13,6 +13,7 @@ from music_release_tracker import (
     add_artist,
     artist_blacklist_reason,
     blacklist_reason,
+    build_recent_lastfm_candidates,
     fallback_links,
     is_various_artists,
     make_rss,
@@ -116,6 +117,44 @@ class TrackerTests(unittest.TestCase):
             self.assertIn("Manage tracked artists", page)
             self.assertIn(ARTIST["name"], page)
             self.assertIn("artist--tracked", page)
+
+    def test_manage_page_embeds_recent_lastfm_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.blacklist_file = root / "blacklist.json"
+            settings.watchlist.write_text(json.dumps({"artists": []}), encoding="utf-8")
+            (root / "data").mkdir()
+            (root / "data" / "lastfm_recent_artists.json").write_text(
+                json.dumps({"minimum_scrobbles": 5, "artists": [{
+                    **ARTIST,
+                    "lastfm_scrobbles_12month": 7,
+                    "lastfm_user": "listener",
+                }]}),
+                encoding="utf-8",
+            )
+            page = make_manage_html(settings)
+            self.assertIn("Don’t miss your recent favourites", page)
+            self.assertIn("lastfm_scrobbles_12month", page)
+            self.assertNotIn("__RECENT_LASTFM_JSON__", page)
+
+    def test_recent_lastfm_candidates_use_twelve_month_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = Settings(root=root)
+            rows = [
+                {"name": "Recent Favourite", "mbid": "recent-mbid", "playcount": "7"},
+                {"name": "Too Occasional", "mbid": "rare-mbid", "playcount": "4"},
+            ]
+            with patch("music_release_tracker.fetch_lastfm_top_artists", return_value=rows):
+                candidates, unresolved = build_recent_lastfm_candidates(
+                    settings, FakeMusicBrainz([]), "listener", "key", 5
+                )
+            self.assertEqual((len(candidates), unresolved), (1, []))
+            self.assertEqual(candidates[0]["lastfm_scrobbles_12month"], 7)
+            saved = json.loads((root / "data" / "lastfm_recent_artists.json").read_text())
+            self.assertEqual(saved["period"], "12month")
 
     def test_metadata_prefers_complete_same_day_digital_edition(self):
         class EditionMusicBrainz(MusicBrainz):
@@ -306,6 +345,25 @@ class TrackerTests(unittest.TestCase):
                 },
             ]
             (root / "artists.json").write_text(json.dumps({"artists": artists}), encoding="utf-8")
+            settings = Settings(root=root)
+            settings.watchlist = root / "artists.json"
+            settings.state_file = root / "data/state.json"
+            settings.output_dir = root / "public"
+            settings.include_appearances = False
+            settings.min_lastfm_scrobbles = 50
+            run_check(
+                settings,
+                FakeMusicBrainz([group()]),
+                dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc),
+            )
+            state = json.loads(settings.state_file.read_text(encoding="utf-8"))
+            self.assertEqual(len(state["releases"]), 1)
+
+    def test_lastfm_threshold_does_not_disable_manually_selected_artist(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            artist = {**ARTIST, "lastfm_scrobbles": 7, "manual_tracking": True}
+            (root / "artists.json").write_text(json.dumps({"artists": [artist]}), encoding="utf-8")
             settings = Settings(root=root)
             settings.watchlist = root / "artists.json"
             settings.state_file = root / "data/state.json"

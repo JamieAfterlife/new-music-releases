@@ -128,6 +128,8 @@ Known Last.fm aliases and non-artist entries are handled explicitly in the track
 
 Open **Manage tracked artists** from the release page. Checked artists are tracked; deselecting an artist moves them to the blacklist, hides their releases, and prevents a later CSV or Last.fm import from re-adding them. The same page can search MusicBrainz and add artists, so Last.fm is optional.
 
+On the first Last.fm-powered build, the management page offers a recent-favourites review. It uses Last.fm's 12-month top-artist chart to show everyone with at least five scrobbles. The listener can select or grey out artists before saving, or keep the simpler default of 50 lifetime scrobbles. Artists explicitly selected during this review stay active even when their lifetime total is below the normal threshold.
+
 Saving requires a fine-grained GitHub token limited to the tracker repository with **Contents: Read and write** permission. The token stays only in the open browser tab and is sent only to GitHub; it is never included in the generated site or committed to the repository. After saving, the normal GitHub Pages workflow rebuilds the releases automatically.
 
 The management page also edits the site title and timezone. **Start fresh** clears both the inherited watchlist and artist blacklist, which makes a fork ready for a different listener without requiring Last.fm.
