@@ -16,6 +16,7 @@ from music_release_tracker import (
     blacklist_reason,
     build_recent_lastfm_candidates,
     fallback_links,
+    is_compilation_demo_appearance,
     is_various_artists,
     make_rss,
     make_manage_html,
@@ -26,7 +27,9 @@ from music_release_tracker import (
     display_time,
     normalize_release,
     notification_markdown,
+    release_description,
     run_check,
+    visible_releases,
 )
 
 
@@ -296,6 +299,26 @@ class TrackerTests(unittest.TestCase):
         release = normalize_release(group(artist_id=VARIOUS_ARTISTS_MBID), ARTIST)
         release["artist"] = "Various Artists"
         self.assertTrue(is_various_artists(release))
+
+    def test_compilation_demo_appearance_is_hidden(self):
+        release = normalize_release(group(secondary=["Compilation", "Demo"]), ARTIST)
+        release["artist"] = "Lamorn"
+        release["appearance"] = True
+        settings = Settings(root=Path("."), lookback_days=30)
+        now = dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc)
+        self.assertTrue(is_compilation_demo_appearance(release))
+        self.assertEqual(visible_releases(settings, [release], now), [])
+
+        release["secondary_types"] = ["Compilation"]
+        self.assertFalse(is_compilation_demo_appearance(release))
+        self.assertEqual(len(visible_releases(settings, [release], now)), 1)
+
+    def test_appearance_explains_which_tracked_artist_matched(self):
+        release = normalize_release(group(), ARTIST)
+        release["artist"] = "Guest Artist"
+        release["appearance"] = True
+        self.assertIn("Matched via Test Artist", notification_markdown([release]))
+        self.assertIn("Matched via Test Artist", release_description(release))
 
     def test_search_fallbacks_are_present(self):
         release = normalize_release(group(), ARTIST)

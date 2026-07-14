@@ -465,6 +465,25 @@ def is_various_artists(release: dict[str, Any]) -> bool:
     )
 
 
+def is_compilation_demo_appearance(release: dict[str, Any]) -> bool:
+    """Identify low-signal artist appearances on compilation demo dumps."""
+    secondary = {
+        str(value).strip().casefold()
+        for value in release.get("secondary_types", [])
+        if str(value).strip()
+    }
+    return bool(release.get("appearance")) and {"compilation", "demo"} <= secondary
+
+
+def appearance_match_text(release: dict[str, Any]) -> str:
+    """Explain which tracked artist caused an appearance to match."""
+    watched = str(release.get("watched_artist") or "").strip()
+    credited = str(release.get("artist") or "").strip()
+    if release.get("appearance") and watched and watched.casefold() != credited.casefold():
+        return f"Matched via {watched}"
+    return ""
+
+
 def blacklist_reason(release: dict[str, Any], blacklist: dict[str, Any]) -> str | None:
     release_id = str(release.get("id", "")).casefold()
     blocked_release_ids = {str(x).strip().casefold() for x in blacklist.get("release_ids", [])}
@@ -531,7 +550,11 @@ def visible_releases(
     today = now.date().isoformat()
     for release in releases:
         normalized_date = comparable_date(release.get("date", ""))
-        if not (start <= normalized_date <= end) or blacklist_reason(release, blacklist):
+        if (
+            not (start <= normalized_date <= end)
+            or is_compilation_demo_appearance(release)
+            or blacklist_reason(release, blacklist)
+        ):
             continue
         item = dict(release)
         item["upcoming"] = normalized_date > today
@@ -558,9 +581,11 @@ def notification_markdown(releases: Iterable[dict[str, Any]]) -> str:
             labels.append("Live")
         if release.get("appearance"):
             labels.append("Feature")
+        match_text = appearance_match_text(release)
         rows.extend([
             f"### {release.get('artist', 'Unknown artist')} — {release.get('title', 'Untitled')}",
             f"{' · '.join(dict.fromkeys(labels))} · {release.get('date', '')}",
+            *([f"**{match_text}**"] if match_text else []),
             " · ".join([
                 f"[Spotify]({links.get('spotify') or links['spotify_search']})",
                 f"[YouTube Music]({links.get('youtube_music') or links['youtube_music_search']})",
@@ -664,6 +689,7 @@ def comparable_date(value: str) -> str:
 
 def release_description(release: dict[str, Any]) -> str:
     links = {**fallback_links(release), **release["links"]}
+    match_text = appearance_match_text(release)
     rows = [
         f'<p><img src="{html.escape(cover_art_url(release), quote=True)}" width="250" height="250" '
         f'alt="Cover art for {html.escape(release["title"], quote=True)}"></p>',
@@ -671,6 +697,7 @@ def release_description(release: dict[str, Any]) -> str:
         + (" · Live" if release["live"] else "")
         + (" · Appearance" if release["appearance"] else "")
         + (" · Upcoming" if release.get("upcoming") else "") + "</p>",
+        *([f"<p><strong>{html.escape(match_text)}</strong></p>"] if match_text else []),
         "<p>" + " · ".join(
             f'<a href="{html.escape(url, quote=True)}">{label}</a>' for label, url in (
                 ("Spotify", links.get("spotify") or links["spotify_search"]),
@@ -724,11 +751,12 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 flags.append("Feature")
             if release.get("upcoming"):
                 flags.append("Upcoming")
+            match_text = appearance_match_text(release)
             badges = "".join(
                 f'<span class="badge badge--{html.escape(flag.casefold())}">{html.escape(flag)}</span>'
                 for flag in flags
             )
-            search_text = f'{release["artist"]} {release["title"]} {" ".join(flags)}'.casefold()
+            search_text = f'{release["artist"]} {release["title"]} {match_text} {" ".join(flags)}'.casefold()
             initials = "".join(word[0] for word in release["artist"].split()[:2] if word) or "♪"
             cover = f'https://coverartarchive.org/release-group/{release["id"]}/front-250'
             type_class = "feature" if release["appearance"] else release["type"].casefold()
@@ -748,7 +776,9 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
                 f'<img loading="lazy" src="{html.escape(cover, quote=True)}" alt="" referrerpolicy="no-referrer"></div>'
                 '<div class="release__content"><div class="badges">' + badges + '</div>'
                 f'<a class="release__title" href="{html.escape(spotify, quote=True)}" target="_blank" rel="noopener">{html.escape(release["title"])}</a>'
-                f'<div class="release__artist">{html.escape(release["artist"])}</div><div class="services">'
+                f'<div class="release__artist">{html.escape(release["artist"])}</div>'
+                + (f'<div class="release__match">{html.escape(match_text)}</div>' if match_text else '')
+                + '<div class="services">'
                 f'<a class="service service--spotify" href="{html.escape(spotify, quote=True)}" target="_blank" rel="noopener">Spotify</a>'
                 f'<a class="service" href="{html.escape(youtube_music, quote=True)}" target="_blank" rel="noopener">YouTube Music</a>'
                 f'<a class="service" href="{html.escape(youtube, quote=True)}" target="_blank" rel="noopener">YouTube</a>'
@@ -845,7 +875,11 @@ def run_check(
             release = normalize_release(group, watched)
             if release and not (start <= comparable_date(release["date"]) <= end):
                 release = None
-            if not release or (settings.exclude_various_artists and is_various_artists(release)):
+            if (
+                not release
+                or (settings.exclude_various_artists and is_various_artists(release))
+                or is_compilation_demo_appearance(release)
+            ):
                 continue
             previous = discovered.get(release["id"])
             if previous:

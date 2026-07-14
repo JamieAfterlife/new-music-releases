@@ -177,7 +177,7 @@ Your page and RSS feed will then be available at the Pages URL. The workflow cac
 
 ## Important behavior
 
-- **Appearances:** The tracker searches recording artist credits as well as primary release-group credits. A compilation credited to Various Artists remains excluded, even if a watched artist appears on one track.
+- **Appearances:** The tracker searches recording artist credits as well as primary release-group credits and labels each match with the tracked artist responsible. Compilations credited to Various Artists remain excluded, as do low-signal releases classified as both a compilation and a demo when the tracked artist only appears on them.
 - **Future dates:** Releases dated up to 90 days ahead can appear if MusicBrainz already lists them. They stay out of the default page, RSS, and Hermes notifications until release day.
 - **Editions:** Same-day official digital editions are compared by track count. A later deluxe edition remains a later release rather than replacing the original retrospectively.
 - **Exact links:** Exact streaming links depend on MusicBrainz relationships. Search links are always included as fallbacks.
