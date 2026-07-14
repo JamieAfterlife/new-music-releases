@@ -2,7 +2,7 @@
   "feed_title": "Jamie's new music",
   "timezone": "Pacific/Auckland",
   "lastfm_username": "DeathbatAttack",
-  "min_lastfm_scrobbles": 50,
+  "min_lastfm_scrobbles": 20,
   "github_issue_notifications": false,
   "lastfm_recent_reviewed": true
 }
