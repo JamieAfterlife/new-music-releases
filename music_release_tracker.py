@@ -993,6 +993,7 @@ def make_manage_html(settings: Settings) -> str:
     unresolved = load_json(settings.root / "data" / "lastfm_unresolved.json", {"artists": []})
     video_sources = load_json(settings.root / "video_sources.json", {"channels": []})
     video_review = load_json(settings.root / "data" / "video_review.json", {"videos": []})
+    video_channel_review = load_json(settings.root / "data" / "video_channel_review.json", {"channels": []})
     video_decisions = load_json(settings.root / "video_decisions.json", {"approved": [], "rejected": []})
     state = load_json(settings.state_file, {"releases": {}})
     releases = [
@@ -1022,6 +1023,7 @@ def make_manage_html(settings: Settings) -> str:
         .replace("__UNRESOLVED_JSON__", script_json(unresolved))
         .replace("__VIDEO_SOURCES_JSON__", script_json(video_sources))
         .replace("__VIDEO_REVIEW_JSON__", script_json(video_review))
+        .replace("__VIDEO_CHANNEL_REVIEW_JSON__", script_json(video_channel_review))
         .replace("__VIDEO_DECISIONS_JSON__", script_json(video_decisions))
     )
 

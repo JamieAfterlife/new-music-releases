@@ -37,6 +37,8 @@ jobs:
           path: |
             data/lastfm_recent_artists.json
             data/lastfm_unresolved.json
+            data/video_discovery.json
+            data/video_channel_review.json
           key: music-recent-digest-${{ github.run_id }}
           restore-keys: music-recent-
       - name: Check the listener's local time

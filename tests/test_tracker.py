@@ -169,6 +169,7 @@ class TrackerTests(unittest.TestCase):
             self.assertNotIn("__UNRESOLVED_JSON__", page)
             self.assertNotIn("__VIDEO_SOURCES_JSON__", page)
             self.assertNotIn("__VIDEO_REVIEW_JSON__", page)
+            self.assertNotIn("__VIDEO_CHANNEL_REVIEW_JSON__", page)
 
     def test_site_templates_include_device_themes(self):
         web = Path("web_template.html").read_text(encoding="utf-8")

@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 API_ROOT = "https://www.googleapis.com/youtube/v3"
-OFFICIAL_VIDEO_RE = re.compile(r"\b(?:official\s+music\s+video|official\s+video|music\s+video)\b", re.I)
+OFFICIAL_VIDEO_RE = re.compile(r"\b(?:official\s+music\s+video|official\s+video|music\s+(?:live\s+)?video)\b", re.I)
 MAYBE_VIDEO_RE = re.compile(r"\b(?:official|video|visualizer|premiere)\b", re.I)
 
 
@@ -55,6 +55,8 @@ def classify_video(
             return "auto", mapped, "Official-video wording on a mapped artist channel"
         if maybe:
             return "review", mapped, "Artist channel upload has a possible video signal"
+        if any(title_mentions(title, artist) for artist in mapped):
+            return "review", mapped, "Mapped artist is named in the title, but video type is unclear"
         return "ignore", [], "No music-video wording"
 
     candidates = mapped or [artist.get("name", "") for artist in tracked_artists]
@@ -92,6 +94,73 @@ class YouTube:
             {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": str(limit)},
         )
         return data.get("items", [])
+
+    def search_channels(self, artist_name: str, limit: int = 3) -> list[dict[str, Any]]:
+        data = self.get(
+            "search",
+            {
+                "part": "snippet",
+                "type": "channel",
+                "q": f'"{artist_name}" official music',
+                "maxResults": str(limit),
+            },
+        )
+        return data.get("items", [])
+
+
+def discover_channels(root: Path, youtube: YouTube, now: dt.datetime | None = None, batch_size: int = 40) -> tuple[int, int]:
+    """Queue likely official channels in quota-safe batches for owner review."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    artists = load_json(root / "artists.json", {"artists": []}).get("artists", [])
+    sources = load_json(root / "video_sources.json", {"channels": []}).get("channels", [])
+    decisions = load_json(root / "video_decisions.json", {"rejected_channels": []})
+    rejected = set(decisions.get("rejected_channels", []))
+    state = load_json(root / "data" / "video_discovery.json", {"processed_artist_mbids": [], "daily_searches": {}})
+    processed = set(state.get("processed_artist_mbids", []))
+    day = now.date().isoformat()
+    daily = state.setdefault("daily_searches", {})
+    allowance = max(0, min(batch_size, 80 - int(daily.get(day, 0))))
+    mapped_names = {normalized(name) for source in sources for name in source.get("artist_names", [])}
+    queue_data = load_json(root / "data" / "video_channel_review.json", {"channels": []})
+    queue = {item["key"]: item for item in queue_data.get("channels", []) if item.get("key")}
+    searched = 0
+
+    eligible = sorted(artists, key=lambda item: item.get("name", "").casefold())
+    for artist in eligible:
+        mbid, name = str(artist.get("mbid", "")), str(artist.get("name", "")).strip()
+        if searched >= allowance:
+            break
+        if not mbid or not name or mbid in processed or normalized(name) in mapped_names:
+            continue
+        results = youtube.search_channels(name, 3)
+        searched += 1
+        processed.add(mbid)
+        for candidate in results[:1]:
+            channel_id = candidate.get("id", {}).get("channelId")
+            snippet = candidate.get("snippet", {})
+            if not channel_id:
+                continue
+            key = f"{mbid}:{channel_id}"
+            if key in rejected:
+                continue
+            thumbnails = snippet.get("thumbnails", {})
+            thumbnail = next((thumbnails[size].get("url") for size in ("high", "medium", "default") if thumbnails.get(size)), "")
+            queue[key] = {
+                "key": key,
+                "artist_name": name,
+                "artist_mbid": mbid,
+                "channel_id": channel_id,
+                "channel_title": snippet.get("channelTitle") or snippet.get("title") or channel_id,
+                "description": snippet.get("description", ""),
+                "thumbnail": thumbnail,
+                "url": f"https://www.youtube.com/channel/{channel_id}",
+            }
+    daily[day] = int(daily.get(day, 0)) + searched
+    state["processed_artist_mbids"] = sorted(processed)
+    state["daily_searches"] = {key: value for key, value in daily.items() if key >= (now.date() - dt.timedelta(days=7)).isoformat()}
+    save_json(root / "data" / "video_discovery.json", state)
+    save_json(root / "data" / "video_channel_review.json", {"channels": sorted(queue.values(), key=lambda item: item["artist_name"].casefold())})
+    return searched, len(queue)
 
 
 def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtube: YouTube | None = None) -> tuple[int, int]:
@@ -202,6 +271,8 @@ def main(argv: list[str] | None = None) -> int:
     key = os.environ.get("YOUTUBE_API_KEY", "").strip()
     if args.command == "scan":
         if key:
+            searched, channels = discover_channels(args.root, YouTube(key))
+            print(f"YouTube channel discovery: searched {searched} artist(s), {channels} awaiting review.")
             found, review = scan_videos(args.root, key)
             print(f"Music videos: {found} published, {review} awaiting review.")
         else:

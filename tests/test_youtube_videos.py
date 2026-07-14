@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from youtube_video_tracker import classify_video, render_video_page, scan_videos
+from youtube_video_tracker import classify_video, discover_channels, render_video_page, scan_videos
 
 
 class FakeYouTube:
@@ -20,6 +20,12 @@ class FakeYouTube:
 
     def uploads(self, playlist_id, limit=15):
         return self._uploads
+
+    def search_channels(self, artist_name, limit=3):
+        return [{
+            "id": {"channelId": f"UC-{artist_name}"},
+            "snippet": {"channelTitle": artist_name, "description": "Official artist channel"},
+        }]
 
 
 def upload(video_id, title, published="2026-07-14T08:00:00Z"):
@@ -44,6 +50,15 @@ class YouTubeVideoTests(unittest.TestCase):
         self.assertEqual(status, "auto")
         self.assertEqual(artists, ["Slaughter to Prevail"])
         self.assertIn("mapped artist channel", reason)
+
+    def test_known_alex_terrible_video_titles_are_not_lost(self):
+        source = {"kind": "artist", "artist_names": ["Slaughter to Prevail"]}
+        live_video = classify_video(
+            "SLAUGHTER TO PREVAIL - BEHELIT (MUSIC LIVE VIDEO January Europe tour 2026)", source, []
+        )
+        unclear_video = classify_video("SLAUGHTER TO PREVAIL - BABAYKA", source, [])
+        self.assertEqual(live_video[0], "auto")
+        self.assertEqual(unclear_video[0], "review")
 
     def test_label_channel_requires_artist_name_or_review(self):
         tracked = [{"name": "Spiritbox"}]
@@ -75,6 +90,23 @@ class YouTubeVideoTests(unittest.TestCase):
             queue = json.loads((root / "data" / "video_review.json").read_text())
             self.assertIn("auto-id", videos["videos"])
             self.assertEqual(queue["videos"][0]["id"], "review-id")
+
+    def test_channel_discovery_batches_unmapped_artists_for_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "artists.json").write_text(json.dumps({"artists": [
+                {"name": "Already Mapped", "mbid": "mapped-id"},
+                {"name": "Needs Channel", "mbid": "new-id"},
+            ]}), encoding="utf-8")
+            (root / "video_sources.json").write_text(json.dumps({"channels": [{
+                "channel_id": "UCmapped", "kind": "artist", "artist_names": ["Already Mapped"]
+            }]}), encoding="utf-8")
+            searched, pending = discover_channels(
+                root, FakeYouTube([]), dt.datetime(2026, 7, 14, tzinfo=dt.timezone.utc), 40
+            )
+            queue = json.loads((root / "data" / "video_channel_review.json").read_text())
+            self.assertEqual((searched, pending), (1, 1))
+            self.assertEqual(queue["channels"][0]["artist_name"], "Needs Channel")
 
     def test_render_creates_searchable_video_page(self):
         with tempfile.TemporaryDirectory() as directory:
