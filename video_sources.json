@@ -41,18 +41,10 @@
       "enabled": true
     },
     {
-      "handle": "UCEIeoYVgJT6sbwhKWoIzN8g",
-      "kind": "artist",
+      "handle": "@GreyscaleRecords",
+      "kind": "label",
       "artist_names": [
-        "Aborted"
-      ],
-      "enabled": true
-    },
-    {
-      "channel_id": "UCtcweOkME_1z-Jb-HOwiaxQ",
-      "kind": "artist",
-      "artist_names": [
-        "Abörted Hitler Cöck"
+        "Antagonist A.D."
       ],
       "enabled": true
     },
@@ -65,26 +57,10 @@
       "enabled": true
     },
     {
-      "handle": "UCWhd8smWZSFEjbnl9Bxt01Q",
+      "channel_id": "UCtcweOkME_1z-Jb-HOwiaxQ",
       "kind": "artist",
       "artist_names": [
-        "AFI"
-      ],
-      "enabled": true
-    },
-    {
-      "channel_id": "UCddHnokkt592bK-gFjwoIyw",
-      "kind": "artist",
-      "artist_names": [
-        "Chelsea Grin"
-      ],
-      "enabled": true
-    },
-    {
-      "channel_id": "UC99gXrm2NHOlKVLuKIk6IGA",
-      "kind": "artist",
-      "artist_names": [
-        "Airbourne"
+        "Abörted Hitler Cöck"
       ],
       "enabled": true
     }
