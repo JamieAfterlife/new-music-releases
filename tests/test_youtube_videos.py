@@ -3,8 +3,9 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from youtube_video_tracker import classify_video, discover_channels, is_excluded_video_title, is_strong_artist_channel, is_topic_channel, render_video_page, scan_videos
+from youtube_video_tracker import classify_video, discover_channels, is_excluded_video_title, is_strong_artist_channel, is_topic_channel, main as video_main, render_video_page, scan_videos
 
 
 class FakeYouTube:
@@ -166,6 +167,20 @@ class YouTubeVideoTests(unittest.TestCase):
             self.assertEqual((found, review), (1, 0))
             videos = json.loads((root / "data" / "videos.json").read_text())
             self.assertIn("94Cr7eKDZbA", videos["videos"])
+
+    def test_known_channels_scan_before_noncritical_discovery_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "site.json").write_text('{"feed_title":"Test"}', encoding="utf-8")
+            with patch.dict("os.environ", {"YOUTUBE_API_KEY": "key"}), patch(
+                "youtube_video_tracker.scan_videos", return_value=(1, 0)
+            ) as scan, patch(
+                "youtube_video_tracker.discover_channels", side_effect=OSError("quota")
+            ) as discover:
+                result = video_main(["scan", "--root", str(root)])
+            self.assertEqual(result, 0)
+            scan.assert_called_once()
+            discover.assert_called_once()
 
     def test_old_approval_cannot_publish_an_excluded_audio_upload(self):
         with tempfile.TemporaryDirectory() as directory:

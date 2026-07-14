@@ -9,6 +9,7 @@ import html
 import json
 import os
 import re
+import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -423,10 +424,13 @@ def main(argv: list[str] | None = None) -> int:
     key = os.environ.get("YOUTUBE_API_KEY", "").strip()
     if args.command == "scan":
         if key:
-            searched, added, channels = discover_channels(args.root, YouTube(key))
-            print(f"YouTube channel discovery: searched {searched} artist(s), added {added} strong match(es), {channels} awaiting review.")
             found, review = scan_videos(args.root, key)
             print(f"Music videos: {found} published, {review} awaiting review.")
+            try:
+                searched, added, channels = discover_channels(args.root, YouTube(key))
+                print(f"YouTube channel discovery: searched {searched} artist(s), added {added} strong match(es), {channels} awaiting review.")
+            except (OSError, RuntimeError, ValueError) as error:
+                print(f"YouTube channel discovery paused without affecting known-channel videos: {error}", file=sys.stderr)
         else:
             print("Music video scan skipped: YOUTUBE_API_KEY is not configured.")
     count = render_video_page(args.root, args.root / "public", site.get("feed_title", "My new music"), site.get("timezone", "UTC"))
