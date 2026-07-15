@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1db954">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com https://musicbrainz.org; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
   <title>Manage tracked artists · __TITLE__</title>
   <style>
@@ -85,13 +93,14 @@
 <body>
   <main class="shell">
     <header class="top">
-      <div><p class="eyebrow">Release radar</p><h1>Manage tracked artists</h1><p>Deselect anyone you no longer want in your feed.</p></div>
+      <div><p class="eyebrow">__APP_NAME__</p><h1>Manage tracked artists</h1><p>Deselect anyone you no longer want in your feed.</p></div>
       <nav><a href="index.html">← Releases</a> · <a href="history.html">Listening history</a> · <a href="videos.html">Music videos</a></nav>
     </header>
 
     <details class="card">
       <summary class="summary"><div><h2>Site details</h2><p>These settings keep the displayed time consistent wherever the tracker runs.</p></div></summary>
       <div class="site-fields">
+        <label class="field"><span>App name</span><input id="app-name" maxlength="40" placeholder="DropSignal" aria-label="App name"></label>
         <label class="field"><span>Feed title</span><input id="feed-title" maxlength="80" aria-label="Feed title"></label>
         <label class="field"><span>Timezone</span><input id="timezone" list="timezones" placeholder="Pacific/Auckland" aria-label="Timezone"></label>
         <label class="field"><span>Theme on this device</span><select id="theme"><option value="default">Green</option><option value="youtube">Red</option><option value="purple">Purple</option><option value="grey">Grey</option></select></label>
@@ -194,6 +203,7 @@
     el('trust-device').checked = true;
     el('forget-token').hidden = !savedConnection?.ciphertext;
     if(savedConnection?.ciphertext)el('status').textContent='Enter your unlock password once more to upgrade this device to automatic login.';
+    el('app-name').value = site.app_name || 'DropSignal';
     el('feed-title').value = site.feed_title || 'My new music';
     el('timezone').value = site.timezone || 'UTC';
     el('lastfm-username').value = site.lastfm_username || '';
@@ -336,11 +346,12 @@
       }
       site.lastfm_recent_reviewed=true;el('recent-onboarding').hidden=true;markDirty();
     });
-    for (const id of ['feed-title','timezone','lastfm-username','lastfm-threshold','github-notifications']) el(id).addEventListener('input',markDirty);
+    for (const id of ['app-name','feed-title','timezone','lastfm-username','lastfm-threshold','github-notifications']) el(id).addEventListener('input',markDirty);
     el('select-all').addEventListener('click',() => { for(const artist of artists.values()) if(artist.mbid){artist.tracked=true;artist.record.manual_tracking=true;} markDirty(); });
     el('start-fresh').addEventListener('click',() => {
       if (!confirm('Start with an empty artist list? This removes every tracked and blocked artist when you save.')) return;
       artists.clear(); blacklist.artists=[]; blacklist.artist_mbids=[]; aliases={artist_aliases:[],ignored_sources:[]};videoSources.channels=[];videoDecisions={approved:[],rejected:[]};
+      el('app-name').value='DropSignal';
       el('feed-title').value='My new music';
       el('timezone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
       el('lastfm-username').value=''; el('lastfm-threshold').value='50';
@@ -399,7 +410,7 @@
       const tracked=[...artists.values()].filter(x=>x.tracked&&x.mbid).map(x=>x.record).sort((a,b)=>a.name.localeCompare(b.name));
       const blocked=[...artists.values()].filter(x=>!x.tracked&&x.mbid).sort((a,b)=>a.name.localeCompare(b.name));
       watchlist={...watchlist,artists:tracked}; blacklist={...blacklist,artists:blocked.map(x=>x.name),artist_mbids:blocked.map(x=>x.mbid)};
-      site={...site,feed_title:el('feed-title').value.trim()||'My new music',timezone:el('timezone').value.trim()||'UTC',lastfm_username:el('lastfm-username').value.trim(),min_lastfm_scrobbles:Number(el('lastfm-threshold').value)||50,github_issue_notifications:el('github-notifications').checked};
+      site={...site,app_name:el('app-name').value.trim()||'DropSignal',feed_title:el('feed-title').value.trim()||'My new music',timezone:el('timezone').value.trim()||'UTC',lastfm_username:el('lastfm-username').value.trim(),min_lastfm_scrobbles:Number(el('lastfm-threshold').value)||50,github_issue_notifications:el('github-notifications').checked};
     }
     el('export-backup').addEventListener('click',()=>{
       makeFiles();
@@ -421,7 +432,7 @@
         if(backup.version!==1||!Array.isArray(backup.watchlist?.artists)||typeof backup.blacklist!=='object'||typeof backup.site!=='object')throw new Error('This is not a valid tracker backup');
         watchlist=structuredClone(backup.watchlist);blacklist=structuredClone(backup.blacklist);site=structuredClone(backup.site);aliases=structuredClone(backup.aliases||{artist_aliases:[],ignored_sources:[]});videoSources=structuredClone(backup.video_sources||{channels:[]});videoDecisions=structuredClone(backup.video_decisions||{approved:[],rejected:[]});
         blacklist.release_ids=Array.isArray(blacklist.release_ids)?blacklist.release_ids:[];
-        el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
+        el('app-name').value=site.app_name||'DropSignal';el('feed-title').value=site.feed_title||'My new music';el('timezone').value=site.timezone||'UTC';el('lastfm-username').value=site.lastfm_username||'';el('lastfm-threshold').value=site.min_lastfm_scrobbles||50;el('github-notifications').checked=!!site.github_issue_notifications;
         if(['default','youtube','purple','grey'].includes(backup.theme)){el('theme').value=backup.theme;try{localStorage.setItem('release-theme',backup.theme);}catch{}applyTheme();}
         rebuildArtists();markDirty();el('backup-status').textContent='Backup loaded. Connect to GitHub and save to apply it to every device.';el('backup-status').dataset.kind='success';
       } catch(error) { el('backup-status').textContent=`Could not import backup: ${error.message}`;el('backup-status').dataset.kind='error'; }
@@ -455,6 +466,9 @@
       history.replaceState({},'',location.pathname);
     }
     render(); renderMuted(); renderAliases(); renderVideoSettings(); prepareRecentReview(); el('save').disabled=!connected||!dirty;autoConnectTrusted();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
   </script>
 </body>
 </html>

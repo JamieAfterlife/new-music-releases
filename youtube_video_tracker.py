@@ -452,7 +452,7 @@ def scan_videos(root: Path, api_key: str, now: dt.datetime | None = None, youtub
     return len(videos), len(review)
 
 
-def render_video_page(root: Path, output_dir: Path, title: str, timezone: str = "UTC") -> int:
+def render_video_page(root: Path, output_dir: Path, title: str, timezone: str = "UTC", app_name: str = "DropSignal") -> int:
     state = load_json(root / "data" / "videos.json", {"videos": {}})
     decisions = load_json(root / "video_decisions.json", {"approved": [], "rejected": []})
     rejected = set(decisions.get("rejected", []))
@@ -480,7 +480,7 @@ def render_video_page(root: Path, output_dir: Path, title: str, timezone: str = 
     if not template_path.exists():
         template_path = Path(__file__).with_name("videos_template.html")
     template = template_path.read_text(encoding="utf-8")
-    page = (template.replace("__TITLE__", html.escape(title)).replace("__COUNT__", str(len(videos))).replace("__VIDEOS__", "".join(cards)))
+    page = (template.replace("__APP_NAME__", html.escape(app_name)).replace("__TITLE__", html.escape(title)).replace("__COUNT__", str(len(videos))).replace("__VIDEOS__", "".join(cards)))
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "videos.html").write_text(page, encoding="utf-8")
     return len(videos)
@@ -504,7 +504,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"YouTube channel discovery paused without affecting known-channel videos: {error}", file=sys.stderr)
         else:
             print("Music video scan skipped: YOUTUBE_API_KEY is not configured.")
-    count = render_video_page(args.root, args.root / "public", site.get("feed_title", "My new music"), site.get("timezone", "UTC"))
+    count = render_video_page(args.root, args.root / "public", site.get("feed_title", "My new music"), site.get("timezone", "UTC"), site.get("app_name", "DropSignal"))
     print(f"Rendered {count} music video(s).")
     return 0
 

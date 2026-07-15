@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1db954">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <title>__TITLE__</title>
   <link rel="alternate" type="application/rss+xml" href="feed.xml">
   <style>
@@ -118,7 +126,7 @@
   <main class="shell">
     <header class="topbar">
       <div class="heading">
-        <div><p class="eyebrow">Release radar</p><h1>__TITLE__</h1><p class="meta">Updated __UPDATED__</p></div>
+        <div><p class="eyebrow">__APP_NAME__</p><h1>__TITLE__</h1><p class="meta">Updated __UPDATED__</p></div>
         <div class="heading__right"><a class="rss" href="history.html">Listening history</a> · <a class="rss" href="videos.html">Music videos</a> · <a class="rss" href="manage.html">Manage tracked artists</a> · <a class="rss" href="feed.xml">Release RSS ↗</a> · <a class="rss" href="digest.xml">Daily digest RSS ↗</a></div>
       </div>
       <div class="toolbar">
@@ -274,6 +282,9 @@
     applyOrder();
     applyDateOrder();
     applyFilters();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
   </script>
 </body>
 </html>

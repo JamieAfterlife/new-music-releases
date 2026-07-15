@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1db954">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <title>Listening history · __TITLE__</title>
   <style>
     :root { color-scheme: dark; --brand:#1ed760; --black:#050505; --panel:#171717; --panel-hover:#202020; --line:#303030; --text:#f5f5f5; --muted:#a8a8a8; --bad:#f17b61; --gold:#ffd166; }
@@ -59,7 +67,7 @@
 </head>
 <body>
   <main class="shell">
-    <p class="eyebrow">Your listening log</p>
+    <p class="eyebrow">__APP_NAME__ · Your listening log</p>
     <h1>History</h1>
     <p class="meta">Rate something 1–5 stars. Four and five stars are likes; one to three are dislikes. Updated __UPDATED__.</p>
     <nav><a href="index.html">← Releases</a> · <a href="videos.html">Music videos</a> · <a href="manage.html">Manage tracked artists</a></nav>
@@ -143,6 +151,9 @@
     document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{activeFilter=button.dataset.filter;document.querySelectorAll('.filter').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));render();}));
     el('search').addEventListener('input',render);el('search').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();searchMusicBrainz();}});el('musicbrainz-search').addEventListener('click',searchMusicBrainz);el('type').addEventListener('change',render);el('order').addEventListener('change',render);el('connect').addEventListener('click',connect);el('save').addEventListener('click',save);el('forget-token').addEventListener('click',async()=>{try{localStorage.removeItem(connectionKey);}catch{}window.DeviceAuth?.removeSession(connectionKey);try{await window.DeviceAuth?.remove(connectionKey);}catch{}savedConnection=null;connected=false;activeToken='';el('trust-device').checked=false;el('forget-token').hidden=true;el('save').disabled=true;setStatus('Saved connection removed from this device.','success');});
     const params=new URLSearchParams(location.search),requested=params.get('rate'),stars=Number(params.get('stars'));returnToReleases=params.get('return')==='releases';if(requested&&catalog.has(requested)&&stars>=1&&stars<=5){setRating(requested,stars);if(returnToReleases)el('save').textContent='Save & return to releases';window.history.replaceState({},'',location.pathname);}render();autoConnectTrusted();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
   </script>
 </body>
 </html>

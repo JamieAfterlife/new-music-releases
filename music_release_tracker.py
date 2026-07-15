@@ -26,7 +26,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from youtube_video_tracker import is_excluded_video_record, render_video_page
 
-VERSION = "0.1.0"
+VERSION = "2.0.0"
 MB_ROOT = "https://musicbrainz.org/ws/2"
 LASTFM_ROOT = "https://ws.audioscrobbler.com/2.0/"
 VARIOUS_ARTISTS_MBID = "89ad4ac3-39f7-470e-963a-56509c546377"
@@ -51,6 +51,7 @@ DATE_RE = re.compile(r"^\d{4}(?:-\d{2})?(?:-\d{2})?$")
 @dataclass
 class Settings:
     root: Path
+    app_name: str = "DropSignal"
     feed_title: str = "New music"
     timezone: str = "UTC"
     site_url: str = ""
@@ -78,6 +79,7 @@ class Settings:
         site_path = root / "site.json"
         site = json.loads(site_path.read_text(encoding="utf-8")) if site_path.exists() else {}
         for key in (
+            "app_name",
             "feed_title",
             "timezone",
             "lastfm_username",
@@ -1061,7 +1063,8 @@ def make_html(settings: Settings, releases: list[dict[str, Any]], generated: dt.
         template_path = Path(__file__).with_name("web_template.html")
     template = template_path.read_text(encoding="utf-8")
     return (
-        template.replace("__TITLE__", html.escape(settings.feed_title))
+        template.replace("__APP_NAME__", html.escape(settings.app_name))
+        .replace("__TITLE__", html.escape(settings.feed_title))
         .replace(
             "__UPDATED__",
             html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")),
@@ -1123,6 +1126,7 @@ def make_history_html(settings: Settings, releases: list[dict[str, Any]], genera
     script_json = lambda value: json.dumps(value, ensure_ascii=False).replace("</", "<\\/")
     return (
         template_path.read_text(encoding="utf-8")
+        .replace("__APP_NAME__", html.escape(settings.app_name))
         .replace("__TITLE__", html.escape(settings.feed_title))
         .replace("__UPDATED__", html.escape(display_time(generated, settings.timezone).strftime("%d %B %Y, %H:%M %Z")))
         .replace("__DEVICE_AUTH_JS__", device_auth_source(settings))
@@ -1151,6 +1155,55 @@ def copy_device_auth(settings: Settings) -> None:
     shutil.copyfile(source, settings.output_dir / "device-auth.js")
 
 
+def make_web_manifest(settings: Settings) -> dict[str, Any]:
+    """Build the install metadata used by Android, desktop browsers, and iOS."""
+    name = settings.app_name.strip() or "DropSignal"
+    return {
+        "id": "./",
+        "name": name,
+        "short_name": name[:12],
+        "description": f"New releases, music videos, and listening history for {settings.feed_title}.",
+        "start_url": "./index.html",
+        "scope": "./",
+        "display": "standalone",
+        "background_color": "#000000",
+        "theme_color": "#1db954",
+        "lang": "en",
+        "categories": ["music", "entertainment"],
+        "icons": [
+            {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+            {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+            {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        ],
+        "shortcuts": [
+            {"name": "New releases", "url": "./index.html", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+            {"name": "Listening history", "url": "./history.html", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+            {"name": "Music videos", "url": "./videos.html", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+        ],
+    }
+
+
+def copy_pwa_assets(settings: Settings) -> None:
+    """Publish the install manifest, service worker, and generated icon set."""
+    source_dir = settings.root / "pwa"
+    if not source_dir.exists():
+        source_dir = Path(__file__).with_name("pwa")
+    for filename in (
+        "service-worker.js",
+        "icon-192.png",
+        "icon-512.png",
+        "icon-maskable-512.png",
+        "apple-touch-icon.png",
+        "favicon-32.png",
+        "favicon.ico",
+    ):
+        shutil.copyfile(source_dir / filename, settings.output_dir / filename)
+    (settings.output_dir / "manifest.webmanifest").write_text(
+        json.dumps(make_web_manifest(settings), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def make_manage_html(settings: Settings) -> str:
     """Build the static owner editor for the tracked and blocked artist lists."""
     template_path = settings.root / "manage_template.html"
@@ -1163,7 +1216,7 @@ def make_manage_html(settings: Settings) -> str:
     )
     site = load_json(
         settings.root / "site.json",
-        {"feed_title": settings.feed_title, "timezone": settings.timezone},
+        {"app_name": settings.app_name, "feed_title": settings.feed_title, "timezone": settings.timezone},
     )
     recent = load_json(
         settings.root / "data" / "lastfm_recent_artists.json",
@@ -1202,6 +1255,7 @@ def make_manage_html(settings: Settings) -> str:
 
     return (
         template_path.read_text(encoding="utf-8")
+        .replace("__APP_NAME__", html.escape(settings.app_name))
         .replace("__TITLE__", html.escape(settings.feed_title))
         .replace("__DEVICE_AUTH_JS__", device_auth_source(settings))
         .replace("__REPOSITORY_JSON__", script_json(os.environ.get("GITHUB_REPOSITORY", "")))
@@ -1311,7 +1365,8 @@ def run_check(
     (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     copy_device_auth(settings)
-    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
+    copy_pwa_assets(settings)
+    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone, settings.app_name)
     visible_new.sort(key=lambda x: (x.get("date", ""), x.get("artist", "")), reverse=True)
     return visible_new, len(visible_releases(settings, discovered.values(), now))
 
@@ -1342,7 +1397,8 @@ def rebuild_outputs(settings: Settings, now: dt.datetime | None = None) -> int:
     (settings.output_dir / "history.html").write_text(make_history_html(settings, releases, now), encoding="utf-8")
     (settings.output_dir / "manage.html").write_text(make_manage_html(settings), encoding="utf-8")
     copy_device_auth(settings)
-    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone)
+    copy_pwa_assets(settings)
+    render_video_page(settings.root, settings.output_dir, settings.feed_title, settings.timezone, settings.app_name)
     return len(visible)
 
 

@@ -328,6 +328,8 @@ class YouTubeVideoTests(unittest.TestCase):
             count = render_video_page(root, root / "public", "Test music")
             page = (root / "public" / "videos.html").read_text(encoding="utf-8")
             self.assertEqual(count, 1)
+            self.assertIn("DropSignal", page)
+            self.assertNotIn("__APP_NAME__", page)
             self.assertIn("Official Video", page)
             self.assertIn("Watch on YouTube", page)
             self.assertIn("manage.html?hide_video=video-id", page)

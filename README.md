@@ -176,6 +176,16 @@ The wrapper uses `--quiet-if-none`, so routine checks generate no message. Failu
 
 The included GitHub Actions workflow checks every 12 hours and publishes `public/` to GitHub Pages.
 
+## Install DropSignal as an app
+
+The published site is an installable PWA named **DropSignal**. It includes Android and desktop icons, a maskable Android icon, an Apple touch icon, favicons, standalone display mode, and a network-first offline shell. New release data still needs an internet connection, but previously opened pages remain available during a temporary outage.
+
+- **Android/Chrome:** open the site menu and choose **Install app** or **Add to Home screen**.
+- **iPhone/iPad/Safari:** tap **Share**, then **Add to Home Screen**.
+- **Desktop Chrome or Edge:** use the install icon in the address bar.
+
+The installed app name can be changed under **Manage tracked artists → Site details → App name**. This updates `site.json` and the generated web manifest for every future deployment.
+
 1. Create a public GitHub repository and push this project.
 2. In repository **Settings → Pages**, select **GitHub Actions** as the source.
 3. Run **Check new music** once from the Actions tab. The workflow identifies itself to MusicBrainz using your public repository URL.

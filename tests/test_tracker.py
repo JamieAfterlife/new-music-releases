@@ -173,6 +173,8 @@ class TrackerTests(unittest.TestCase):
             self.assertNotIn("__VIDEO_SOURCES_JSON__", page)
             self.assertNotIn("__VIDEO_REVIEW_JSON__", page)
             self.assertNotIn("__VIDEO_CHANNEL_REVIEW_JSON__", page)
+            self.assertNotIn("__APP_NAME__", page)
+            self.assertIn("DropSignal", page)
 
     def test_management_sections_collapse_and_release_credits_can_be_ignored(self):
         template = Path("manage_template.html").read_text(encoding="utf-8")
@@ -228,12 +230,16 @@ class TrackerTests(unittest.TestCase):
         videos = Path("videos_template.html").read_text(encoding="utf-8")
         for page in (web, manage, history, videos):
             self.assertIn("release-theme", page)
+            self.assertIn('rel="manifest" href="manifest.webmanifest"', page)
+            self.assertIn('rel="apple-touch-icon"', page)
+            self.assertIn("navigator.serviceWorker.register('./service-worker.js')", page)
             self.assertIn('data-theme="youtube"', page)
             self.assertIn('data-theme="purple"', page)
             self.assertIn('data-theme="grey"', page)
         self.assertIn('>Red</option>', web)
         self.assertIn('>Purple</option>', manage)
         self.assertIn('>Grey</option>', manage)
+        self.assertIn('id="app-name"', manage)
 
     def test_release_filters_allow_multiple_categories(self):
         template = Path("web_template.html").read_text(encoding="utf-8")
@@ -528,6 +534,12 @@ class TrackerTests(unittest.TestCase):
             self.assertTrue((root / "public/feed.xml").exists())
             self.assertTrue((root / "public/index.html").exists())
             self.assertTrue((root / "public/history.html").exists())
+            manifest = json.loads((root / "public/manifest.webmanifest").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["name"], "DropSignal")
+            self.assertEqual(manifest["display"], "standalone")
+            self.assertTrue(any(icon.get("purpose") == "maskable" for icon in manifest["icons"]))
+            for filename in ("service-worker.js", "icon-192.png", "icon-512.png", "apple-touch-icon.png", "favicon.ico"):
+                self.assertTrue((root / "public" / filename).exists(), filename)
 
     def test_primary_credit_wins_when_appearance_search_overlaps(self):
         class OverlappingMusicBrainz(FakeMusicBrainz):

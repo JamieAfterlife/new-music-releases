@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1db954">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <title>Music videos · __TITLE__</title>
   <style>
     :root{color-scheme:dark;--brand:#1db954;--black:#000;--panel:#121212;--raised:#1b1b1b;--line:#303030;--text:#f5f5f5;--muted:#a7a7a7}
@@ -10,10 +18,14 @@
     @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){.shell{padding:26px 13px 60px}.top{display:block}.top nav{margin-top:14px}.grid{grid-template-columns:1fr}}
   </style>
 </head>
-<body><main class="shell"><header class="top"><div><p class="eyebrow">Release radar</p><h1>Music videos</h1><p class="meta"><span id="count">__COUNT__</span> official video(s) from tracked channels</p></div><nav><a href="index.html">Releases</a> · <a href="history.html">History</a> · <a href="manage.html">Manage</a></nav></header><div class="tools"><input id="search" type="search" placeholder="Search videos, artists or channels" aria-label="Search videos"></div><div id="videos" class="grid">__VIDEOS__</div><div id="empty" class="empty" hidden>No music videos match that search.</div></main>
+<body><main class="shell"><header class="top"><div><p class="eyebrow">__APP_NAME__</p><h1>Music videos</h1><p class="meta"><span id="count">__COUNT__</span> official video(s) from tracked channels</p></div><nav><a href="index.html">Releases</a> · <a href="history.html">History</a> · <a href="manage.html">Manage</a></nav></header><div class="tools"><input id="search" type="search" placeholder="Search videos, artists or channels" aria-label="Search videos"></div><div id="videos" class="grid">__VIDEOS__</div><div id="empty" class="empty" hidden>No music videos match that search.</div></main>
 <script>
   const search=document.querySelector('#search'),cards=[...document.querySelectorAll('.video')],empty=document.querySelector('#empty'),count=document.querySelector('#count');
   try{const theme=localStorage.getItem('release-theme');if(theme&&theme!=='default')document.documentElement.dataset.theme=theme}catch{}
   function filter(){const query=search.value.trim().toLocaleLowerCase();let shown=0;for(const card of cards){const visible=!query||card.dataset.search.includes(query);card.hidden=!visible;if(visible)shown++}count.textContent=shown;empty.hidden=shown>0;if(!cards.length){empty.hidden=false;empty.textContent='No official music videos have been found yet. Add a YouTube channel in Manage, configure the API key, then run the tracker.'}}
   search.addEventListener('input',filter);filter();
-</script></body></html>
+</script>
+<script>
+  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+</script>
+</body></html>
