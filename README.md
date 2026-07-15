@@ -1,4 +1,4 @@
-# New Album Releases
+# DropSignal
 
 A free, automation-first tracker for music released by artists you care about. It uses MusicBrainz rather than Spotify authentication, writes a permanent RSS feed and web page, and runs with only Python 3.11 or newer.
 
@@ -14,7 +14,7 @@ A free, automation-first tracker for music released by artists you care about. I
 - Generates a release-by-release RSS feed, a grouped 6am daily digest feed, the webpage, and an artist-management page.
 - Includes album artwork and tracklists (with available durations) in RSS.
 - Prefers the most complete official digital edition on the original release date, so a same-day deluxe or expanded edition wins when it really contains extra tracks.
-- Has no Python package dependencies and no API keys.
+- Has no Python package dependencies. Core release tracking needs no API key; optional Last.fm and YouTube features use their respective keys.
 
 MusicBrainz data is community maintained, so a release can appear later than it does on streaming services. The tracker checks the previous 45 days each time to catch late additions.
 
@@ -234,3 +234,7 @@ python music_release_tracker.py rebuild
 python music_release_tracker.py enrich
 python music_release_tracker.py enrich --refresh
 ```
+
+## Maintainer handover
+
+OpenCode and other coding agents should start with `AGENTS.md`. The complete technical state is in `HANDOVER.md`, the sanitized product conversation and decision log is in `PROJECT_HISTORY.md`, and the remaining 2.x scope is in `V2_ROADMAP.md`. No credentials are stored in those files.

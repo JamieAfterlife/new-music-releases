@@ -1,57 +1,48 @@
-# Version 2 roadmap
+# DropSignal 2.x status and roadmap
 
 Version 1 is permanently preserved by the `v1.0.0` Git tag. Version 2 remains a personal, GitHub-hosted application with no paid backend or multi-user accounts.
 
-## Agreed scope
+## Stable 2.0
 
-### Daily digest RSS — complete
+- `v2.0.0`: DropSignal naming and installable PWA milestone.
+- `v2.0.1`: current stable release, including conflict-safe consecutive rating saves.
 
-- Publish during the listener's local 6am hour.
-- Show releases expected today first.
-- Follow with releases made available yesterday.
-- Group each section as Albums, EPs, Singles, Features, then other releases.
-- Use the timezone selected on the management page.
-- Keep the existing release-by-release RSS feed.
+Completed 2.0 scope:
 
-### Music videos — implemented; awaiting personal API key and channel choices
+- Timezone-aware 6am daily digest RSS, with today's expected releases before yesterday's released items.
+- Existing item-by-item RSS with artwork, tracklists, and music videos.
+- Official music-video tracking through known/discovered artist, personal, and label channels.
+- Video title/duration exclusions, dedicated review queue, bulk rejection, Hide/restore, and main-feed integration.
+- Release hiding, settings backup import/export, manual aliases, unresolved Last.fm review, and recent-favourites onboarding.
+- Green, Red, Purple, and Grey device themes.
+- Installable Android-first PWA with desktop/iOS support and trusted-device login.
+- GitHub-synced 1-5 star listening history, older-release lookup, likes/dislikes, and remembered feed filters.
 
-- Discover recent uploads from known artist and record-label YouTube channels.
-- Recognise strong title signals such as “official”, “official video”, and “music video”.
-- Support multiple channel mappings per artist, including personal channels such as Alex Terrible for Slaughter to Prevail.
-- Provide a review queue for uncertain matches and remember approvals/rejections.
-- Provide manual artist, label, channel, and search aliases as fallbacks.
-- Keep this separate from release metadata because MusicBrainz video relationships are too incomplete to be the primary source.
+2.0 is closed except for bug fixes and small polish.
 
-### Personal controls
+## Planned 2.1: concerts
 
-- Add easy release muting using the existing release-ID blacklist.
-- Add export/import for tracked artists, blacklist, aliases, settings, and review decisions.
-- Add selectable themes using the current design: green default, YouTube red, and black/purple.
+Concerts are the next major feature and should begin as a source-coverage experiment.
 
-These controls are complete. Alias management and a Last.fm unresolved-name review queue are also live; the same data model can now be extended for music-video sources and review decisions.
+Requirements:
 
-### Concerts — later and lowest priority
-
-- Let the listener choose timezone, home city/region, and travel area.
+- Let the listener choose timezone, home city/region, and maximum travel area.
 - For the personal setup, Auckland is home and the North Island is the maximum travel area.
-- Include support slots as well as headline appearances and festivals.
-- Combine smaller-show coverage from Under The Radar with Ticketmaster coverage for larger events when practical.
-- Store direct venue, date, lineup, location, and ticket links.
-- Expect manual artist aliases and source corrections because event data is inconsistent.
+- Include tracked artists appearing as support, at festivals, or as headliners.
+- Prioritize Under The Radar for smaller New Zealand shows; supplement with Ticketmaster and, where useful, Live Nation or Bandsintown.
+- Store and show direct venue, date/time, lineup, locality, and ticket links.
+- Deduplicate the same event across sources.
+- Support manual artist/event aliases and review corrections because event metadata is inconsistent.
+
+Before implementing a complete Concerts tab, test source coverage against a representative group of Jamie's smaller tracked artists and document authentication, rate limits, terms, and link stability.
 
 ## Explicitly deferred
 
-- PWA installation and push notifications
-- Automatic Spotify or YouTube Music playlists
-- User accounts and a paid/shared backend
-- Calendar feeds
-- New-since-last-visit markers
-- Notification preference controls
+- Push notifications and notification-preference controls.
+- Automatic Spotify or YouTube Music playlists.
+- User accounts and a paid/shared backend.
+- Calendar feeds.
+- New-since-last-visit markers.
+- Source-health diagnostics.
 
-## Suggested delivery order
-
-1. Daily digest RSS
-2. Themes, release muting, and export/import
-3. Alias management and the music-video review data model
-4. Music-video discovery and its dedicated page
-5. Concert discovery experiments, starting with Auckland/North Island coverage
+Reopen deferred items only when Jamie explicitly changes their priority.
