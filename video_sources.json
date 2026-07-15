@@ -2157,6 +2157,168 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCEIeoYVgJT6sbwhKWoIzN8g",
+      "kind": "artist",
+      "artist_names": [
+        "Aborted"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYnnOrDXJH0GqPnwsaHm-XQ",
+      "kind": "artist",
+      "artist_names": [
+        "After the Burial"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBIfc-9Ii63Vot9JTCSIUDw",
+      "kind": "artist",
+      "artist_names": [
+        "Ameonna"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJMT7TjIJknnZInr0s--3CA",
+      "kind": "artist",
+      "artist_names": [
+        "As Blood Runs Black"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCGE9SkYwvURpVBWHPO3Ck_Q",
+      "kind": "artist",
+      "artist_names": [
+        "Asking Alexandria"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3gTp-3Ra28mpZwyo_xeMxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Attack Attack!"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCuC5RTdwMhFfVlfZQTiV_xA",
+      "kind": "artist",
+      "artist_names": [
+        "Attila"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_k8KFBzEf0uQ8LRFSAgSUA",
+      "kind": "artist",
+      "artist_names": [
+        "Avril Lavigne"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCre_5futd_kGkrSlL83n3pw",
+      "kind": "artist",
+      "artist_names": [
+        "Bad Omens"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCUu7ChMTu0_qQsIZ4YSse-w",
+      "kind": "artist",
+      "artist_names": [
+        "Between the Buried and Me"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCe_kt0RDJzY6S9NnPLqKysg",
+      "kind": "artist",
+      "artist_names": [
+        "Body Prison"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCNZhZXoZ4e7P2yLfeRsQEHg",
+      "kind": "artist",
+      "artist_names": [
+        "Buried in Verona"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBXuel9FRL3qFEuiML9U1jw",
+      "kind": "artist",
+      "artist_names": [
+        "Butcher Babies"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCWit3NXmHJKcr1BaQ6NS1Bw",
+      "kind": "artist",
+      "artist_names": [
+        "Chimp Spanner"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCiXmnXppo02PhKj3C2E8ICA",
+      "kind": "artist",
+      "artist_names": [
+        "Crossfaith"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCq80ejbpk8XWAjt0lIjTiqQ",
+      "kind": "artist",
+      "artist_names": [
+        "Crystal Lake"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5tnt-FhWo47JSp720ObIaA",
+      "kind": "artist",
+      "artist_names": [
+        "Cursed Earth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UChbKN0mSPmv0Ov5NxBT8cFg",
+      "kind": "artist",
+      "artist_names": [
+        "Dal Av"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
