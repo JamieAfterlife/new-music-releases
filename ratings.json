@@ -10,6 +10,17 @@
       "image": "https://coverartarchive.org/release-group/497feea7-e7b6-4380-b999-0d253f75adc4/front-250",
       "rating": 5,
       "rated_at": "2026-07-14T23:43:14.218Z"
+    },
+    "release:6c7fe306-6a28-4fa7-970c-f465019ec8eb": {
+      "id": "release:6c7fe306-6a28-4fa7-970c-f465019ec8eb",
+      "title": "The Plot in You",
+      "artist": "The Plot in You",
+      "type": "Album",
+      "release_date": "2026-07-10",
+      "url": "https://open.spotify.com/album/6PJzcqwj8n19g9cdDWRiTf",
+      "image": "https://coverartarchive.org/release-group/6c7fe306-6a28-4fa7-970c-f465019ec8eb/front-250",
+      "rating": 3,
+      "rated_at": "2026-07-15T03:06:35.412Z"
     }
   }
 }
