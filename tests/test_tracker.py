@@ -749,6 +749,12 @@ class TrackerTests(unittest.TestCase):
             self.assertIn("saveRatingOverride", history)
             self.assertIn("Save & return to releases", history)
             self.assertIn("GitHub can refresh in the background", history)
+            self.assertIn("error.status=response.status", history)
+            self.assertIn("fresh=${Date.now()}", history)
+            self.assertIn("{cache:'no-store'}", history)
+            self.assertIn("function isRatingConflict", history)
+            self.assertIn("for(let attempt=1;attempt<=3;attempt++)", history)
+            self.assertIn("Merging the latest version and retrying", history)
             old_release = {**release, "id": "old-release", "date": "2025-09-04"}
             old_history = make_history_html(settings, [old_release], generated)
             self.assertIn('"release:old-release"', old_history)
