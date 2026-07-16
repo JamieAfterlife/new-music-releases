@@ -2481,6 +2481,159 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCvJuiiAcnYDhdemqitgFlGA",
+      "kind": "artist",
+      "artist_names": [
+        "I Killed the Prom Queen"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCURRgQf2f3daoUvfX8iXRXw",
+      "kind": "artist",
+      "artist_names": [
+        "I Prevail"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCxBrjqAuJ8oZ2B1IOEueKhw",
+      "kind": "artist",
+      "artist_names": [
+        "Kill the Noise"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCWF6QBQeAM23vAUKT6b1aSg",
+      "kind": "artist",
+      "artist_names": [
+        "Knocked Loose"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCxqlUg63ZQpDq86jv1Tm_ew",
+      "kind": "artist",
+      "artist_names": [
+        "Knuckle Puck"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC6i5-5hdNd8lXtx9z0I5puA",
+      "kind": "artist",
+      "artist_names": [
+        "Koven"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCkxRkkaw_yLjUwlhmDYMAEQ",
+      "kind": "artist",
+      "artist_names": [
+        "Kublai Khan"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCiPlac-xYG2AuSLh5JwYzzw",
+      "kind": "artist",
+      "artist_names": [
+        "La Dispute"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCL_fSI48UT8FaFbb-RYEuww",
+      "kind": "artist",
+      "artist_names": [
+        "Like Moths to Flames"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+      "kind": "artist",
+      "artist_names": [
+        "Linkin Park"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC0nS0FSoouwc_Nm8g6DnH8w",
+      "kind": "artist",
+      "artist_names": [
+        "Lorna Shore"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCipLjr-h2iaEBWMJVfK2e2A",
+      "kind": "artist",
+      "artist_names": [
+        "Lynyrd Skynyrd"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5mX9jQdmMRzCLfOJmeyhsg",
+      "kind": "artist",
+      "artist_names": [
+        "Machine Head"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYobZdR-x5ZJ_C05BSa-lcg",
+      "kind": "artist",
+      "artist_names": [
+        "Maezi666"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCv011hIm-QqpgDGt32xrIRA",
+      "kind": "artist",
+      "artist_names": [
+        "Maggie Lindemann"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJq-RYYVxDJWrReqfGjwjdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Magnolia Park"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbirjI1K3MGu0-Y1gTBNR5w",
+      "kind": "artist",
+      "artist_names": [
+        "Marilyn Manson"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
