@@ -2319,6 +2319,168 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCjevoBHvQhaboWD5_p0RauA",
+      "kind": "artist",
+      "artist_names": [
+        "Destroy Rebuild Until God Shows"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCnbp87NgwW1FzzNAK9LGFTg",
+      "kind": "artist",
+      "artist_names": [
+        "Dethklok"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYY158T1shyne7i3C9GV-UA",
+      "kind": "artist",
+      "artist_names": [
+        "DIR EN GREY"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCI_ibbxHtF92pAQU-UIrjDQ",
+      "kind": "artist",
+      "artist_names": [
+        "Distant"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4A876r7anuoxMbFuLxJe7A",
+      "kind": "artist",
+      "artist_names": [
+        "Distinguisher"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCveWMJeHgcIUPMnFzd7Vxjg",
+      "kind": "artist",
+      "artist_names": [
+        "Disturbed"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmHhviensDlGQeU8Yo80zdg",
+      "kind": "artist",
+      "artist_names": [
+        "Dr. Dre"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbAbSk29Nvmt2WxoO3c6jQA",
+      "kind": "artist",
+      "artist_names": [
+        "Eluveitie"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCoXf9b4eEx8w-AYw7Y19__w",
+      "kind": "artist",
+      "artist_names": [
+        "Eminem"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCb7Qq0icEuZnjpoX_sbE11w",
+      "kind": "artist",
+      "artist_names": [
+        "Enterprise Earth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCVvv7hEv2StiEdNarVoWelQ",
+      "kind": "artist",
+      "artist_names": [
+        "Excision"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCEtBVHMgm0oLyERk3apcM7Q",
+      "kind": "artist",
+      "artist_names": [
+        "Fear Factory"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCVWLOM5QBtzP2hD-h232XwA",
+      "kind": "artist",
+      "artist_names": [
+        "Feed Me"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQjw3b3Ay5zMmEHUAxL93Rw",
+      "kind": "artist",
+      "artist_names": [
+        "Five Finger Death Punch"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCsp-_mUeq7S87lZXZe_kTWQ",
+      "kind": "artist",
+      "artist_names": [
+        "Ghøstkid"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCORB1FfWxCR8CUQtf_jt8Vg",
+      "kind": "artist",
+      "artist_names": [
+        "Gideon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8CtruQrGXrRkFgPRhDr7Ug",
+      "kind": "artist",
+      "artist_names": [
+        "Good Charlotte"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCKsHNVAOadrboThsH5qXKTg",
+      "kind": "artist",
+      "artist_names": [
+        "Humanity's Last Breath"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }

@@ -157,7 +157,7 @@
       "name": "Amon Amarth",
       "mbid": "5b687684-ad34-4a9f-b425-0e7aa81fbd38",
       "spotify_id": "3pulcT2wt7FEG10lQlqDJL",
-      "lastfm_scrobbles": 411,
+      "lastfm_scrobbles": 412,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -327,7 +327,7 @@
     {
       "name": "Bad Omens",
       "mbid": "eecada09-acfc-472d-ae55-e9e5a43f12d8",
-      "lastfm_scrobbles": 431,
+      "lastfm_scrobbles": 432,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 30,
       "manual_tracking": true
@@ -472,6 +472,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Body Count",
       "mbid": "8b12db5d-54a9-4014-9fa8-d646ac291361",
       "lastfm_scrobbles": 111,
@@ -536,7 +542,7 @@
       "name": "Bring Me the Horizon",
       "mbid": "074e3847-f67f-49f9-81f1-8c8cea147e8e",
       "spotify_id": "1Ffb6ejR6Fe5IamqA5oRUF",
-      "lastfm_scrobbles": 1455,
+      "lastfm_scrobbles": 1456,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 56,
       "manual_tracking": true
@@ -1421,7 +1427,7 @@
       "name": "I Prevail",
       "mbid": "1921c28c-ec61-4725-8e35-38dd656f7923",
       "spotify_id": "3Uobr6LgQpBbk6k4QGAb3V",
-      "lastfm_scrobbles": 488,
+      "lastfm_scrobbles": 489,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 11,
       "manual_tracking": true
@@ -1456,7 +1462,7 @@
     {
       "name": "Imminence",
       "mbid": "431ed486-4606-485a-b11d-f05feb860257",
-      "lastfm_scrobbles": 121,
+      "lastfm_scrobbles": 122,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1713,7 +1719,7 @@
     {
       "name": "Knocked Loose",
       "mbid": "9ca10859-49e2-44e3-b3d6-04c535207bc2",
-      "lastfm_scrobbles": 460,
+      "lastfm_scrobbles": 461,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 16,
       "manual_tracking": true
@@ -1736,6 +1742,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1861,7 +1873,7 @@
     {
       "name": "Lorna Shore",
       "mbid": "e86fc1f5-d632-44b2-8aea-38f83aadffe8",
-      "lastfm_scrobbles": 255,
+      "lastfm_scrobbles": 256,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 26,
       "manual_tracking": true
@@ -2601,6 +2613,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 22,
@@ -2758,7 +2776,7 @@
       "name": "Spiritbox",
       "mbid": "9c935736-7530-41e4-b776-1dbcf534c061",
       "spotify_id": "4MzJMcHQBl9SIYSjwWn8QW",
-      "lastfm_scrobbles": 487,
+      "lastfm_scrobbles": 488,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 7,
       "manual_tracking": true
