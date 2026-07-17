@@ -2796,6 +2796,159 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCDzB7hPwj9qoL_bKEb2atFw",
+      "kind": "artist",
+      "artist_names": [
+        "Northlane"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCAZtC3nKx-BGomyQz0Vhh3Q",
+      "kind": "artist",
+      "artist_names": [
+        "Nothing But Thieves"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBEWNR_x89cYolTNhuV7-Fw",
+      "kind": "artist",
+      "artist_names": [
+        "nothing,nowhere."
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCrh0I8I0l6eAj2DuW0GE_Fg",
+      "kind": "artist",
+      "artist_names": [
+        "Of Mice & Men"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCm2SSE0EuqTRuEKAvwBHKkA",
+      "kind": "artist",
+      "artist_names": [
+        "One Last Breath"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCzycs8MqvIY4nXWwS-v4J9g",
+      "kind": "artist",
+      "artist_names": [
+        "ONE OK ROCK"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2XMr58U7rZnL4AW0n9Ca8g",
+      "kind": "artist",
+      "artist_names": [
+        "Orbit Culture"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC_By14hK_6sTsA5DInKdgeA",
+      "kind": "artist",
+      "artist_names": [
+        "Ov Sulfur"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCe3JCin4Gnv9azlWnAs5keg",
+      "kind": "artist",
+      "artist_names": [
+        "Ozzy Osbourne"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3xhyrtTamVuGNGq5l6bPhw",
+      "kind": "artist",
+      "artist_names": [
+        "PALEFACE SWISS"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCP0efewXEcuCddMFLjlCDJQ",
+      "kind": "artist",
+      "artist_names": [
+        "Parkway Drive"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjERtKPX3sKYHGrXLhoeUAA",
+      "kind": "artist",
+      "artist_names": [
+        "Patient Sixty-Seven"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClQT6Vnsm6BUm0I5kR26EkQ",
+      "kind": "artist",
+      "artist_names": [
+        "Pearl Jam"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCM2u6C8k0RbgB2XgrdW-6XA",
+      "kind": "artist",
+      "artist_names": [
+        "Polaris"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCDe08Fs0s0YKJuk5h45csAQ",
+      "kind": "artist",
+      "artist_names": [
+        "Polyphia"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCO9wYfwEZD9W2cOSIvDHLxQ",
+      "kind": "artist",
+      "artist_names": [
+        "Protest the Hero"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCXZ8Ko7yNe9bEMZ8Wri-08A",
+      "kind": "artist",
+      "artist_names": [
+        "PSYCHO-FRAME"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
