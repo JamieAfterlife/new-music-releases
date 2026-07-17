@@ -484,6 +484,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Body Count",
       "mbid": "8b12db5d-54a9-4014-9fa8-d646ac291361",
       "lastfm_scrobbles": 111,
@@ -670,7 +676,7 @@
     {
       "name": "coldrain",
       "mbid": "eeee01ef-15b6-4741-9f42-9477c9ee0804",
-      "lastfm_scrobbles": 460,
+      "lastfm_scrobbles": 465,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1468,7 +1474,7 @@
     {
       "name": "Imminence",
       "mbid": "431ed486-4606-485a-b11d-f05feb860257",
-      "lastfm_scrobbles": 122,
+      "lastfm_scrobbles": 123,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1793,6 +1799,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -2042,7 +2054,7 @@
       "name": "Motionless in White",
       "mbid": "1c5b9bd6-76e8-4fe7-a6df-3bc0b5a452cc",
       "spotify_id": "6MwPCCR936cYfM1dLsGVnl",
-      "lastfm_scrobbles": 952,
+      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 18,
       "manual_tracking": true
@@ -2637,6 +2649,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 22,
@@ -3123,7 +3141,7 @@
       "name": "The Plot in You",
       "mbid": "c2e7d4ac-5e30-4b55-99b7-e49d99fd7c63",
       "spotify_id": "1cJ5tVoeAEFcZBAwSZ0CtF",
-      "lastfm_scrobbles": 348,
+      "lastfm_scrobbles": 349,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3206,7 +3224,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 230,
+      "lastfm_scrobbles": 231,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true

@@ -2634,6 +2634,168 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCm2MkB7twKnwFViykMH1SeA",
+      "kind": "artist",
+      "artist_names": [
+        "Masticated Whores"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPP0hCej0JX5hBT7p00N-Sw",
+      "kind": "artist",
+      "artist_names": [
+        "Mental Cruelty"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt-YVDXx-aEqwiPHkopZABg",
+      "kind": "artist",
+      "artist_names": [
+        "Metal Allegiance"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIKksZV9MLEW1r1O2_U3ZPw",
+      "kind": "artist",
+      "artist_names": [
+        "Misstiq"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8Wf1ZcdMwN8fo22yXilExA",
+      "kind": "artist",
+      "artist_names": [
+        "Monuments"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5MWh1k90KULpPOeXAzoIZA",
+      "kind": "artist",
+      "artist_names": [
+        "Motionless in White"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCGGhM6XCSJFQ6DTRffnKRIw",
+      "kind": "artist",
+      "artist_names": [
+        "Muse"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCMp7FseFvPnWMM9oouv_ohw",
+      "kind": "artist",
+      "artist_names": [
+        "My Ticket Home"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYAYaQvn7c3frsuBDy22jfQ",
+      "kind": "artist",
+      "artist_names": [
+        "Mélancolia"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCq2g_Vcu3J1OwNRmdTNoxYA",
+      "kind": "artist",
+      "artist_names": [
+        "Mötley Crüe"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIlCG-eRqxjgtbbp9AzeNeg",
+      "kind": "artist",
+      "artist_names": [
+        "Nekrogoblikon"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC83JzpBMoHBTQYjcKPBWQkA",
+      "kind": "artist",
+      "artist_names": [
+        "New Years Day"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCLhcQ0bBZTLipRJ7D42Riow",
+      "kind": "artist",
+      "artist_names": [
+        "Nik Nocturnal"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC4a5d57ZAWl999-YXw0C1Vg",
+      "kind": "artist",
+      "artist_names": [
+        "Nine Inch Nails"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCKlqwWFcWbjtemdlCEjOrjQ",
+      "kind": "artist",
+      "artist_names": [
+        "No Zodiac"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFPzKZg-By8_DtBJiEDLcJw",
+      "kind": "artist",
+      "artist_names": [
+        "NOAPOLOGY"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCLOMDtSVuVeQJrd0Cq2tGAA",
+      "kind": "artist",
+      "artist_names": [
+        "NOFX"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPSso4A-41Rth8KMf0O40iw",
+      "kind": "artist",
+      "artist_names": [
+        "Noisia"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
