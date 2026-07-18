@@ -3183,6 +3183,204 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCLGrX1tD5S4WbnnPrc-bt5Q",
+      "kind": "artist",
+      "artist_names": [
+        "Sworn In"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBseV4Gwb6XgMe_JRiRmvAQ",
+      "kind": "artist",
+      "artist_names": [
+        "Sylar"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmRHYcDCo73_sfYBuS28SHw",
+      "kind": "artist",
+      "artist_names": [
+        "Tactosa"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCHSO-EA-qfxAbV8jQiSfH4w",
+      "kind": "artist",
+      "artist_names": [
+        "ten56."
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCQplNm-x4gkwN9VQ9oGiLmA",
+      "kind": "artist",
+      "artist_names": [
+        "Terror Universal"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2K60sapYBdtgbw00eCGvpQ",
+      "kind": "artist",
+      "artist_names": [
+        "Texas in July"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFMGf4zOwXYLechTCqHcWpQ",
+      "kind": "artist",
+      "artist_names": [
+        "The Black Dahlia Murder"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8J68VHEnCVH4r7Pe01UoLw",
+      "kind": "artist",
+      "artist_names": [
+        "The Color Morale"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCYaSz9Ywjgv7J_Wjdx2Y37A",
+      "kind": "artist",
+      "artist_names": [
+        "The Devil Wears Prada"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCim9z4PPGnxUVg4PUBR2rsw",
+      "kind": "artist",
+      "artist_names": [
+        "The Halo Effect"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCahr_3_a47PMb9Y-E4jNXvA",
+      "kind": "artist",
+      "artist_names": [
+        "The Holy Guile"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCfAKWhsYaccd41ZjMveoSrw",
+      "kind": "artist",
+      "artist_names": [
+        "The Korea"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCxJVqQZ1YQv_p_E_GXlRfxw",
+      "kind": "artist",
+      "artist_names": [
+        "The Last Ten Seconds of Life"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCP3EX5VKeaG4Oa2qTKPuEFA",
+      "kind": "artist",
+      "artist_names": [
+        "The Offspring"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC2X--p_k7CXL_xdUDrEVCvQ",
+      "kind": "artist",
+      "artist_names": [
+        "The Pretty Wild"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFwZUc0XGKdVBn7deieUasA",
+      "kind": "artist",
+      "artist_names": [
+        "The Used"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCTM6TiW7jXmdKoaPZahan7A",
+      "kind": "artist",
+      "artist_names": [
+        "The White Noise"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCoi1iAjO1KEpLOtlbtqIp_Q",
+      "kind": "artist",
+      "artist_names": [
+        "The Word Alive"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCZ74AX0NMQaAncNWFru8D3g",
+      "kind": "artist",
+      "artist_names": [
+        "Turisas"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCmeDeURJ8-s1WNoFL5bR10Q",
+      "kind": "artist",
+      "artist_names": [
+        "Underoath"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UClh7a3djtZm2V8JvUU09b3g",
+      "kind": "artist",
+      "artist_names": [
+        "Varials"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3VeChPt9A4b9IcguH3-hUA",
+      "kind": "artist",
+      "artist_names": [
+        "Voyager"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
