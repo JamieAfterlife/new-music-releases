@@ -2949,6 +2949,240 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UC16zGxZ1weXDUXzRYwtfPqg",
+      "kind": "artist",
+      "artist_names": [
+        "PVRIS"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCm_W_hbwbzJE8w52jZ2NO0A",
+      "kind": "artist",
+      "artist_names": [
+        "Rage Against the Machine"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCEuOwB9vSL1oPKGNdONB4ig",
+      "kind": "artist",
+      "artist_names": [
+        "Red Hot Chili Peppers"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCBV0ixEuO3px_tXA3dobrdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Revocation"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSbQeLP-A97Pj54TOxqgBhg",
+      "kind": "artist",
+      "artist_names": [
+        "Rinrin"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCOCxIk9QT_Omzg0rI6bK5Dg",
+      "kind": "artist",
+      "artist_names": [
+        "Rise Against"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCnflc7QsyMT-yjq4_4VuDGw",
+      "kind": "artist",
+      "artist_names": [
+        "Rose Funeral"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjQhd1APsd5NQhiVZV7GYzg",
+      "kind": "artist",
+      "artist_names": [
+        "Sabaton"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCu8y_F8s4ESVHa-2N035yOg",
+      "kind": "artist",
+      "artist_names": [
+        "Saltwound"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCueZm-grmoiLK0_tom_-5Xw",
+      "kind": "artist",
+      "artist_names": [
+        "Sanguisugabogg"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCcThlgclYFXZKADA3IprryQ",
+      "kind": "artist",
+      "artist_names": [
+        "SeeYouSpaceCowboy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCy255kU2vzTn2xL5dSJA2kg",
+      "kind": "artist",
+      "artist_names": [
+        "Senses Fail"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjTXC0W1gKzpXG28CPzGVcw",
+      "kind": "artist",
+      "artist_names": [
+        "Shadow of Intent"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCecApJqu3U-calm_R25PU7g",
+      "kind": "artist",
+      "artist_names": [
+        "Showing Teeth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCI9Xg5yIJRDcHsjLXM8qWUg",
+      "kind": "artist",
+      "artist_names": [
+        "Shrine of Malice"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFhycDuNLpDeg6ksgx22p_Q",
+      "kind": "artist",
+      "artist_names": [
+        "Silent Planet"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCjWOBUl70PDMfscyuMkcXCA",
+      "kind": "artist",
+      "artist_names": [
+        "Skarlett Riot"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC-FsT1b7rc-mKVOjikjw5jg",
+      "kind": "artist",
+      "artist_names": [
+        "Sleep Token"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCN7cXOTCDFMLoDsaXeMYSKA",
+      "kind": "artist",
+      "artist_names": [
+        "SPEED"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC5oypfmHSgWPVMPQCzJ0gEw",
+      "kind": "artist",
+      "artist_names": [
+        "Spite"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCdbJCOYEJ5Z9hlx2jXX5ulg",
+      "kind": "artist",
+      "artist_names": [
+        "Steel Panther"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCnfT-vsQ3vXUQD0xJBdDfOQ",
+      "kind": "artist",
+      "artist_names": [
+        "Stick to Your Guns"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCIb_YuBoltulQwy_Hk9vLKg",
+      "kind": "artist",
+      "artist_names": [
+        "Stitched Up Heart"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCocfdCiKujljqcGC-STMsCQ",
+      "kind": "artist",
+      "artist_names": [
+        "Stone Temple Pilots"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC3yCOzExchddAYGEMUd6LzA",
+      "kind": "artist",
+      "artist_names": [
+        "Structures"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCv59eulZdXWMBMPTJJiK1Aw",
+      "kind": "artist",
+      "artist_names": [
+        "Sunn O)))"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
