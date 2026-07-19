@@ -3381,6 +3381,60 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCHWg-o4uttu19ZDpAi3V7Hg",
+      "kind": "artist",
+      "artist_names": [
+        "We Butter the Bread with Butter"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCqlWvL7xHCsNlC-4sP0s01g",
+      "kind": "artist",
+      "artist_names": [
+        "We Came as Romans"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCz2dVGYGJjpjp_INV0UrHZg",
+      "kind": "artist",
+      "artist_names": [
+        "Windwaker"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCiSQf6v-4cNmbEFdind5z2Q",
+      "kind": "artist",
+      "artist_names": [
+        "Within Temptation"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCUzsr_Kfr5q6aWQWTIfZHfA",
+      "kind": "artist",
+      "artist_names": [
+        "Wolfmother"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCPg_FoJeD3drwPeS6xjD9FA",
+      "kind": "artist",
+      "artist_names": [
+        "Zeal & Ardor"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
