@@ -286,7 +286,7 @@
     {
       "name": "Avenged Sevenfold",
       "mbid": "24e1b53c-3085-4581-8472-0b0088d2508c",
-      "lastfm_scrobbles": 746,
+      "lastfm_scrobbles": 751,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 51,
       "manual_tracking": true
@@ -439,6 +439,12 @@
       "name": "Blessthefall",
       "mbid": "aafa70a4-2f06-4975-935e-b283fc87de7e",
       "lastfm_scrobbles": 109,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -706,7 +712,7 @@
     {
       "name": "coldrain",
       "mbid": "eeee01ef-15b6-4741-9f42-9477c9ee0804",
-      "lastfm_scrobbles": 465,
+      "lastfm_scrobbles": 466,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -933,7 +939,7 @@
       "name": "DevilDriver",
       "mbid": "1aded574-9e16-4648-861a-24fd6f1c309e",
       "spotify_id": "79el7mcHYhXYW3Zek21i0L",
-      "lastfm_scrobbles": 499,
+      "lastfm_scrobbles": 501,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1554,7 +1560,7 @@
       "name": "In This Moment",
       "mbid": "29266b3d-b5ae-4d09-b721-326246adf68f",
       "spotify_id": "6tbLPxj1uQ6vsRQZI2YFCT",
-      "lastfm_scrobbles": 302,
+      "lastfm_scrobbles": 303,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1784,6 +1790,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2664,6 +2676,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
