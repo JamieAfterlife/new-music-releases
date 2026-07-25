@@ -348,7 +348,7 @@
       "name": "Beartooth",
       "mbid": "98a1e0ab-35fa-40dd-b62c-9fda46fdb061",
       "spotify_id": "6vwjIs0tbIiseJMR3pqwiL",
-      "lastfm_scrobbles": 527,
+      "lastfm_scrobbles": 528,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -439,6 +439,12 @@
       "name": "Blessthefall",
       "mbid": "aafa70a4-2f06-4975-935e-b283fc87de7e",
       "lastfm_scrobbles": 109,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1172,7 +1178,7 @@
       "name": "Ennaria",
       "mbid": "c800738f-d09f-482f-81ab-32c81b10b517",
       "spotify_id": "0vKadOdp1SPc45oHfkZd4U",
-      "lastfm_scrobbles": 31,
+      "lastfm_scrobbles": 32,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -1844,6 +1850,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2925,6 +2937,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 22,
@@ -3411,7 +3429,7 @@
       "name": "The Plot in You",
       "mbid": "c2e7d4ac-5e30-4b55-99b7-e49d99fd7c63",
       "spotify_id": "1cJ5tVoeAEFcZBAwSZ0CtF",
-      "lastfm_scrobbles": 349,
+      "lastfm_scrobbles": 350,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3747,7 +3765,7 @@
     {
       "name": "Windwaker",
       "mbid": "2b0ef1ab-e19c-4258-be71-d421b4cdae1c",
-      "lastfm_scrobbles": 148,
+      "lastfm_scrobbles": 149,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
