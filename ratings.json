@@ -120,6 +120,17 @@
       "image": "https://coverartarchive.org/release-group/194879b0-c23b-488e-a424-0bbbe6dcadbe/front-250",
       "rating": 1,
       "rated_at": "2026-07-26T12:01:51.372Z"
+    },
+    "release:d54e28d7-c6c8-48da-8516-22bf349acb58": {
+      "id": "release:d54e28d7-c6c8-48da-8516-22bf349acb58",
+      "title": "Eyes Closed",
+      "artist": "Beartooth",
+      "type": "Single",
+      "release_date": "2026-07-24",
+      "url": "https://open.spotify.com/album/1ajCrm0hlOeWhH6nmGM7FK",
+      "image": "https://coverartarchive.org/release-group/d54e28d7-c6c8-48da-8516-22bf349acb58/front-250",
+      "rating": 3,
+      "rated_at": "2026-07-26T12:02:02.792Z"
     }
   }
 }
