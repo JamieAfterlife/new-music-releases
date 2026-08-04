@@ -153,6 +153,17 @@
       "image": "https://coverartarchive.org/release-group/b6de06d1-9d50-4f3e-842f-a7bbad90721c/front-250",
       "rating": 2,
       "rated_at": "2026-08-03T23:59:48.892Z"
+    },
+    "release:251c12ba-b301-4f0c-8242-d4a660f70432": {
+      "id": "release:251c12ba-b301-4f0c-8242-d4a660f70432",
+      "title": "STATICA",
+      "artist": "Avenged Sevenfold",
+      "type": "EP",
+      "release_date": "2026-07-23",
+      "url": "https://open.spotify.com/album/10B4tVS3yJcETgj53m5Lcu",
+      "image": "https://coverartarchive.org/release-group/251c12ba-b301-4f0c-8242-d4a660f70432/front-250",
+      "rating": 2,
+      "rated_at": "2026-08-04T00:00:00.475Z"
     }
   }
 }
