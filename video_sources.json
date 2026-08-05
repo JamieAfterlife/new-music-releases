@@ -3435,6 +3435,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCudGyWYbFu-_yNXv6gOw5kQ",
+      "kind": "artist",
+      "artist_names": [
+        "Bloody Woods"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
