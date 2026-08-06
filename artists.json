@@ -730,6 +730,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -1328,7 +1334,7 @@
       "name": "Ennaria",
       "mbid": "c800738f-d09f-482f-81ab-32c81b10b517",
       "spotify_id": "0vKadOdp1SPc45oHfkZd4U",
-      "lastfm_scrobbles": 49,
+      "lastfm_scrobbles": 51,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2291,6 +2297,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -2351,7 +2363,7 @@
     {
       "name": "Like Moths to Flames",
       "mbid": "6f0777a9-50f2-4577-966d-de0943b0b766",
-      "lastfm_scrobbles": 89,
+      "lastfm_scrobbles": 90,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2473,7 +2485,7 @@
     {
       "name": "Megadeth",
       "mbid": "a9044915-8be3-4c7e-b11f-9e2d2ea0a91e",
-      "lastfm_scrobbles": 550,
+      "lastfm_scrobbles": 556,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 69,
       "manual_tracking": true
@@ -2905,7 +2917,7 @@
       "name": "PiNKII",
       "mbid": "a9964fed-619e-459d-8212-072ee5149d63",
       "manual_tracking": true,
-      "lastfm_scrobbles": 34,
+      "lastfm_scrobbles": 35,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3090,6 +3102,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3771,7 +3789,7 @@
     {
       "name": "The Butcher Sisters",
       "mbid": "15f7af3e-6908-4998-9bf1-6a6ebd7bd84a",
-      "lastfm_scrobbles": 56,
+      "lastfm_scrobbles": 57,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 50,
       "manual_tracking": true
@@ -3971,7 +3989,7 @@
       "name": "To the Grave",
       "mbid": "110963bd-56b9-40d5-b07c-7c23a9725b48",
       "spotify_id": "3jr9qsKWQjf3iMNQ3rWVDQ",
-      "lastfm_scrobbles": 157,
+      "lastfm_scrobbles": 158,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 6,
       "manual_tracking": true
