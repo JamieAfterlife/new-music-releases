@@ -3489,6 +3489,24 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UC0Z23xJupv7gqcTRgxxV3xg",
+      "kind": "artist",
+      "artist_names": [
+        "Divine Heresy"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCl_UnIATQ5OS9w-Cdl4UsOQ",
+      "kind": "artist",
+      "artist_names": [
+        "Frozen Soul"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
