@@ -3444,6 +3444,51 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCGZKg8CdJ74tk4L4gcVezYQ",
+      "kind": "artist",
+      "artist_names": [
+        "Alice Cooper"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFcqi7MrlzIp9RMTtUlxE8g",
+      "kind": "artist",
+      "artist_names": [
+        "Avenged Sevenfold"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8cVO_zd0RUpGmN8zibsadA",
+      "kind": "artist",
+      "artist_names": [
+        "Carcosa"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSAvRDQuEHqAu7SrT8yeb_Q",
+      "kind": "artist",
+      "artist_names": [
+        "Darkest Hour"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt8tzdZL0Hl1hQDimWJR41Q",
+      "kind": "artist",
+      "artist_names": [
+        "Dartz"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
