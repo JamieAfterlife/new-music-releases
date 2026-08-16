@@ -3516,6 +3516,51 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCBEIiXDFatzq7ywkpjU9tIw",
+      "kind": "artist",
+      "artist_names": [
+        "Mothica"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCSrkErpoV1Vp5txDuwImFDA",
+      "kind": "artist",
+      "artist_names": [
+        "Mushroomhead"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCvW1rSUzDMoT4Qdeep-c-Ow",
+      "kind": "artist",
+      "artist_names": [
+        "Neck Deep"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCtbUrMDlQY0QQRSqHL5JbRQ",
+      "kind": "artist",
+      "artist_names": [
+        "NERO"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCvhgge_7zs_sy_GKnvY3pYQ",
+      "kind": "artist",
+      "artist_names": [
+        "No Face No Case"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
