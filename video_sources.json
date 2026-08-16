@@ -3507,6 +3507,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCIjsMTZaQy_VkSPksr8ni1A",
+      "kind": "artist",
+      "artist_names": [
+        "Lune"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
