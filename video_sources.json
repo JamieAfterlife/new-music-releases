@@ -3606,6 +3606,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCYp3rk70ACGXQ4gFAiMr1SQ",
+      "kind": "artist",
+      "artist_names": [
+        "Rammstein"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
