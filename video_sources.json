@@ -3561,6 +3561,51 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCmQSJTFZaXN85gYk6W3XbdQ",
+      "kind": "artist",
+      "artist_names": [
+        "Opeth"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UChTDORxN3YPmasEurM6kRoA",
+      "kind": "artist",
+      "artist_names": [
+        "Pantera"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCfVczXnryp-xB2xBG3ocUgw",
+      "kind": "artist",
+      "artist_names": [
+        "Periphery"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCyipvkWkNpmEQPGovalDjFA",
+      "kind": "artist",
+      "artist_names": [
+        "Pierce the Veil"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC8JE00xTMBOqKs7o0grFTfQ",
+      "kind": "artist",
+      "artist_names": [
+        "Poppy"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
