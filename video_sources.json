@@ -3633,6 +3633,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCAsj2_FVVCxmrAM6W7j_iFw",
+      "kind": "artist",
+      "artist_names": [
+        "Wolf Down"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
