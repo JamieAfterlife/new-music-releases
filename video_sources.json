@@ -3615,6 +3615,24 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCe7B2A5IiZhE7Qp2WsC9wkQ",
+      "kind": "artist",
+      "artist_names": [
+        "Terror"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1dk1rxJlSCBlbYCFlKludw",
+      "kind": "artist",
+      "artist_names": [
+        "The Wonder Years"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
