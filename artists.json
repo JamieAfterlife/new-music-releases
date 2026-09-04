@@ -202,7 +202,7 @@
     {
       "name": "Arch Enemy",
       "mbid": "e631bb92-3e2b-43e3-a2cb-b605e2fb53bd",
-      "lastfm_scrobbles": 224,
+      "lastfm_scrobbles": 225,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 11,
       "manual_tracking": true
@@ -439,6 +439,12 @@
       "name": "Blessthefall",
       "mbid": "aafa70a4-2f06-4975-935e-b283fc87de7e",
       "lastfm_scrobbles": 110,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 954,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2271,7 +2277,7 @@
     {
       "name": "Kim Dracula",
       "mbid": "b6ae9414-234f-4c89-8346-801ac2cd30cb",
-      "lastfm_scrobbles": 26,
+      "lastfm_scrobbles": 27,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3732,6 +3738,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
