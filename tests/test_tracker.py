@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+import urllib.error
 from pathlib import Path
 from unittest.mock import patch
 
@@ -11,13 +12,16 @@ from music_release_tracker import (
     MusicBrainz,
     Settings,
     VARIOUS_ARTISTS_MBID,
+    _retry_after_seconds,
     add_artist,
     artist_blacklist_reason,
     blacklist_reason,
     build_recent_lastfm_candidates,
     fallback_links,
+    fetch_lastfm_artists,
     is_compilation_demo_appearance,
     is_various_artists,
+    lastfm_request,
     make_rss,
     make_html,
     make_history_html,
@@ -821,6 +825,138 @@ class TrackerTests(unittest.TestCase):
             self.assertEqual(added, 1)
             self.assertEqual(unresolved, [])
             self.assertEqual([x["name"] for x in artists], ["Frequent Artist"])
+
+
+class FakeLastfmResponse:
+    def __init__(self, payload):
+        self._stream = io.StringIO(json.dumps(payload))
+
+    def __enter__(self):
+        return self._stream
+
+    def __exit__(self, *exc_info):
+        return False
+
+
+def http_error(code=503):
+    return urllib.error.HTTPError(
+        "https://example.test/", code, "error", {}, io.BytesIO(b"")
+    )
+
+
+GOOD_ARTIST = {"name": "Good Band", "mbid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}
+BAD_ARTIST = {"name": "Bad Band", "mbid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}
+
+
+def recent_group(artist):
+    return {
+        "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+        "title": "Fresh Sounds",
+        "first-release-date": (
+            dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=3)
+        ).isoformat(),
+        "primary-type": "Album",
+        "secondary-types": [],
+        "artist-credit": [{"artist": {"id": artist["mbid"], "name": artist["name"]}}],
+    }
+
+
+def check_settings(root):
+    settings = Settings(root=root)
+    settings.watchlist = root / "artists.json"
+    settings.blacklist_file = root / "blacklist.json"
+    settings.state_file = root / "data" / "state.json"
+    settings.output_dir = root / "public"
+    settings.blacklist_file.write_text(
+        json.dumps({"artists": [], "artist_mbids": [], "release_ids": [], "title_contains": []}),
+        encoding="utf-8",
+    )
+    return settings
+
+
+class FlakyMusicBrainz(FakeMusicBrainz):
+    def __init__(self, groups, failing=()):
+        super().__init__(groups)
+        self.failing = set(failing)
+
+    def release_groups(self, mbid, start, end):
+        if mbid in self.failing:
+            raise http_error(503)
+        return list(self.groups)
+
+
+class ResilienceTests(unittest.TestCase):
+    def test_lastfm_fetch_retries_transient_http_error(self):
+        payload = {
+            "artists": {
+                "artist": [{"name": "Retried Artist", "playcount": "12", "mbid": ""}],
+                "@attr": {"totalPages": "1"},
+            }
+        }
+        calls = []
+
+        def fake_urlopen(request, timeout=30):
+            calls.append(request)
+            if len(calls) == 1:
+                raise http_error(503)
+            return FakeLastfmResponse(payload)
+
+        with patch("urllib.request.urlopen", side_effect=fake_urlopen):
+            with patch("music_release_tracker.time.sleep"):
+                artists = fetch_lastfm_artists("someone", "key")
+        self.assertEqual([artist["name"] for artist in artists], ["Retried Artist"])
+        self.assertEqual(len(calls), 2)
+
+    def test_lastfm_auth_error_raises_without_retry(self):
+        payload = {"error": 10, "message": "Invalid API key"}
+        calls = []
+
+        def fake_urlopen(request, timeout=30):
+            calls.append(request)
+            return FakeLastfmResponse(payload)
+
+        params = {"method": "user.gettopartists", "user": "someone", "api_key": "bad"}
+        with patch("urllib.request.urlopen", side_effect=fake_urlopen):
+            with patch("music_release_tracker.time.sleep"):
+                with self.assertRaisesRegex(RuntimeError, "Last.fm error 10"):
+                    lastfm_request(params)
+        self.assertEqual(len(calls), 1)
+
+    def test_lastfm_gives_up_after_repeated_timeouts(self):
+        with patch("urllib.request.urlopen", side_effect=urllib.error.URLError("down")):
+            with patch("music_release_tracker.time.sleep"):
+                with self.assertRaises(urllib.error.URLError):
+                    lastfm_request({"method": "user.gettopartists"})
+
+    def test_retry_after_parsing(self):
+        self.assertEqual(_retry_after_seconds({"Retry-After": "120"}), 120)
+        self.assertEqual(_retry_after_seconds({}), 1)
+        self.assertEqual(
+            _retry_after_seconds({"Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT"}), 60
+        )
+
+    def test_run_check_skips_failing_artist(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = check_settings(root)
+            settings.watchlist.write_text(
+                json.dumps({"artists": [GOOD_ARTIST, BAD_ARTIST]}), encoding="utf-8"
+            )
+            mb = FlakyMusicBrainz([recent_group(GOOD_ARTIST)], failing={BAD_ARTIST["mbid"]})
+            new_releases, _ = run_check(settings, mb)
+            self.assertEqual([release["artist"] for release in new_releases], ["Good Band"])
+            self.assertTrue((settings.output_dir / "feed.xml").exists())
+
+    def test_run_check_fails_when_every_artist_errors(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = check_settings(root)
+            settings.watchlist.write_text(
+                json.dumps({"artists": [BAD_ARTIST]}), encoding="utf-8"
+            )
+            mb = FlakyMusicBrainz([], failing={BAD_ARTIST["mbid"]})
+            with self.assertRaisesRegex(RuntimeError, "all 1 watched"):
+                run_check(settings, mb)
 
 
 if __name__ == "__main__":

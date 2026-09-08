@@ -48,6 +48,21 @@ LASTFM_IGNORED_ARTISTS = {
 DATE_RE = re.compile(r"^\d{4}(?:-\d{2})?(?:-\d{2})?$")
 
 
+def _retry_after_seconds(headers: Any) -> int:
+    """Parse a Retry-After header without crashing on HTTP-date values."""
+    try:
+        raw = headers.get("Retry-After", "")
+    except AttributeError:
+        return 1
+    text = str(raw or "").strip()
+    if not text:
+        return 1
+    try:
+        return max(0, int(text))
+    except (TypeError, ValueError):
+        return 60
+
+
 @dataclass
 class Settings:
     root: Path
@@ -129,7 +144,7 @@ class MusicBrainz:
                 self.last_request = time.monotonic()
                 if exc.code not in (429, 500, 502, 503, 504) or attempt == retries - 1:
                     raise
-                time.sleep(max(2 ** attempt, int(exc.headers.get("Retry-After", "1"))))
+                time.sleep(max(2 ** attempt, _retry_after_seconds(exc.headers)))
             except urllib.error.URLError:
                 self.last_request = time.monotonic()
                 if attempt == retries - 1:
@@ -253,11 +268,45 @@ class MusicBrainz:
                 return results
 
 
+LASTFM_TRANSIENT_ERRORS = {8, 11, 16, 29}
+LASTFM_RETRIES = 4
+
+
+def lastfm_request(params: dict[str, Any]) -> dict[str, Any]:
+    """GET a Last.fm API method, retrying transient failures with backoff."""
+    query = urllib.parse.urlencode(params)
+    request = urllib.request.Request(
+        f"{LASTFM_ROOT}?{query}",
+        headers={"User-Agent": f"NewAlbumReleases/{VERSION} (personal music tracker)"},
+    )
+    for attempt in range(LASTFM_RETRIES):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                data = json.load(response)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == LASTFM_RETRIES - 1:
+                raise
+            time.sleep(max(2 ** attempt, _retry_after_seconds(exc.headers)))
+        except urllib.error.URLError:
+            if attempt == LASTFM_RETRIES - 1:
+                raise
+            time.sleep(2 ** attempt)
+        else:
+            if "error" in data:
+                code = data["error"]
+                if code in LASTFM_TRANSIENT_ERRORS and attempt < LASTFM_RETRIES - 1:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise RuntimeError(f"Last.fm error {code}: {data.get('message', 'Unknown error')}")
+            return data
+    raise RuntimeError("Last.fm request failed")
+
+
 def fetch_lastfm_artists(user: str, api_key: str) -> list[dict[str, Any]]:
     artists: list[dict[str, Any]] = []
     page = 1
     while True:
-        params = urllib.parse.urlencode({
+        data = lastfm_request({
             "method": "library.getartists",
             "api_key": api_key,
             "user": user,
@@ -265,14 +314,6 @@ def fetch_lastfm_artists(user: str, api_key: str) -> list[dict[str, Any]]:
             "page": page,
             "format": "json",
         })
-        request = urllib.request.Request(
-            f"{LASTFM_ROOT}?{params}",
-            headers={"User-Agent": f"NewAlbumReleases/{VERSION} (personal music tracker)"},
-        )
-        with urllib.request.urlopen(request, timeout=30) as response:
-            data = json.load(response)
-        if "error" in data:
-            raise RuntimeError(f"Last.fm error {data['error']}: {data.get('message', 'Unknown error')}")
         container = data.get("artists", {})
         artists.extend(container.get("artist", []))
         attrs = container.get("@attr", {})
@@ -291,7 +332,7 @@ def fetch_lastfm_top_artists(
     artists: list[dict[str, Any]] = []
     page = 1
     while True:
-        params = urllib.parse.urlencode({
+        data = lastfm_request({
             "method": "user.gettopartists",
             "api_key": api_key,
             "user": user,
@@ -300,14 +341,6 @@ def fetch_lastfm_top_artists(
             "page": page,
             "format": "json",
         })
-        request = urllib.request.Request(
-            f"{LASTFM_ROOT}?{params}",
-            headers={"User-Agent": f"NewAlbumReleases/{VERSION} (personal music tracker)"},
-        )
-        with urllib.request.urlopen(request, timeout=30) as response:
-            data = json.load(response)
-        if "error" in data:
-            raise RuntimeError(f"Last.fm error {data['error']}: {data.get('message', 'Unknown error')}")
         container = data.get("topartists", {})
         artists.extend(container.get("artist", []))
         attrs = container.get("@attr", {})
@@ -1290,6 +1323,8 @@ def run_check(
     state = load_json(settings.state_file, {"releases": {}})
     known: dict[str, dict[str, Any]] = state.setdefault("releases", {})
     discovered: dict[str, dict[str, Any]] = {}
+    scanned = 0
+    skipped: list[str] = []
     for watched in watchlist:
         if (
             watched.get("lastfm_scrobbles") is not None
@@ -1302,25 +1337,36 @@ def run_check(
         if not mbid:
             print(f"Skipping unresolved artist: {watched.get('name', 'Unknown')}", file=sys.stderr)
             continue
-        groups = mb.release_groups(mbid, start, end)
-        if settings.include_appearances:
-            groups.extend(mb.appearance_groups(mbid, start, end))
-        for group in groups:
-            release = normalize_release(group, watched)
-            if release and not (start <= comparable_date(release["date"]) <= end):
-                release = None
-            if (
-                not release
-                or (settings.exclude_various_artists and is_various_artists(release))
-                or is_compilation_demo_appearance(release)
-            ):
-                continue
-            previous = discovered.get(release["id"])
-            if previous:
-                # Recording searches overlap primary discographies. A release is
-                # an appearance only when every route that found it says so.
-                release["appearance"] = bool(previous.get("appearance")) and release["appearance"]
-            discovered[release["id"]] = {**(previous or {}), **release}
+        try:
+            groups = mb.release_groups(mbid, start, end)
+            if settings.include_appearances:
+                groups.extend(mb.appearance_groups(mbid, start, end))
+            for group in groups:
+                release = normalize_release(group, watched)
+                if release and not (start <= comparable_date(release["date"]) <= end):
+                    release = None
+                if (
+                    not release
+                    or (settings.exclude_various_artists and is_various_artists(release))
+                    or is_compilation_demo_appearance(release)
+                ):
+                    continue
+                previous = discovered.get(release["id"])
+                if previous:
+                    # Recording searches overlap primary discographies. A release is
+                    # an appearance only when every route that found it says so.
+                    release["appearance"] = bool(previous.get("appearance")) and release["appearance"]
+                discovered[release["id"]] = {**(previous or {}), **release}
+        except (urllib.error.URLError, urllib.error.HTTPError, RuntimeError, ValueError, KeyError, TypeError) as exc:
+            # One bad artist response must not discard the whole scan.
+            skipped.append(watched.get("name", mbid))
+            print(f"Skipping {watched.get('name', mbid)}: {exc}", file=sys.stderr)
+            continue
+        scanned += 1
+    if skipped:
+        print(f"Scanned {scanned} artist(s); skipped {len(skipped)}: {', '.join(skipped)}", file=sys.stderr)
+    if scanned == 0 and watchlist:
+        raise RuntimeError(f"Release scan failed: all {len(watchlist)} watched artist(s) errored.")
     new_releases: list[dict[str, Any]] = []
     today = now.date().isoformat()
     for rgid, release in discovered.items():
@@ -1606,26 +1652,31 @@ def main(argv: list[str] | None = None) -> int:
         elif not api_key:
             print("Last.fm sync skipped: LASTFM_API_KEY is not configured.")
         else:
-            processed, unresolved, total = import_lastfm(
-                settings,
-                mb,
-                settings.lastfm_username,
-                api_key,
-                settings.min_lastfm_scrobbles,
-            )
-            recent, recent_unresolved = build_recent_lastfm_candidates(
-                settings,
-                mb,
-                settings.lastfm_username,
-                api_key,
-                5,
-            )
-            save_lastfm_unresolved(settings, [*unresolved, *recent_unresolved])
-            print(f"Synced {processed} of {total} Last.fm artists; unresolved: {len(unresolved)}")
-            print(
-                f"Prepared {len(recent)} recent favourites for review; "
-                f"unresolved: {len(recent_unresolved)}"
-            )
+            try:
+                processed, unresolved, total = import_lastfm(
+                    settings,
+                    mb,
+                    settings.lastfm_username,
+                    api_key,
+                    settings.min_lastfm_scrobbles,
+                )
+                recent, recent_unresolved = build_recent_lastfm_candidates(
+                    settings,
+                    mb,
+                    settings.lastfm_username,
+                    api_key,
+                    5,
+                )
+            except (urllib.error.URLError, urllib.error.HTTPError, RuntimeError) as exc:
+                # The sync is optional: a hiccup here must not cancel the main scan.
+                print(f"Last.fm sync unavailable, will retry next run: {exc}", file=sys.stderr)
+            else:
+                save_lastfm_unresolved(settings, [*unresolved, *recent_unresolved])
+                print(f"Synced {processed} of {total} Last.fm artists; unresolved: {len(unresolved)}")
+                print(
+                    f"Prepared {len(recent)} recent favourites for review; "
+                    f"unresolved: {len(recent_unresolved)}"
+                )
     elif args.command == "changed-artists":
         previous = load_json(args.previous, {"artists": []})
         current = load_json(settings.watchlist, {"artists": []})
