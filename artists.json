@@ -1172,7 +1172,7 @@
       "name": "Bring Me the Horizon",
       "mbid": "074e3847-f67f-49f9-81f1-8c8cea147e8e",
       "spotify_id": "1Ffb6ejR6Fe5IamqA5oRUF",
-      "lastfm_scrobbles": 1463,
+      "lastfm_scrobbles": 1464,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 56,
       "manual_tracking": true
@@ -2182,7 +2182,7 @@
     {
       "name": "Iron Maiden",
       "mbid": "ca891d65-d9b0-4258-89f7-e6ba29d83767",
-      "lastfm_scrobbles": 404,
+      "lastfm_scrobbles": 405,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 86,
       "manual_tracking": true
@@ -2239,7 +2239,7 @@
       "name": "Judas Priest",
       "mbid": "6b335658-22c8-485d-93de-0bc29a1d0349",
       "spotify_id": "2tRsMl4eGxwoNabM08Dm4I",
-      "lastfm_scrobbles": 291,
+      "lastfm_scrobbles": 292,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -3023,6 +3023,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -3095,7 +3101,7 @@
     {
       "name": "Linkin Park",
       "mbid": "f59c5520-5f46-4d2c-b2c4-822eabf53419",
-      "lastfm_scrobbles": 601,
+      "lastfm_scrobbles": 602,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 81,
       "manual_tracking": true
@@ -3205,7 +3211,7 @@
     {
       "name": "Megadeth",
       "mbid": "a9044915-8be3-4c7e-b11f-9e2d2ea0a91e",
-      "lastfm_scrobbles": 558,
+      "lastfm_scrobbles": 559,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 69,
       "manual_tracking": true
@@ -4767,7 +4773,7 @@
     {
       "name": "System of a Down",
       "mbid": "cc0b7089-c08d-4c10-b6b0-873582c17fd6",
-      "lastfm_scrobbles": 858,
+      "lastfm_scrobbles": 859,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -5095,7 +5101,7 @@
     {
       "name": "Trivium",
       "mbid": "1f5ff245-2837-4d4a-a609-e93e544478c3",
-      "lastfm_scrobbles": 1894,
+      "lastfm_scrobbles": 1895,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 14,
       "manual_tracking": true
