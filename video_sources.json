@@ -3642,6 +3642,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UC-GyLhujTyq_Y0RR_kT6oMQ",
+      "kind": "artist",
+      "artist_names": [
+        "HANABIE."
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
