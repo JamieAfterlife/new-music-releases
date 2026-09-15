@@ -3687,6 +3687,33 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCpyd6cISLzW-c6UKfdmGZgw",
+      "kind": "artist",
+      "artist_names": [
+        "Mugshot"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1TAp7wegA0AoGJ5kJmHbPw",
+      "kind": "artist",
+      "artist_names": [
+        "New Found Glory"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCFMZHIQMgBXTSxsr86Caazw",
+      "kind": "artist",
+      "artist_names": [
+        "Nirvana"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
