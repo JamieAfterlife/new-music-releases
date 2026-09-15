@@ -3651,6 +3651,42 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCCzZUgffnn89zezfJ_YIUSw",
+      "kind": "artist",
+      "artist_names": [
+        "Jinjer"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UC1Zvw4vEriIZta80U_pUEaA",
+      "kind": "artist",
+      "artist_names": [
+        "Kim Dracula"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCNBjcNF5kf4wqsialHMA01w",
+      "kind": "artist",
+      "artist_names": [
+        "King Parrot"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCJRXxQmLJl4QN38bDTy2G0g",
+      "kind": "artist",
+      "artist_names": [
+        "letlive."
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
