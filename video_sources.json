@@ -3714,6 +3714,33 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCEN_tYgqABrX0Fad0KQo6SA",
+      "kind": "artist",
+      "artist_names": [
+        "Orphan"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCt45cCa_IZ3hF6PBmznroug",
+      "kind": "artist",
+      "artist_names": [
+        "Paleface"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UChWc6ilKdVM1Cz--wGMW_Zg",
+      "kind": "artist",
+      "artist_names": [
+        "Rob Zombie"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
