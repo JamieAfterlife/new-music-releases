@@ -3741,6 +3741,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UChQX2wceV5C4KemXg1gEyhQ",
+      "kind": "artist",
+      "artist_names": [
+        "To the Grave"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
