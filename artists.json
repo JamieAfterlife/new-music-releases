@@ -1228,6 +1228,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -1799,7 +1805,7 @@
       "name": "Electric Callboy",
       "mbid": "cf075492-d880-4afc-b87b-d6b03e33dacc",
       "spotify_id": "1WNoKxsp715jez1Td4vthc",
-      "lastfm_scrobbles": 1715,
+      "lastfm_scrobbles": 1716,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 16,
       "manual_tracking": true
@@ -2183,7 +2189,7 @@
       "name": "I Prevail",
       "mbid": "1921c28c-ec61-4725-8e35-38dd656f7923",
       "spotify_id": "3Uobr6LgQpBbk6k4QGAb3V",
-      "lastfm_scrobbles": 492,
+      "lastfm_scrobbles": 493,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 11,
       "manual_tracking": true
@@ -3281,6 +3287,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -3373,7 +3385,7 @@
     {
       "name": "Lorna Shore",
       "mbid": "e86fc1f5-d632-44b2-8aea-38f83aadffe8",
-      "lastfm_scrobbles": 279,
+      "lastfm_scrobbles": 284,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 26,
       "manual_tracking": true
@@ -3834,7 +3846,7 @@
     {
       "name": "Parkway Drive",
       "mbid": "a436dd02-0549-4c91-b608-df451217fdeb",
-      "lastfm_scrobbles": 2342,
+      "lastfm_scrobbles": 2343,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 30,
       "manual_tracking": true
@@ -4081,6 +4093,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -5439,7 +5457,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 238,
+      "lastfm_scrobbles": 239,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
