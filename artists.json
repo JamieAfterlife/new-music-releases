@@ -397,7 +397,7 @@
     {
       "name": "Bilmuri",
       "mbid": "b09de30a-09ac-4cc9-8812-49bb12e2bfa6",
-      "lastfm_scrobbles": 158,
+      "lastfm_scrobbles": 162,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 42,
       "manual_tracking": true
@@ -1159,6 +1159,12 @@
       "name": "blink‐182",
       "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
       "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2190,7 +2196,7 @@
     {
       "name": "Ghøstkid",
       "mbid": "bfb406a9-c646-4aa7-af3a-9b7e662ce4f4",
-      "lastfm_scrobbles": 50,
+      "lastfm_scrobbles": 51,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2678,6 +2684,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -5404,6 +5416,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 32,
@@ -6000,7 +6018,7 @@
       "name": "To the Grave",
       "mbid": "110963bd-56b9-40d5-b07c-7c23a9725b48",
       "spotify_id": "3jr9qsKWQjf3iMNQ3rWVDQ",
-      "lastfm_scrobbles": 160,
+      "lastfm_scrobbles": 168,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 6,
       "manual_tracking": true
