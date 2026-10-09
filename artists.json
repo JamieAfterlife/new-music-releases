@@ -397,7 +397,7 @@
     {
       "name": "Bilmuri",
       "mbid": "b09de30a-09ac-4cc9-8812-49bb12e2bfa6",
-      "lastfm_scrobbles": 170,
+      "lastfm_scrobbles": 171,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 42,
       "manual_tracking": true
@@ -1159,6 +1159,12 @@
       "name": "blink‐182",
       "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
       "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2696,6 +2702,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -5458,6 +5470,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 32,
@@ -6215,7 +6233,7 @@
     {
       "name": "Wage War",
       "mbid": "653f3412-63c8-4bd8-bce1-a33aaf93a837",
-      "lastfm_scrobbles": 881,
+      "lastfm_scrobbles": 882,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 18,
       "manual_tracking": true
