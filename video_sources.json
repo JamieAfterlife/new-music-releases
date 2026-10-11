@@ -3750,6 +3750,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCncoFU0dtBz0ffeT6bFT_3A",
+      "kind": "artist",
+      "artist_names": [
+        "The Oklahoma Kid"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
