@@ -286,7 +286,7 @@
     {
       "name": "Avenged Sevenfold",
       "mbid": "24e1b53c-3085-4581-8472-0b0088d2508c",
-      "lastfm_scrobbles": 767,
+      "lastfm_scrobbles": 768,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 51,
       "manual_tracking": true
@@ -1159,6 +1159,12 @@
       "name": "blink‐182",
       "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
       "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2697,7 +2703,7 @@
     {
       "name": "Knocked Loose",
       "mbid": "9ca10859-49e2-44e3-b3d6-04c535207bc2",
-      "lastfm_scrobbles": 477,
+      "lastfm_scrobbles": 478,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 16,
       "manual_tracking": true
@@ -2720,6 +2726,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -4140,7 +4152,7 @@
       "name": "Northlane",
       "mbid": "f4e44995-1890-42a0-a6c1-9185b71655fa",
       "spotify_id": "3qyg72RGnGdF521zMU02u9",
-      "lastfm_scrobbles": 905,
+      "lastfm_scrobbles": 906,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -4525,6 +4537,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6111,7 +6129,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 239,
+      "lastfm_scrobbles": 240,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
