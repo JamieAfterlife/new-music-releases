@@ -286,7 +286,7 @@
     {
       "name": "Avenged Sevenfold",
       "mbid": "24e1b53c-3085-4581-8472-0b0088d2508c",
-      "lastfm_scrobbles": 768,
+      "lastfm_scrobbles": 769,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 51,
       "manual_tracking": true
@@ -397,7 +397,7 @@
     {
       "name": "Bilmuri",
       "mbid": "b09de30a-09ac-4cc9-8812-49bb12e2bfa6",
-      "lastfm_scrobbles": 171,
+      "lastfm_scrobbles": 172,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 42,
       "manual_tracking": true
@@ -1456,6 +1456,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -1526,7 +1532,7 @@
       "name": "Bring Me the Horizon",
       "mbid": "074e3847-f67f-49f9-81f1-8c8cea147e8e",
       "spotify_id": "1Ffb6ejR6Fe5IamqA5oRUF",
-      "lastfm_scrobbles": 1470,
+      "lastfm_scrobbles": 1471,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 56,
       "manual_tracking": true
@@ -3737,6 +3743,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -3829,7 +3841,7 @@
     {
       "name": "Lorna Shore",
       "mbid": "e86fc1f5-d632-44b2-8aea-38f83aadffe8",
-      "lastfm_scrobbles": 307,
+      "lastfm_scrobbles": 308,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 26,
       "manual_tracking": true
@@ -4537,6 +4549,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6311,7 +6329,7 @@
     {
       "name": "Wage War",
       "mbid": "653f3412-63c8-4bd8-bce1-a33aaf93a837",
-      "lastfm_scrobbles": 885,
+      "lastfm_scrobbles": 886,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 18,
       "manual_tracking": true
