@@ -3768,6 +3768,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCPfMDwzk8gCMOAZaJ9JEsgw",
+      "kind": "artist",
+      "artist_names": [
+        "Living Colour"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
