@@ -3759,6 +3759,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UC1S984IBZ_q01JX5j2qp1rg",
+      "kind": "artist",
+      "artist_names": [
+        "Filth"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
