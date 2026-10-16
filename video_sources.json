@@ -3777,6 +3777,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCk41NNFKFLqffqu84Oef_tA",
+      "kind": "artist",
+      "artist_names": [
+        "Samurai Pizza Cats"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
