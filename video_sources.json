@@ -3786,6 +3786,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCcZd1CCYQVxRDdEXoWS6x0g",
+      "kind": "artist",
+      "artist_names": [
+        "Coheed and Cambria"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
