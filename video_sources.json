@@ -3804,6 +3804,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCqKkycOM23Jcr_bJyR9owLQ",
+      "kind": "artist",
+      "artist_names": [
+        "Woe, Is Me"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
