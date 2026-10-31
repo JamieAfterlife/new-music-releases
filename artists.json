@@ -397,7 +397,7 @@
     {
       "name": "Bilmuri",
       "mbid": "b09de30a-09ac-4cc9-8812-49bb12e2bfa6",
-      "lastfm_scrobbles": 196,
+      "lastfm_scrobbles": 198,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 42,
       "manual_tracking": true
@@ -1159,6 +1159,12 @@
       "name": "blink‐182",
       "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
       "lastfm_scrobbles": 954,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2960,6 +2966,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6244,6 +6256,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 33,
@@ -6524,7 +6542,7 @@
     {
       "name": "Sylosis",
       "mbid": "114f8840-8704-4b70-9673-904d60ecadc8",
-      "lastfm_scrobbles": 79,
+      "lastfm_scrobbles": 80,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 30,
       "manual_tracking": true
@@ -6660,7 +6678,7 @@
     {
       "name": "The Devil Wears Prada",
       "mbid": "43c0958c-27ef-46c4-b4cc-83cfca54170d",
-      "lastfm_scrobbles": 463,
+      "lastfm_scrobbles": 464,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 7,
       "manual_tracking": true
@@ -6825,7 +6843,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 240,
+      "lastfm_scrobbles": 241,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
@@ -7033,7 +7051,7 @@
     {
       "name": "We Came as Romans",
       "mbid": "dc0da7d1-231c-4058-8e6e-1c0801848602",
-      "lastfm_scrobbles": 372,
+      "lastfm_scrobbles": 373,
       "lastfm_user": "DeathbatAttack"
     },
     {
