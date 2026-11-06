@@ -1756,6 +1756,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -1826,7 +1832,7 @@
       "name": "Bring Me the Horizon",
       "mbid": "074e3847-f67f-49f9-81f1-8c8cea147e8e",
       "spotify_id": "1Ffb6ejR6Fe5IamqA5oRUF",
-      "lastfm_scrobbles": 1473,
+      "lastfm_scrobbles": 1474,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 56,
       "manual_tracking": true
@@ -2932,7 +2938,7 @@
       "lastfm_scrobbles_12month": 44,
       "lastfm_user": "DeathbatAttack",
       "manual_tracking": true,
-      "lastfm_scrobbles": 44
+      "lastfm_scrobbles": 45
     },
     {
       "name": "Karnivool",
@@ -3009,7 +3015,7 @@
     {
       "name": "Knocked Loose",
       "mbid": "9ca10859-49e2-44e3-b3d6-04c535207bc2",
-      "lastfm_scrobbles": 478,
+      "lastfm_scrobbles": 479,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 16,
       "manual_tracking": true
@@ -4343,6 +4349,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -4351,7 +4363,7 @@
     {
       "name": "Kublai Khan TX",
       "mbid": "1ef09925-fb5d-46db-8263-e336d152487e",
-      "lastfm_scrobbles": 64,
+      "lastfm_scrobbles": 65,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 7,
       "manual_tracking": true
@@ -4385,7 +4397,7 @@
     {
       "name": "Left to Suffer",
       "mbid": "72956623-0271-4892-acca-1506e95c714d",
-      "lastfm_scrobbles": 74,
+      "lastfm_scrobbles": 75,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -4403,7 +4415,7 @@
     {
       "name": "Like Moths to Flames",
       "mbid": "6f0777a9-50f2-4577-966d-de0943b0b766",
-      "lastfm_scrobbles": 92,
+      "lastfm_scrobbles": 93,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -4415,7 +4427,7 @@
     {
       "name": "Linkin Park",
       "mbid": "f59c5520-5f46-4d2c-b2c4-822eabf53419",
-      "lastfm_scrobbles": 605,
+      "lastfm_scrobbles": 606,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 81,
       "manual_tracking": true
@@ -4976,7 +4988,7 @@
       "name": "Poppy",
       "mbid": "4ad8190b-d2fd-46f8-a3d9-c0f55c034976",
       "spotify_id": "5mlbvTfWUOfDrUIK6dkNzv",
-      "lastfm_scrobbles": 604,
+      "lastfm_scrobbles": 605,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 56,
       "manual_tracking": true
@@ -5149,6 +5161,12 @@
       "name": "Scumfuck",
       "mbid": "bc6db2f6-c7d1-4c12-8399-58dff44975a2",
       "lastfm_scrobbles": 36,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6697,7 +6715,7 @@
     {
       "name": "Suicide Silence",
       "mbid": "4fd53e84-ffa1-4434-9146-3fab25ece7e0",
-      "lastfm_scrobbles": 891,
+      "lastfm_scrobbles": 893,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -7041,7 +7059,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 242,
+      "lastfm_scrobbles": 261,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
@@ -7274,7 +7292,7 @@
     {
       "name": "Whitechapel",
       "mbid": "56ba013c-610e-4d9b-98ed-c2ccff977a9e",
-      "lastfm_scrobbles": 1650,
+      "lastfm_scrobbles": 1651,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 18,
       "manual_tracking": true
