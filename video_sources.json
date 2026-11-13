@@ -3813,6 +3813,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCgJV3Wr4TumKp5D4oiX69wA",
+      "kind": "artist",
+      "artist_names": [
+        "Confide"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
