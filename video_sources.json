@@ -3822,6 +3822,24 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCXHYpgbMw0y9eMoTWenDaTQ",
+      "kind": "artist",
+      "artist_names": [
+        "Make Them Suffer"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCbulh9WdLtEXiooRcYK7SWw",
+      "kind": "artist",
+      "artist_names": [
+        "Metallica"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
