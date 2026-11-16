@@ -3840,6 +3840,42 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UC2trfpWAk0rLXcKtOuvqJow",
+      "kind": "artist",
+      "artist_names": [
+        "Oceano"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCc7_woMAIVIW2mAr1rPCsFQ",
+      "kind": "artist",
+      "artist_names": [
+        "Paramore"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCoRdbYOcXUhHxMdp5DfDpfw",
+      "kind": "artist",
+      "artist_names": [
+        "PEELINGFLESH"
+      ],
+      "enabled": true,
+      "discovered": true
+    },
+    {
+      "channel_id": "UCeYXWir_U0b9iH-meJ4ElaQ",
+      "kind": "artist",
+      "artist_names": [
+        "Pendulum"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
