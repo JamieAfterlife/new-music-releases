@@ -3876,6 +3876,15 @@
       ],
       "enabled": true,
       "discovered": true
+    },
+    {
+      "channel_id": "UCHf-oba1gUrRotjR5MlH4dA",
+      "kind": "artist",
+      "artist_names": [
+        "Volumes"
+      ],
+      "enabled": true,
+      "discovered": true
     }
   ]
 }
