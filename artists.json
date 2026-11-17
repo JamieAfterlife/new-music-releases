@@ -1888,6 +1888,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -1946,6 +1952,12 @@
       "mbid": "503264c8-a8cb-4ce4-9a5c-3da7434bf402",
       "spotify_id": "4d6Rawrese4OLF1zZCztod",
       "lastfm_scrobbles": 357,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Breakdown of Sanity",
+      "mbid": "a4fb1386-45e7-4c85-a8a5-396060f6ec66",
+      "lastfm_scrobbles": 21,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2364,7 +2376,7 @@
       "name": "Distant",
       "mbid": "525bc102-00fa-4e0f-9d14-d994d5bf63e9",
       "spotify_id": "7dfpBi0QvO9FmlhBK6XHwJ",
-      "lastfm_scrobbles": 112,
+      "lastfm_scrobbles": 114,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 13,
       "manual_tracking": true
@@ -3164,6 +3176,12 @@
       "name": "Korpiklaani",
       "mbid": "50eec634-7c42-41ee-9b1f-b41d9ca28b26",
       "lastfm_scrobbles": 86,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6844,6 +6862,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 33,
@@ -6890,7 +6914,7 @@
     {
       "name": "Silent Planet",
       "mbid": "c62afc98-8596-4532-a1dd-bc1a595c927e",
-      "lastfm_scrobbles": 269,
+      "lastfm_scrobbles": 270,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -7633,7 +7657,7 @@
     {
       "name": "We Came as Romans",
       "mbid": "dc0da7d1-231c-4058-8e6e-1c0801848602",
-      "lastfm_scrobbles": 373,
+      "lastfm_scrobbles": 374,
       "lastfm_user": "DeathbatAttack"
     },
     {
