@@ -286,7 +286,7 @@
     {
       "name": "Avenged Sevenfold",
       "mbid": "24e1b53c-3085-4581-8472-0b0088d2508c",
-      "lastfm_scrobbles": 822,
+      "lastfm_scrobbles": 823,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 51,
       "manual_tracking": true
@@ -1900,6 +1900,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "blink‐182",
+      "mbid": "0743b15a-3c32-48c8-ad58-cb325350befa",
+      "lastfm_scrobbles": 955,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Bloody Woods",
       "mbid": "acb10ff8-6b52-4d50-9d3a-f157f6e7991d",
       "lastfm_scrobbles": 20,
@@ -2680,7 +2686,7 @@
     {
       "name": "Ghost",
       "mbid": "2bcf2e02-5bc3-4c76-bf76-41126cb11444",
-      "lastfm_scrobbles": 1459,
+      "lastfm_scrobbles": 1460,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 7,
       "manual_tracking": true
@@ -2688,7 +2694,7 @@
     {
       "name": "Ghostemane",
       "mbid": "1989dd59-7f11-4c90-9450-4d728ed07fb0",
-      "lastfm_scrobbles": 149,
+      "lastfm_scrobbles": 164,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -2712,7 +2718,7 @@
     {
       "name": "Gojira",
       "mbid": "1c5efd53-d6b6-4d63-9d22-a15025cf5f07",
-      "lastfm_scrobbles": 324,
+      "lastfm_scrobbles": 325,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 14,
       "manual_tracking": true
@@ -2790,7 +2796,7 @@
       "name": "Half Me",
       "mbid": "963fa0ee-ceeb-4dbb-abcf-6b85cdc0a3ec",
       "spotify_id": "4LNvQot1CDYC3kWGW144XC",
-      "lastfm_scrobbles": 43,
+      "lastfm_scrobbles": 44,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -4631,6 +4637,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "Koven",
+      "mbid": "ad110705-cbe6-4c47-9b99-8526e6db0f41",
+      "lastfm_scrobbles": 195,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Kublai Khan",
       "mbid": "83385b1c-e98b-42c3-845e-87964b8411e0",
       "lastfm_scrobbles": 91,
@@ -4813,7 +4825,7 @@
     {
       "name": "Megadeth",
       "mbid": "a9044915-8be3-4c7e-b11f-9e2d2ea0a91e",
-      "lastfm_scrobbles": 578,
+      "lastfm_scrobbles": 579,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 69,
       "manual_tracking": true
@@ -4919,7 +4931,7 @@
       "name": "My Chemical Romance",
       "mbid": "c07f0676-9143-4217-8a9f-4c26bd636f13",
       "spotify_id": "7FBcuc1gsnv6Y1nwFtNRCb",
-      "lastfm_scrobbles": 427,
+      "lastfm_scrobbles": 428,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -6886,6 +6898,12 @@
       "lastfm_user": "DeathbatAttack"
     },
     {
+      "name": "SeeYouSpaceCowboy",
+      "mbid": "5544d5e5-6260-4658-b4b6-d94638876b81",
+      "lastfm_scrobbles": 41,
+      "lastfm_user": "DeathbatAttack"
+    },
+    {
       "name": "Senses Fail",
       "mbid": "b4946461-dacb-4aa9-a77c-7b3231317794",
       "lastfm_scrobbles": 33,
@@ -7014,7 +7032,7 @@
     {
       "name": "Slipknot",
       "mbid": "a466c2a2-6517-42fb-a160-1087c3bafd9f",
-      "lastfm_scrobbles": 2134,
+      "lastfm_scrobbles": 2135,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 6,
       "manual_tracking": true
@@ -7123,7 +7141,7 @@
     {
       "name": "Suicide Silence",
       "mbid": "4fd53e84-ffa1-4434-9146-3fab25ece7e0",
-      "lastfm_scrobbles": 893,
+      "lastfm_scrobbles": 894,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -7174,7 +7192,7 @@
     {
       "name": "System of a Down",
       "mbid": "cc0b7089-c08d-4c10-b6b0-873582c17fd6",
-      "lastfm_scrobbles": 879,
+      "lastfm_scrobbles": 880,
       "lastfm_user": "DeathbatAttack"
     },
     {
@@ -7467,7 +7485,7 @@
       "name": "Thrown",
       "mbid": "fd012922-72b2-4aa7-b796-012f2177c5af",
       "spotify_id": "5eBCPtU2iPbzuMRre9BePt",
-      "lastfm_scrobbles": 263,
+      "lastfm_scrobbles": 265,
       "lastfm_user": "DeathbatAttack",
       "lastfm_scrobbles_12month": 8,
       "manual_tracking": true
@@ -7657,7 +7675,7 @@
     {
       "name": "WARGASM",
       "mbid": "7a3fc4e1-bec5-49f4-888a-0c32fee5071f",
-      "lastfm_scrobbles": 52,
+      "lastfm_scrobbles": 53,
       "lastfm_user": "DeathbatAttack"
     },
     {
